@@ -3,9 +3,39 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>mobile-yun</title>
+    <!-- 引入样式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@1.6/lib/index.css">
+<script>
+  (function () {
+        function changeScreenControlRemFunc (options, callback) {
+          let { timer, later, context, args } = {}
+          const time = options.time || 100
+          const html = document.documentElement || document.querySelector('html')
+          later = function () {
+           return setTimeout(function () {
+              timer = null
+              // 业务逻辑
+            let clinetWidth = document.documentElement.clientWidth || document.body.clientWidth
+            // let clinetHeight = document.documentElement.clientHeight || document.body.clientHeight
+            clinetWidth = clinetWidth > 750 ? 750 : clinetWidth
+            html.style.fontSize = clinetWidth / 7.5 + 'px'
+            }, time)
+          }
+          return function () {
+            context = this
+            args = arguments
+              clearTimeout(timer)
+              timer = later.apply(context, args)
+          }
+        }
+        // window.onresize = changeScreenControlRemFunc({time: 200})
+        // window.onresize()
+       changeScreenControlRemFunc({time: 200})()
+      })()
+</script>
   </head>
   <body>
     <noscript>
@@ -13,5 +43,8 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <!-- 引入组件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@1.6/lib/vant.min.js"></script>
   </body>
 </html>
