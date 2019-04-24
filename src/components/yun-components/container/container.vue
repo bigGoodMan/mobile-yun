@@ -18,8 +18,12 @@ export default {
 
   methods: {},
   created () {
+    // document.body.classList.add('bgcolor-f2')
   },
-  mounted () {}
+  mounted () {},
+  beforeDestroy () {
+    // document.body.classList.remove('bgcolor-f2')
+  }
 }
 </script>
 <style lang="stylus" scoped>

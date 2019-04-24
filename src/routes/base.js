@@ -14,7 +14,16 @@ const Error404 = {
     title: '404'
   }
 }
+const Login = {
+  path: '/login',
+  name: 'login',
+  component: () => import(/* webpackChunkName: "login" */ '@v/login/login.vue'),
+  meta: {
+    title: '登录'
+  }
+}
 export {
   Home,
-  Error404
+  Error404,
+  Login
 }

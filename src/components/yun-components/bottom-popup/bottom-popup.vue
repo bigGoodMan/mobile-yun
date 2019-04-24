@@ -5,14 +5,15 @@
       v-model="show"
       position="bottom"
       :overlay="overlay"
+      @click-overlay="handleClose"
     >
       <van-picker
         show-toolbar
-        :loading="loading"
         :columns="columns"
         @change="handleChange"
         @cancel="handleCancel"
         @confirm="handleConfirm"
+        :default-index="defaultIndex"
       />
     </van-popup>
   </div>
@@ -24,16 +25,21 @@ export default {
   name: '',
   props: {
     columns: {
-      default: () => ([])
+      default: () => ([]),
+      type: Array
     },
     overlay: { // 是否展示蒙层 默认有
       default: true,
       type: Boolean
-    }
+    },
+    show: { //  是否展示popup
+      default: false,
+      type: Boolean
+    },
+    defaultIndex: Number
   },
   data () {
     return {
-      show: false, // 是否展示popup
       loading: true // picker动画
     }
   },
@@ -41,6 +47,9 @@ export default {
     columns: {
       handler (val, oldVal) {
         this.loading = false
+        if (val.length > 0) {
+          this.$emit('trigger-confirm', { value: val[this.defaultIndex], index: this.defaultIndex })
+        }
       }
     }
   },
@@ -54,12 +63,16 @@ export default {
   methods: {
     // 取消
     handleCancel () {
-      this.show = false
+      this.$emit('trigger-cancel')
+      this.handleClose()
     },
     // 选中
     handleConfirm (value, index) {
       this.$emit('trigger-confirm', { value, index })
-      this.show = false
+      this.handleClose()
+    },
+    handleClose () {
+      this.$emit('trigger-close')
     },
     // 改变
     handleChange () {}

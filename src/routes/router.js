@@ -1,5 +1,5 @@
-import { Home, Error404 } from './base'
-import { MyMachine } from './modules/machine'
+import { Home, Error404, Login } from './base'
+import Machine from './modules/machine'
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
 export default [
   {
@@ -10,7 +10,7 @@ export default [
     meta: {
       title: '洞见云'
     },
-    children: [Home, MyMachine]
+    children: [Login, Home, ...Machine]
   },
   Error404
 ]

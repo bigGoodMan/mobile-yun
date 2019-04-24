@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import allRouter from './router'
 import { setTitle } from '@/lib/utils'
+import store from '@/store'
+import config from '@/config'
+const { initialPageName, notLoginPageName } = config
 Vue.use(Router)
 
 const router = new Router({
@@ -10,6 +13,17 @@ const router = new Router({
   routes: [
     ...allRouter
   ]
+})
+router.beforeEach((to, from, next) => {
+  const token = store.state.user.token
+  if (!token && !notLoginPageName.includes(to.name)) {
+    // 未登录，跳转的是需要登录页面
+    next({
+      name: initialPageName // 跳转到登录页
+    })
+  } else {
+    next()
+  }
 })
 router.afterEach(route => {
   setTitle(route.meta.title)

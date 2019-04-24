@@ -1,6 +1,17 @@
+
+borderColor(col)
+  &::after
+    border-color col
+flexSet(content, items)
+  justify-content content
+  align-items items
+borderRadius(radius)
+  overflow hidden
+  border-radius rems(radius)
 html, body
   margin 0
-  
+body
+  background-color #f2f2f2
 // 布局
 .flex-row
   display flex
@@ -11,18 +22,30 @@ html, body
 .flex-start-center
   justify-content flex-start
   align-items center
+.flex-start-stretch
+  justify-content flex-start
+  align-items stretch
 .flex-end-center
   justify-content flex-end
   align-items center
+.flex-end-stretch
+  justify-content flex-end
+  align-items stretch
 .flex-center
   justify-content center
   align-items center
+.flex-between-start
+  justify-content space-between
+  align-items flex-start
+.flex-between-end
+  justify-content space-between
+  align-items flex-end
 .flex-between-center
   justify-content space-between
   align-items center
-.flex-around-center
-  justify-content space-around
-  align-items center
+.flex-between-stretch
+  justify-content space-between
+  align-items stretch
 .flex-center-start
   justify-content center
   align-items flex-start
@@ -35,3 +58,124 @@ html, body
 .flex-center-baseline
   justify-content center
   align-items baseline
+.flex-around-start
+  justify-content space-around
+  align-items flex-start
+.flex-around-end
+  justify-content space-around
+  align-items flex-end
+.flex-around-center
+  justify-content space-around
+  align-items center
+.flex-1
+  flex 1
+// 字体
+.size-0
+  font-size 0
+.size-24
+  font-size rems(24)
+.size-28
+  font-size rems(28)
+.size-30
+  font-size rems(30)
+.size-32
+  font-size rems(32)
+.size-34
+  font-size rems(34)
+.size-36
+  font-size rems(36)
+.size-38
+  font-size rems(38)
+.size-40
+  font-size rems(40)
+// 粗细
+.weight-400
+  font-weight 400
+.weight-bold
+  font-weight bold
+.weight-bolder
+  font-weight bolder
+// 字体颜色
+.color-0
+  color #000000
+.color-3
+  color #333333
+.color-9
+  color #999999
+.color-de
+  color #dedede
+.color-f
+  color #ffffff
+.color-009688
+  color #009688
+.color-5fb878
+  color #5fb878
+.color-393d49
+  color #393d49
+.color-2f4056
+  color #2f4056
+.color-1e9fff
+  color #1e9fff
+.color-01aaed
+  color #01aaed
+.color-ffb800
+  color #ffb800
+.color-ff5722
+  color #ff5722
+.color-ff0000
+  color #ff0000
+// 文字其它
+.text-center
+  text-align center
+.text-left
+  text-align left
+.text-right
+  text-align right
+// 边框
+.vant-border
+  &.border-left-15
+    &::after
+      display block
+      left 15px
+.border
+  position relative
+  &::after
+    content ' '
+    position absolute
+    pointer-events none
+    box-sizing border-box
+    top -50%
+    left -50%
+    right -50%
+    bottom -50%
+    -webkit-transform scale(0.5)
+    transform scale(0.5)
+    border 0 solid #d8d8d8
+    border-bottom-width 1px
+  &.border-fa
+    borderColor(#f3f3f3)
+  &.border-ebedf0
+    borderColor(#ebedf0)
+.radius-10
+  borderRadius(10)
+.radius-20
+  borderRadius(20)
+.radius-30
+  borderRadius(30)
+  overflow hidden
+// 背景色
+.bgcolor-f
+  background-color #ffffff
+.bgcolor-f2
+  background-color #f2f2f2
+.bgcolor-f8
+  background-color #f8f8f8
+// 容器
+.padding-20-30
+  padding rems(20) rems(30)
+.padding-0
+  padding 0
+.margin-0
+  margin 0
+.max-width
+  width 100%

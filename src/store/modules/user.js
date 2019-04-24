@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/lib/utils'
-// import { getUserInfoApi } from '@/api'
+import { loginApi } from '@/api'
 export default {
   state: {
     token: getToken(),
@@ -46,17 +46,22 @@ export default {
     //   return res
     // },
     // 登录
-    async USER_LOGIN_ACTION ({ commit, dispatch }, { token }) {
-      if (token) {
-        commit('USER_SETTOKEN_MUTATE', token)
+    async USER_LOGIN_ACTION ({ commit, dispatch }, { account, password, pwdLen }) {
+      const res = await loginApi({
+        account,
+        password,
+        pwd_len: pwdLen
+      })
+      if (res.return_code === '0') {
+        commit('USER_SETTOKEN_MUTATE', res.data.token)
       }
-      let res = await dispatch('USER_GETUSERINFO_ACTION')
+      // let res = await dispatch('USER_GETUSERINFO_ACTION')
       return res
     },
     // 登出去除相关信息
     async USER_LOGOUT_ACTION ({ state, commit }) {
       commit('USER_SETTOKEN_MUTATE')
-      // location.href = `${location.origin}/wxxcx/index.php/Home` // 授权登陆页
+      location.href = `${location.href.split('#')[0]}#/login` // 登录页
       return true
     }
   }
