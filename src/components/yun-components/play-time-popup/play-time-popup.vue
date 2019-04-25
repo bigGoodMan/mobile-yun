@@ -10,12 +10,14 @@
         <div class="flex-row flex-start-stretch">
           <input
             class="play-time-popup-entry padding-0 margin-0 size-28"
+            type="number"
             v-model="value"
             placeholder="请输入游玩时间10~99"
           />
         </div>
         <div class="border"></div>
       </div>
+      <div class="validator color-ff0000 size-28 text-right">{{validatorContent}}</div>
       <CancelConfirmBtn
         @trigger-confirm="handleConfirm"
         @trigger-cancel="handleCancel"
@@ -31,8 +33,22 @@ import popup from '@yun/mixins/popup'
 export default {
   name: 'game_prize_winning_number',
   mixins: [popup],
+  data () {
+    return {
+      validatorContent: ''
+    }
+  },
   components: {
     'van-popup': Popup
+  },
+  watch: {
+    value () {
+      if (/(^[1-9]{1}[0-9]{1}$)|100$/.test(this.value)) {
+        this.validatorContent = ''
+      } else {
+        this.validatorContent = '格式不正确'
+      }
+    }
   }
 }
 </script>
@@ -47,4 +63,7 @@ export default {
     border none
     height rems(60)
     line-height rems(60)
+  .validator
+    padding 0 rems(20)
+    height rems(30)
 </style>

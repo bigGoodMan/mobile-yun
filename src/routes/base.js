@@ -1,5 +1,6 @@
 const Home = {
-  path: '/home',
+  path: '/my_machine',
+  alias: '/',
   name: 'home',
   component: () => import(/* webpackChunkName: "home" */ '@v/home/home.vue'),
   meta: {

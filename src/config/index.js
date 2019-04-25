@@ -34,7 +34,7 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: '/index.php/', // 'http://dev.hahaipi.com:8228/index.php/',
+    dev: '/merchant/index.php/', // 'http://dev.hahaipi.com:8228/index.php/',
     pro: ''
   },
   /**

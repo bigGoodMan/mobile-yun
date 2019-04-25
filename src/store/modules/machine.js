@@ -14,6 +14,7 @@ export default {
     type_name: '', // 机型
     claw_type: '', // 爪型
     coins_sell: '', // 游玩单价
+    is_online: '', // 1在线 0不在线
     gift_info: [], // 在售礼品
     can_claw_num: '', // 可抓取量
     can_claw_safe_num: '', // 可抓取安全量
@@ -23,6 +24,8 @@ export default {
     main_board: '', // 主板类型 1为武马行主板 2为花花世界
     key32: '', // 获奖局数（花花世界主板）
     award_count: '', // 获奖局数（武马行主板）
+    money_cost: '', // 礼品成本
+    coins_value: '', // 平台币值
     // 天车参数
     car_speed_front_back: '', // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
     car_speed_front_back_value: '', // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
@@ -60,6 +63,7 @@ export default {
     MACHINE_MACHINEDETAIL_MUTATE (state, { machineInfo, giftInfo }) {
       state.store_name = machineInfo.store_name
       state.no = machineInfo.no
+      state.is_online = machineInfo.is_online
       state.machine_id = machineInfo.machine_id
       state.type_name = machineInfo.type_name
       state.claw_type = machineInfo.claw_type
@@ -84,6 +88,9 @@ export default {
       state.main_board = data.main_board // 主板类型 1为武马行主板 2为花花世界
       state.key32 = data.key32 // 获奖局数（花花世界主板）
       state.award_count = data.award_count // 获奖局数（武马行主板）
+      state.coins_sell = data.coins_sell // 游玩单价
+      state.money_cost = data.money_cost // 礼品成本
+      state.coins_value = data.coins_value // 平台币值
       // 天车参数
       state.car_speed_front_back = data.car_speed_front_back // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
       state.car_speed_front_back_value = CRANE_SPEED[data.car_speed_front_back] // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
@@ -175,7 +182,30 @@ export default {
       return res
     },
     // 下发运营参数
-    async MACHINE_SETOPERATEPARAM_ACTION ({ commit }, { machineId, data }) {
+    async MACHINE_SETOPERATEPARAM_ACTION ({ commit, state }, { machineId, data }) {
+      data = {
+        ...data,
+        car_speed_front_back: state.car_speed_front_back,
+        car_speed_left_right: state.car_speed_left_right,
+        car_speed_up_down: state.car_speed_up_down,
+        key20: state.key20,
+        line_length: state.line_length,
+        grab_voltage: state.grab_voltage,
+        fall_voltage: state.fall_voltage,
+        vigorously_voltage: state.vigorously_voltage,
+        key21: state.key21
+      }
+      if (state.main_board === '2') {
+        data = {
+          ...data,
+          key23: state.key23,
+          key24: state.key24,
+          key25: state.key25,
+          key26: state.key26,
+          key27: state.key27,
+          key28: state.key28
+        }
+      }
       const res = await setOperateParamApi({
         machine_id: machineId,
         data

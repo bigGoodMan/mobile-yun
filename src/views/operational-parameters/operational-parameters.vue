@@ -26,8 +26,10 @@
     />
     <GamePrizeWinningNumber
       :show="gameWinningNumberShow"
-      :number="gameWinningNumberValue"
-      v-model="profit"
+      v-model="gameWinningNumberValue"
+      :coinsSell="machine.coins_sell"
+      :moneyCost="machine.money_cost"
+      :coinsValue="machine.coins_value"
       @trigger-close="handlePopup('gameWinningNumberShow', false)"
     />
     <!-- 天车参数 -->
@@ -170,6 +172,7 @@ import GamePrizeWinningNumber from '@yun/game-prize-winning-number'
 import PlayTimePopup from '@yun/play-time-popup'
 import { mapState, mapActions } from 'vuex'
 import { GAME_MODE } from '@l/judge'
+import { positiveIntegerRegularTool } from '@l/tools'
 export default {
   name: 'operational_parameters',
 
@@ -254,21 +257,33 @@ export default {
     // 获取运营参数
     getInfo () {
       this.MACHINE_GETOPERATEPARAM_ACTION({
-        machine_id: this.machine_id
+        machineId: this.machine_id
       })
     },
     // 下发参数
     handleSet () {
-      this.loading = true
+      if (this.gameType !== '0' && this.gameType !== '1') {
+        this.$toast.fail('没有选择游戏模式')
+        return
+      }
+      if (!positiveIntegerRegularTool(this.gameWinningNumberValue) || this.gameWinningNumberValue > 99 || this.gameWinningNumberValue <= 0) {
+        this.$toast.fail('游玩局数需在1~99区间内')
+        return
+      }
+      if (!positiveIntegerRegularTool(this.palyTimePopupValue) || this.palyTimePopupValue > 99 || this.palyTimePopupValue < 10) {
+        this.$toast.fail('游玩时间需在10~99区间内')
+        return
+      }
       const data = {}
       if (this.machine.main_board === '1') { // 武马行
         data.key22 = this.gameType
         data.award_count = this.gameWinningNumberValue
-        data.await_music = this.awaitMusic
+        data.await_music = this.awaitMusic ? '1' : '0'
       } else { // 花花世界
         data.key29 = this.gameType
         data.key32 = this.gameWinningNumberValue
       }
+      this.loading = true
       data.game_time = this.palyTimePopupValue
       data.game_times_shutdown = this.gameTimesShutdown ? '1' : '0'
       data.power_times = this.powerTimes ? '1' : '0'

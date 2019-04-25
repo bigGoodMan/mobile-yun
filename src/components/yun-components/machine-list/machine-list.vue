@@ -13,7 +13,7 @@
             </div>
             <div class="machine-list-substance">
               <p><span class="weight-bold size-28 color-3">{{its.name}}-{{its.machine_id}}</span><span class="size-24 color-9 machine-list-panel-number">({{its.no}})</span></p>
-              <p class="flex-row flex-between-center"><span class="size-24 color-9">{{its.MACHINE_TYPE}}</span><span class="size-28 color-ff0000 weight-bold">{{its.coins_sell}}</span></p>
+              <p class="flex-row flex-between-center"><span class="size-24 color-9">{{its.type_name}}</span><span class="size-28 color-ff0000 weight-bold">{{its.coins_sell}}</span></p>
             </div>
           </li>
         </ul>

@@ -43,7 +43,9 @@ module.exports = {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
     externals: {
       wx: 'wx',
-      vue: 'Vue'
+      vue: 'Vue',
+      jsencrypt: 'JSEncrypt'
+      // vant: 'Vant'
     }
   },
   // pluginOptions: {
@@ -69,7 +71,7 @@ module.exports = {
     port: 8080,
     https: false,
     hotOnly: false,
-    proxy: 'http://dev.hahaipi.com:8228'
+    proxy: 'http://dev.hahaipi.com'
     // proxy: {
     //   '/Home': {
     //     target: 'http://dev.hahaipi.com/', // 域名
