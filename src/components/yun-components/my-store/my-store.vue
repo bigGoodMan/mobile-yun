@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { Icon } from 'vant'
 import BottomPopup from '@yun/bottom-popup'
 import { mapState, mapActions } from 'vuex'
 export default {
@@ -34,7 +33,6 @@ export default {
     }
   },
   components: {
-    'van-icon': Icon,
     BottomPopup
   },
 

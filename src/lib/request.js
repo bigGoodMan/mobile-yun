@@ -110,6 +110,9 @@ class HttpRequest {
       headers,
       format
     }
+    if (options.timeout) {
+      config.timeout = options.timeout
+    }
     if (method === 'post') {
       data = headers['Content-Type'] === 'application/x-www-form-urlencoded' ? qs.stringify(data) : data
       config.data = data

@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { Popup } from 'vant'
 import popup from '@yun/mixins/popup'
 export default {
   name: 'game_prize_winning_number',
@@ -39,7 +38,6 @@ export default {
     }
   },
   components: {
-    'van-popup': Popup
   },
   watch: {
     value () {

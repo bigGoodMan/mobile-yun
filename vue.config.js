@@ -44,8 +44,8 @@ module.exports = {
     externals: {
       wx: 'wx',
       vue: 'Vue',
-      jsencrypt: 'JSEncrypt'
-      // vant: 'Vant'
+      jsencrypt: 'JSEncrypt',
+      vant: 'vant'
     }
   },
   // pluginOptions: {

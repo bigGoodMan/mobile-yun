@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { Popup, Icon } from 'vant'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: '',
@@ -19,8 +18,6 @@ export default {
   },
 
   components: {
-    'van-icon': Icon,
-    'van-popup': Popup
   },
 
   computed: {

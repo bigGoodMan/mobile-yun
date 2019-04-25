@@ -11,14 +11,20 @@
         />
         <van-cell
           title="编号"
-          :value="machine.no"
+          :value="`${machine.area_name}-${machine.no}`"
         />
         <van-cell title="资产id">
           <template>
             <van-tag
               v-if="machine.is_online === '1'"
               color="#5fb878"
+              :key="new Date() + 1"
             >在线</van-tag>
+            <van-tag
+              v-else
+              color="#ff0000"
+              :key="new Date() + 2"
+            >离线</van-tag>
             <span class="machine-detail-id">{{machine.machine_id}}</span>
           </template>
         </van-cell>
@@ -49,8 +55,9 @@
               <img
                 class="machine-detail-gift-img"
                 :src="items.thumb"
+                @click="handleImgPreview(items)"
               />
-              <div class="flex-column flex-around-start machine-detail-gift-info">
+              <div class="flex-column flex-around-start machine-detail-gift-info" style="flex-wrap: wrap;">
                 <span class="color-3 weight-bold size-30">{{items.gift_name}}</span>
                 <span class="color-3 size-28">礼品编号：{{items.gift_id}}</span>
               </div>
@@ -62,6 +69,13 @@
         </div>
       </template>
     </div>
+    <van-image-preview
+  v-model="show"
+  :images="images"
+  @change="handleChange"
+>
+  <template v-slot:index>第{{ index }}页</template>
+</van-image-preview>
     <!-- 参数设置 -->
     <div class="machine-detail-param bgcolor-f">
       <h5 class="size-30 color-3 machine-detail-title">参数设置</h5>
@@ -82,14 +96,16 @@
 </template>
 
 <script>
-import { Cell, CellGroup } from 'vant'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'machine_detail',
 
   data () {
     return {
-      id: ''
+      id: '',
+      index: 1,
+      show: false,
+      images: []
     }
   },
   computed: {
@@ -98,11 +114,11 @@ export default {
     })
   },
   components: {
-    'van-cell': Cell,
-    'van-cell-group': CellGroup
   },
   methods: {
     ...mapActions(['MACHINE_MACHINEDETAIL_ACTION']),
+    handleChange (e) {
+    },
     getMachineDetail () {
       const { id } = this.$route.query
       if (id) {
@@ -115,6 +131,15 @@ export default {
           }
         })
       }
+    },
+    // 预览
+    handleImgPreview (items) {
+      let giftArr = this.machine.gift_info.filter(v => v.gift_id !== items.gift_id)
+      giftArr.unshift(items)
+      this.images = giftArr.map(v => {
+        return v.name
+      })
+      this.show = true
     }
   },
   created () {

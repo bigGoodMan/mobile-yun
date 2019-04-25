@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { Popup, Picker } from 'vant'
 export default {
   name: '',
   props: {
@@ -54,8 +53,6 @@ export default {
     }
   },
   components: {
-    'van-picker': Picker,
-    'van-popup': Popup
   },
 
   computed: {},

@@ -1,16 +1,16 @@
-import { Home, Error404, Login } from './base'
+import { Error404, Login } from './base'
 import Machine from './modules/machine'
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
 export default [
   {
-    path: '/home',
-    name: '_home',
+    path: '/my-machine',
+    name: 'default',
     alias: '/',
     component: Container,
     meta: {
       title: '洞见云'
     },
-    children: [Login, Home, ...Machine]
+    children: [Login, ...Machine]
   },
   Error404
 ]

@@ -5,14 +5,20 @@
       <dt class="size-28 color-3 machine-list-place">{{items.area_name}}（{{items.intro}}）</dt>
       <dd class="machine-list-main bgcolor-f2">
         <ul class="machine-list-content">
-          <li class="machine-list-panel bgcolor-f" v-for="its in items.items" :key="its.machine_id" @click="handleHref(its.machine_id, its.machine_type)">
+          <li class="machine-list-panel bgcolor-f" v-for="its in items.items" :key="its.machine_id" @click="handleHref({
+            machineId: its.machine_id,
+            machineType: its.machine_type,
+            parentId: its.parent_id,
+            giftId: its.gift_id,
+            giftIdBak: its.gift_id_bak
+          })">
             <div class="machine-list-img bgcolor-f2 flex-row flex-center">
               <div v-if="its.lack_type !== '0'" class="machine-list-tag color-ff5722 size-24"><van-tag color="#ff5722" size="large">{{its.MACHINE_STATUS}}</van-tag></div>
               <img class="machine-list-img-content" :src="its.img" alt="">
               <!-- <img class="machine-list-img-content" src="http://www.3d2000.com/wp-content/uploads/2016/05/294194-63df2252ee261b59.gif" alt=""> -->
             </div>
             <div class="machine-list-substance">
-              <p><span class="weight-bold size-28 color-3">{{its.name}}-{{its.machine_id}}</span><span class="size-24 color-9 machine-list-panel-number">({{its.no}})</span></p>
+              <p><span class="weight-bold size-28 color-3">{{its.name}}-{{its.no}}</span><span class="size-24 color-9 machine-list-panel-number">({{its.machine_id}})</span></p>
               <p class="flex-row flex-between-center"><span class="size-24 color-9">{{its.type_name}}</span><span class="size-28 color-ff0000 weight-bold">{{its.coins_sell}}</span></p>
             </div>
           </li>
@@ -23,7 +29,6 @@
 </template>
 
 <script>
-import { Tag } from 'vant'
 import { MACHINE_STATUS, MACHINE_TYPE } from '@l/judge'
 export default {
   name: '',
@@ -39,7 +44,6 @@ export default {
   },
 
   components: {
-    'van-tag': Tag
   },
 
   computed: {
@@ -56,12 +60,18 @@ export default {
     }
   },
   methods: {
-    handleHref (id, type) {
-      if (type === '1') { // 礼品机可以去详情
+    handleHref ({ machineId, machineType, parentId, giftId, giftIdBak }) {
+      if (machineType === '1' && parentId !== '54') { // 礼品机可以去详情
+        if (!giftId && !giftIdBak) {
+          this.$toast.fail('该机型未设置礼品，请先设置礼品')
+          return
+        }
         this.$router.push({
           name: 'machine_detail',
-          query: { id }
+          query: { id: machineId }
         })
+      } else {
+        this.$toast.fail('该机型不可设置参数')
       }
     }
   },

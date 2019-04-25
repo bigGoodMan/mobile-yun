@@ -1,12 +1,4 @@
-const Home = {
-  path: '/my_machine',
-  alias: '/',
-  name: 'home',
-  component: () => import(/* webpackChunkName: "home" */ '@v/home/home.vue'),
-  meta: {
-    title: '洞见云'
-  }
-}
+
 const Error404 = {
   path: '/error-404',
   name: 'error_404',
@@ -24,7 +16,6 @@ const Login = {
   }
 }
 export {
-  Home,
   Error404,
   Login
 }

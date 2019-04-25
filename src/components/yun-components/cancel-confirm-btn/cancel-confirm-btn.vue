@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { Button } from 'vant'
 export default {
   name: 'cancel_confirm_btn',
   props: {
@@ -41,7 +40,6 @@ export default {
   },
 
   components: {
-    'van-button': Button
   },
 
   computed: {},

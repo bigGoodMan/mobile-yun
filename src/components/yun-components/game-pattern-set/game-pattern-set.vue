@@ -20,15 +20,11 @@
 </template>
 
 <script>
-import { RadioGroup, Radio, Popup } from 'vant'
 import popup from '@yun/mixins/popup'
 export default {
   name: 'game_pattern_set',
   mixins: [popup],
   components: {
-    'van-radio-group': RadioGroup,
-    'van-radio': Radio,
-    'van-popup': Popup
   }
 }
 </script>

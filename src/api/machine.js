@@ -38,7 +38,8 @@ function getOperateParamApi (data) {
 function setOperateParamApi (data) {
   return HttpReq.formPost({
     url: 'param_setting/setting_param',
-    data
+    data,
+    timeout: 50000
   })
 }
 

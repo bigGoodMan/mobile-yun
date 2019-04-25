@@ -4,12 +4,12 @@
     <div class="my-machine-header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
-        :columns="columns"
         :default-index="0"
       />
     </div>
-    <div class="my-machine-container">
+    <div class="my-machine-container bgcolor-f2">
       <div class="border"></div>
+      <van-pull-refresh v-model="isLoading" class="my-machine-fresh" @refresh="handleRefresh">
       <van-collapse
         class="my-machine-content"
         v-model="activeNames"
@@ -21,11 +21,11 @@
           <MachineList :columns="columns" />
         </van-collapse-item>
       </van-collapse>
+      </van-pull-refresh>
     </div>
   </div>
 </template>
 <script>
-import { Collapse, CollapseItem } from 'vant'
 import MyStore from '@yun/my-store'
 import MachineList from '@yun/machine-list'
 import { getMachineListApi } from '@/api'
@@ -35,33 +35,43 @@ export default {
   data () {
     return {
       activeNames: [0],
-      columns: []
+      columns: [],
+      isLoading: false,
+      store_id: ''
     }
   },
 
   components: {
     MyStore,
-    MachineList,
-    'van-collapse': Collapse,
-    'van-collapse-item': CollapseItem
+    MachineList
   },
 
   computed: {},
 
   methods: {
     handleConfirm (data) {
+      this.store_id = data.value.store_id
+      this.handleGetMachineList()
+    },
+    handleGetMachineList (callback = () => {}) {
       this.$toast.loading({
         mask: true,
         message: '加载中...',
         duration: 0
       })
-      getMachineListApi({ store_id: data.value.store_id }).then(res => {
+      getMachineListApi({ store_id: this.store_id }).then(res => {
+        callback()
         this.$toast.clear()
         if (res.return_code === '0') {
           this.columns = res.data.machine_list
         } else {
           this.$toast.faile(res.msg)
         }
+      })
+    },
+    handleRefresh () {
+      this.handleGetMachineList(() => {
+        this.isLoading = false
       })
     }
   },
@@ -72,8 +82,17 @@ export default {
 </script>
 <style lang="stylus">
 .my-machine
+  .my-machine-header
+    position fixed
+    top 0
+    left 0
+    width 100%
+    z-index 20
   .my-machine-container
-    margin-top rems(20)
+    margin-top rems(106)
+    .my-machine-fresh
+      padding-top rems(30)
+      overflow initial
     .my-machine-content
       .van-collapse-item__content
         padding 0

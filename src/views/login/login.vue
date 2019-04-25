@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { Field, CellGroup, Button } from 'vant'
 import { logo } from '@l/img'
 import { mapActions } from 'vuex'
 import JSEncrypt from 'jsencrypt'
@@ -63,9 +62,6 @@ export default {
   },
 
   components: {
-    'van-field': Field,
-    'van-button': Button,
-    'van-cell-group': CellGroup
   },
 
   computed: {

@@ -24,14 +24,14 @@
       v-model="gameType"
       @trigger-close="handlePopup('gamePatternShow', false)"
     />
-    <GamePrizeWinningNumber
-      :show="gameWinningNumberShow"
-      v-model="gameWinningNumberValue"
-      :coinsSell="machine.coins_sell"
-      :moneyCost="machine.money_cost"
-      :coinsValue="machine.coins_value"
-      @trigger-close="handlePopup('gameWinningNumberShow', false)"
-    />
+      <GamePrizeWinningNumber
+        :show="gameWinningNumberShow"
+        v-model="gameWinningNumberValue"
+        :coinsSell="machine.coins_sell"
+        :moneyCost="machine.money_cost"
+        :coinsValue="machine.coins_value"
+        @trigger-close="handlePopup('gameWinningNumberShow', false)"
+      />
     <!-- 天车参数 -->
     <div class="operational-parameters-car-parameter">
       <h5 class="size-30 color-3 operational-parameters-title">天车参数</h5>
@@ -160,13 +160,13 @@
         type="info"
         :loading="loading"
         @click="handleSet"
+        loading-text="下发参数中"
       >下发参数</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { Cell, CellGroup, SwitchCell } from 'vant'
 import GamePatternSet from '@yun/game-pattern-set'
 import GamePrizeWinningNumber from '@yun/game-prize-winning-number'
 import PlayTimePopup from '@yun/play-time-popup'
@@ -197,9 +197,6 @@ export default {
   },
 
   components: {
-    'van-cell': Cell,
-    'van-cell-group': CellGroup,
-    'van-switch-cell': SwitchCell,
     GamePatternSet,
     GamePrizeWinningNumber,
     PlayTimePopup
@@ -221,33 +218,57 @@ export default {
     }
   },
   watch: {
-    gameMode (val) { // 游戏模式
-      this.gameType = val
+    gameMode: { // 游戏模式
+      handler (val) {
+        this.gameType = val
+      },
+      immediate: true
     },
-    gameType (val) { // 游戏模式类型
-      this.gameValue = GAME_MODE[val]
+    gameType: {
+      handler (val) { // 游戏模式类型
+        this.gameValue = GAME_MODE[val]
+      },
+      immediate: true
     },
-    game_time (val) { // 游玩时间
-      this.palyTimePopupValue = val
+    game_time: {
+      handler (val) { // 游玩时间
+        this.palyTimePopupValue = val
+      },
+      immediate: true
     },
-    game_times_shutdown (val) { // 投币数开机恢复
-      this.gameTimesShutdown = val === '1'
+    game_times_shutdown: {
+      handler (val) { // 投币数开机恢复
+        this.gameTimesShutdown = val === '1'
+      },
+      immediate: true
     },
-    power_times (val) { // 出奖局数开机恢复
-      this.powerTimes = val === '1'
+    power_times: {
+      handler (val) { // 出奖局数开机恢复
+        this.powerTimes = val === '1'
+      },
+      immediate: true
     },
-    sky_grab_thing (val) { // 空中取物
-      this.skyGrabThing = val === '1'
+    sky_grab_thing: {
+      handler (val) { // 空中取物
+        this.skyGrabThing = val === '1'
+      },
+      immediate: true
     },
-    await_music (val) { // 待机音乐
-      this.awaitMusic = val === '1'
+    await_music: {
+      handler (val) { // 待机音乐
+        this.awaitMusic = val === '1'
+      },
+      immediate: true
     },
-    awardNumber (val) { // 获奖局数
-      this.gameWinningNumberValue = val
-    },
-    profit (val) { // 毛利率
-      this.gameWinningNumberValue = val * 2
+    awardNumber: {
+      handler (val) { // 获奖局数
+        this.gameWinningNumberValue = val
+      },
+      immediate: true
     }
+    // profit (val) { // 毛利率
+    //   this.gameWinningNumberValue = val * 2
+    // }
   },
   methods: {
     ...mapActions(['MACHINE_GETOPERATEPARAM_ACTION', 'MACHINE_SETOPERATEPARAM_ACTION']),
@@ -267,7 +288,7 @@ export default {
         return
       }
       if (!positiveIntegerRegularTool(this.gameWinningNumberValue) || this.gameWinningNumberValue > 99 || this.gameWinningNumberValue <= 0) {
-        this.$toast.fail('游玩局数需在1~99区间内')
+        this.$toast.fail('获奖局数需在1~99区间内')
         return
       }
       if (!positiveIntegerRegularTool(this.palyTimePopupValue) || this.palyTimePopupValue > 99 || this.palyTimePopupValue < 10) {
@@ -295,6 +316,12 @@ export default {
         this.loading = false
         if (res.return_code === '0') {
           this.$toast.success('下发成功！')
+          this.$router.push({
+            name: 'machine_detail',
+            query: {
+              id: this.machine_id
+            }
+          })
           return
         }
         if (res.return_code !== '0') {

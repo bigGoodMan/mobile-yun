@@ -37,6 +37,7 @@ export default {
     dev: '/merchant/index.php/', // 'http://dev.hahaipi.com:8228/index.php/',
     pro: ''
   },
+  homeHide: ['my_machine'],
   /**
    * @description 默认打开的首页的路由name值，默认为home
    */

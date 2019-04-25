@@ -10,6 +10,7 @@ export default {
   state: {
     store_name: '', // 门店
     no: '', // 编号
+    area_name: '', // 区域
     machine_id: '', // 资产id
     type_name: '', // 机型
     claw_type: '', // 爪型
@@ -66,6 +67,7 @@ export default {
       state.is_online = machineInfo.is_online
       state.machine_id = machineInfo.machine_id
       state.type_name = machineInfo.type_name
+      state.area_name = machineInfo.area_name
       state.claw_type = machineInfo.claw_type
       state.coins_sell = machineInfo.coins_sell
       state.can_claw_num = machineInfo.can_claw_num

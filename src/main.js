@@ -4,11 +4,10 @@ import router from './routes'
 import store from './store'
 // import './registerServiceWorker'
 import '@a/css/common.styl'
-import { Lazyload, Toast } from 'vant'
+import Vant from 'vant'
 
 Vue.config.productionTip = false
-Vue.use(Lazyload)
-Vue.use(Toast)
+Vue.use(Vant)
 // Vue.use(Lazyload, {
 //   preLoad: 1.3,
 //   error: 'static/img/error.jpg',

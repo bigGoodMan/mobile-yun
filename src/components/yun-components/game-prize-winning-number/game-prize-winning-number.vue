@@ -13,7 +13,8 @@
             v-model="val"
             placeholder="请输入毛利率"
           />
-          <p class="margin-0 color-3 size-28">获奖局数：<span class="color-ff5722 size-28">{{value}}</span></p>
+          <span class="size-28 color-3 text-left flex-1">%</span>
+          <p class="margin-0 color-3 size-28">获奖局数：<span class="color-ff5722 size-28">{{awardValue}}</span></p>
         </div>
         <div class="border"></div>
         <div class="game-prize-winning-number-validator color-ff0000 size-28 text-right">{{validatorContent}}</div>
@@ -29,8 +30,8 @@
 </template>
 
 <script>
-import { Popup } from 'vant'
 import popup from '@yun/mixins/popup'
+import { positiveNumberRegularTool, positiveIntegerRegularTool } from '@l/tools'
 export default {
   name: 'game_prize_winning_number',
   mixins: [popup],
@@ -54,27 +55,25 @@ export default {
   },
   data () {
     return {
-      // awardNumber: '', // 获奖局数
+      awardValue: '', // 获奖局数
       validatorContent: '',
       val: ''
     }
   },
   watch: {
-    // value (val) {
-    //   if (val <= 0 || val > 99) {
-    //     this.validatorContent = '获奖局数超出限制，请修改毛利率'
-    //   } else {
-    //     this.validatorContent = ''
-    //   }
-    // },
+    value (val) {
+      this.awardValue = val
+    },
     val: {
       handler (val) {
-        if (/^[0-9]+(\.[0-9]+)?$/.test(val) && val > 0) {
-          this.value = Math.ceil(this.moneyCost / (this.coinsSell * this.coinsValue * (1 - val)))
+        if (positiveNumberRegularTool(val) && val > 0 && val < 100) {
+          this.awardValue = Math.ceil(this.moneyCost / (this.coinsSell * this.coinsValue * (1 - val / 100)))
+        } else if (!val) {
+          this.awardValue = this.value
         } else {
-          this.value = 0
+          this.awardValue = 0
         }
-        if (this.value <= 0 || this.value > 99) {
+        if (!positiveIntegerRegularTool(this.awardValue) || this.awardValue <= 0 || this.awardValue > 99) {
           this.validatorContent = '获奖局数超出限制，请修改毛利率'
         } else {
           this.validatorContent = ''
@@ -83,11 +82,11 @@ export default {
     }
   },
   components: {
-    'van-popup': Popup
   },
   methods: {
-    handleAwardConfirm () {
-
+    handleCancel () {
+      this.val = ''
+      this.handleClose()
     }
   }
 }
@@ -98,11 +97,11 @@ export default {
   .game-prize-winning-number-title
     margin 0
   .game-prize-winning-number-entry
-    flex 1
     margin-right rems(20)
     border none
     height rems(60)
     line-height rems(60)
+    width rems(200)
   .game-prize-winning-number-tip
     margin-top rems(20)
   .game-prize-winning-number-validator

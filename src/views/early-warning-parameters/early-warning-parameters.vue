@@ -4,9 +4,19 @@
     <div class="padding-20-30">
       <div class="bgcolor-f radius-10">
         <van-cell-group>
-          <HhfInput title="可抓取量" v-model="canClawNum" placeholder="请输入"/>
+          <van-field
+    v-model="canClawNum"
+    label="可抓取量"
+    placeholder="请输入"
+  />
+          <!-- <HhfInput title="可抓取量" type="number" v-model="canClawNum" placeholder="请输入"/> -->
           <div class="border border-ebedf0"></div>
-          <HhfInput title="可抓取安全量" v-model="canClawSafeNum" placeholder="请输入"/>
+          <van-field
+    v-model="canClawSafeNum"
+    label="可抓取安全量"
+    placeholder="请输入"
+  />
+          <!-- <HhfInput title="可抓取安全量" type="number" v-model="canClawSafeNum" placeholder="请输入"/> -->
         </van-cell-group>
       </div>
     </div>
@@ -17,8 +27,8 @@
 </template>
 
 <script>
-import { CellGroup, Button } from 'vant'
-import HhfInput from '@hhf/hhf-input'
+// import HhfInput from '@hhf/hhf-input'
+import { positiveIntegerRegularTool } from '@l/tools'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'early_warning_parameters',
@@ -52,13 +62,19 @@ export default {
     }
   },
   components: {
-    'van-cell-group': CellGroup,
-    'van-button': Button,
-    HhfInput
+    // HhfInput
   },
   methods: {
     ...mapActions(['MACHINE_SAVEEARLYPARAM_ACTION']),
     handleSaveClick () {
+      if (!positiveIntegerRegularTool(this.canClawNum) || this.canClawNum < 1 || this.canClawNum > 999) {
+        this.$toast.fail('可抓取量需在1~999区间内')
+        return
+      }
+      if (!positiveIntegerRegularTool(this.canClawSafeNum) || this.canClawSafeNum > this.canClawNum - 0) {
+        this.$toast.fail('可抓取安全量需大于等于1且小于等于可抓取量')
+        return
+      }
       this.loading = true
       const $this = this
       this.MACHINE_SAVEEARLYPARAM_ACTION({

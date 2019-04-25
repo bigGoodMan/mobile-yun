@@ -4,20 +4,34 @@
     <div class="padding-20-30">
       <div class="bgcolor-f radius-10">
         <van-cell-group>
-          <HhfInput title="游玩单价（币）" v-model="coinsSell" placeholder="请输入"/>
+          <van-field
+            v-model="coinsSell"
+            placeholder="请输入"
+            class="play-price-entry"
+          >
+          <template v-slot:label>
+            <div>游玩单价（币）</div>
+          </template>
+          </van-field>
+          <!-- <HhfInput type="number" title="游玩单价（币）" v-model="coinsSell" placeholder="请输入"/> -->
         </van-cell-group>
       </div>
     </div>
     <div class="size-0 padding-20-30">
-      <van-button size="large" :loading="loading" type="info" @click="handleSaveClick">保存</van-button>
+      <van-button
+        size="large"
+        :loading="loading"
+        type="info"
+        @click="handleSaveClick"
+      >保存</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { CellGroup, Button } from 'vant'
-import HhfInput from '@hhf/hhf-input'
+// import HhfInput from '@hhf/hhf-input'
 import { mapState, mapActions } from 'vuex'
+import { positiveIntegerRegularTool } from '@l/tools'
 export default {
   name: 'play_price',
 
@@ -42,13 +56,15 @@ export default {
     }
   },
   components: {
-    'van-cell-group': CellGroup,
-    'van-button': Button,
-    HhfInput
+    // HhfInput
   },
   methods: {
     ...mapActions(['MACHINE_SAVEPLAYPRICE_ACTION']),
     handleSaveClick () {
+      if (!positiveIntegerRegularTool(this.coinsSell) || this.coinsSell < 1 || this.coinsSell > 99) {
+        this.$toast.fail('游玩单价需在1~99区间内')
+        return
+      }
       this.loading = true
       const $this = this
       this.MACHINE_SAVEPLAYPRICE_ACTION({
@@ -57,16 +73,15 @@ export default {
       }).then(res => {
         $this.loading = false
         if (res.return_code === '0') {
-          $this.$toast.success({
-            message: '设置成功！',
-            onClose () {
-              $this.$router.push({
-                name: 'machine_detail',
-                query: {
-                  id: $this.$route.query.id
-                }
-              })
-            }
+          $this.$dialog.alert({
+            message: '游玩单价设置成功，手动重启机台后生效'
+          }).then(() => {
+            $this.$router.push({
+              name: 'machine_detail',
+              query: {
+                id: $this.$route.query.id
+              }
+            })
           })
           return
         }
@@ -87,7 +102,12 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 .play-price
   margin-top rems(20)
+  .play-price-entry
+    .van-field__label
+      max-width none
+      white-space nowrap
+      flex none
 </style>
