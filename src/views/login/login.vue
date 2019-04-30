@@ -1,11 +1,14 @@
 <!-- 登录 -->
 <template>
   <div class="login">
-    <div class="padding-20-30">
-      <img
-        class="max-width"
-        :src="logo"
-      />
+  <Tip/>
+    <div class="padding-20-30 flex-row flex-center">
+      <div class="login-logo">
+        <img
+          class="max-width"
+          :src="logo"
+        />
+      </div>
     </div>
     <div class="padding-20-30">
       <div class="radius-10">
@@ -14,9 +17,10 @@
             <van-field
               v-model="account"
               class="size-32"
+              type="tel"
               clearable
-              label="登录账号"
-              placeholder="请输入账号"
+              label="手机"
+              placeholder="请输入手机号"
             />
           </div>
           <div class="radius-10">
@@ -25,7 +29,7 @@
               class="size-32"
               clearable
               type="password"
-              label="登录密码"
+              label="密码"
               placeholder="请输入密码"
             />
           </div>
@@ -45,6 +49,7 @@
 </template>
 
 <script>
+import Tip from '@/plugins/tip'
 import { logo } from '@l/img'
 import { mapActions } from 'vuex'
 import JSEncrypt from 'jsencrypt'
@@ -62,6 +67,7 @@ export default {
   },
 
   components: {
+    Tip
   },
 
   computed: {
@@ -72,7 +78,7 @@ export default {
 
   methods: {
     ...mapActions(['USER_LOGIN_ACTION']),
-    handleLogin () {
+    handleLogin (e) {
       this.loading = true
       const account = this.account
       let password = this.password
@@ -91,11 +97,19 @@ export default {
           this.$toast({
             type: 'success',
             message: '登录成功！',
+            duration: 1500,
             mask: true,
             onClose () {
-              $this.$router.push({
-                name: 'my_machine'
-              })
+              if ($this.$route.query.url) {
+                const url = $this.$route.query.url
+                $this.$router.push({
+                  ...JSON.parse(decodeURIComponent(decodeURIComponent(url)))
+                })
+              } else {
+                $this.$router.push({
+                  name: 'my_machine'
+                })
+              }
             }
           })
         } else {
@@ -104,18 +118,31 @@ export default {
       })
     }
   },
-
-  mounted () {}
+  created () {
+    let windowScroll
+    const isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+    if (isiOS) {
+      document.body.addEventListener('focusout', () => { windowScroll = window.setTimeout(() => { window.scroll(0, 0) }, 100) })
+      document.body.addEventListener('focusin', () => { // 软键盘弹出的事件处理
+        if (windowScroll !== undefined) { window.clearTimeout(windowScroll) }
+      })
+    }
+  },
+  mounted () {},
+  beforeDestroy () {
+  }
 }
 </script>
 <style lang="stylus" scoped>
 .login
-  position fixed
+  position absolute
   top 50%
   left 0
   right 0
   margin 0 auto
   transform translate(0, -50%)
+  .login-logo
+    width rems(200)
   .login-title
     padding rems(20) 0
     font-size rems(50)

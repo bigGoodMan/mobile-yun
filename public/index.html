@@ -5,11 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>mobile-yun</title>
+    <title>嗨皮商家</title>
     <!-- 引入样式 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@1.6/lib/index.css">
 <script>
   (function () {
+    function changeScreenBusiness () {
+     var html = document.documentElement || document.querySelector('html')
+     var clinetWidth = document.documentElement.clientWidth || document.body.clientWidth
+            // let clinetHeight = document.documentElement.clientHeight || document.body.clientHeight
+            clinetWidth = clinetWidth > 750 ? 750 : clinetWidth
+            html.style.fontSize = clinetWidth / 7.5 + 'px'
+    }
         function changeScreenControlRemFunc (options, callback) {
           let { timer, later, context, args } = {}
           const time = options.time || 100
@@ -33,14 +40,11 @@
         }
         // window.onresize = changeScreenControlRemFunc({time: 200})
         // window.onresize()
-       changeScreenControlRemFunc({time: 200})()
+        changeScreenBusiness()
       })()
 </script>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but mobile-yun doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <!-- 引入组件 -->

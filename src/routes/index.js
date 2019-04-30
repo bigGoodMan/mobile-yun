@@ -18,8 +18,19 @@ router.beforeEach((to, from, next) => {
   const token = store.state.user.token
   if (!token && !notLoginPageName.includes(to.name)) {
     // 未登录，跳转的是需要登录页面
+    const name = to.name
+    const query = to.query
+    const params = to.params
+    const url = encodeURIComponent(JSON.stringify({
+      name,
+      query,
+      params
+    }))
     next({
-      name: initialPageName // 跳转到登录页
+      name: initialPageName, // 跳转到登录页
+      query: {
+        url
+      }
     })
   } else {
     next()
@@ -27,6 +38,6 @@ router.beforeEach((to, from, next) => {
 })
 router.afterEach(route => {
   setTitle(route.meta.title)
-  window.scrollTo(0, 0)
+  // window.scrollTo(0, 0)
 })
 export default router

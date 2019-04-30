@@ -84,6 +84,10 @@ export default {
   components: {
   },
   methods: {
+    handleConfirm () {
+      this.$emit('trigger-confirm', this.awardValue)
+      this.handleClose()
+    },
     handleCancel () {
       this.val = ''
       this.handleClose()

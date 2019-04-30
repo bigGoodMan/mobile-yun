@@ -1,6 +1,6 @@
 
 const Error404 = {
-  path: '/error-404',
+  path: '*',
   name: 'error_404',
   component: () => import(/* webpackChunkName: "404" */ '@v/error-page/error-404.vue'),
   meta: {

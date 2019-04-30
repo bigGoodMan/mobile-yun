@@ -1,6 +1,6 @@
 <!-- 机台详情 -->
 <template>
-  <div class="machine-detail">
+  <div class="machine-detail bgcolor-f2">
     <!-- 基础信息 -->
     <div class="machine-detail-basics bgcolor-f">
       <h5 class="size-30 color-3 machine-detail-title">基础信息</h5>
@@ -52,11 +52,13 @@
           <div class="border border-border-ebedf0"></div>
           <div class="flex-row flex-between-stretch machine-detail-gift-container">
             <div class="flex-row flex-between-stretch">
-              <img
-                class="machine-detail-gift-img"
-                :src="items.thumb"
-                @click="handleImgPreview(items)"
-              />
+              <div class="size-0 machine-detail-gift-img flex-row flex-center">
+                <img
+                  class="machine-detail-gift-img-content"
+                  :src="items.thumb"
+                  @click="handleImgPreview(items)"
+                />
+              </div>
               <div class="flex-column flex-around-start machine-detail-gift-info" style="flex-wrap: wrap;">
                 <span class="color-3 weight-bold size-30">{{items.gift_name}}</span>
                 <span class="color-3 size-28">礼品编号：{{items.gift_id}}</span>
@@ -92,7 +94,7 @@
         />
       </van-cell-group>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -161,6 +163,9 @@ export default {
       .machine-detail-gift-img
         width rems(150)
         height rems(150)
+        .machine-detail-gift-img-content
+          max-width 100%
+          max-height 100%
       .machine-detail-gift-info
         padding-left rems(20)
   .machine-detail-param

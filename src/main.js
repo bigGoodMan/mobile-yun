@@ -4,7 +4,9 @@ import router from './routes'
 import store from './store'
 // import './registerServiceWorker'
 import '@a/css/common.styl'
+import '@a/css/animate.styl'
 import Vant from 'vant'
+import '@/plugins/css/common.styl'
 
 Vue.config.productionTip = false
 Vue.use(Vant)

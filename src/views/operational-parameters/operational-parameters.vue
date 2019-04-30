@@ -1,6 +1,6 @@
 <!-- 运营参数设置 -->
 <template>
-  <div class="operational-parameters">
+  <div class="operational-parameters bgcolor-f2">
     <!-- 游戏模式 -->
     <div class="operational-parameters-game-pattern">
       <h5 class="size-30 color-3 operational-parameters-title">游戏模式</h5>
@@ -163,7 +163,7 @@
         loading-text="下发参数中"
       >下发参数</van-button>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -315,11 +315,17 @@ export default {
       }).then(res => {
         this.loading = false
         if (res.return_code === '0') {
-          this.$toast.success('下发成功！')
-          this.$router.push({
-            name: 'machine_detail',
-            query: {
-              id: this.machine_id
+          this.$toast.success({
+            message: '下发成功！',
+            duration: 1500,
+            mask: true,
+            onClose () {
+              this.$router.push({
+                name: 'machine_detail',
+                query: {
+                  id: this.machine_id
+                }
+              })
             }
           })
           return

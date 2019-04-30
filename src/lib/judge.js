@@ -3,6 +3,14 @@ const MACHINE_STATUS = {
   '1': '换货',
   '2': '补货'
 }
+const MACHINE_STATUS_TYPE = {
+  '1': '正常',
+  '2': '故障',
+  '3': '离线',
+  '4': '缺货',
+  '5': '缺纸',
+  '6': '维护中'
+}
 const MACHINE_TYPE = {
   '1': '礼品机',
   '2': '售票机'
@@ -37,7 +45,8 @@ const PAW_POSITION_C2 = {
   '4': '9/10'
 }
 export {
-  MACHINE_STATUS, // 礼品机状态
+  MACHINE_STATUS, // 缺货类型
+  MACHINE_STATUS_TYPE, // 礼品机状态
   MACHINE_TYPE, // 机器类型
   GAME_MODE, // 游戏模式
   MAINBOARD, // 主板

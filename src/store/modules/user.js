@@ -60,9 +60,10 @@ export default {
     },
     // 登出去除相关信息
     async USER_LOGOUT_ACTION ({ state, commit }) {
+      commit('CLEARSTATE_MUTATE')
       commit('USER_SETTOKEN_MUTATE')
-      location.href = `${location.href.split('#')[0]}#/login` // 登录页
-      return true
+      // location.href = `${location.href.split('#')[0]}#/login` // 登录页
+      return {}
     }
   }
 }

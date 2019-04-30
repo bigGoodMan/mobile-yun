@@ -13,7 +13,7 @@
             giftIdBak: its.gift_id_bak
           })">
             <div class="machine-list-img bgcolor-f2 flex-row flex-center">
-              <div v-if="its.lack_type !== '0'" class="machine-list-tag color-ff5722 size-24"><van-tag color="#ff5722" size="large">{{its.MACHINE_STATUS}}</van-tag></div>
+              <div class="machine-list-tag color-ff5722 size-24"><van-tag :color="its.status_type === '1' ? '#5fb878' : '#ff5722'" size="large">{{its.MACHINE_STATUS}}</van-tag></div>
               <img class="machine-list-img-content" :src="its.img" alt="">
               <!-- <img class="machine-list-img-content" src="http://www.3d2000.com/wp-content/uploads/2016/05/294194-63df2252ee261b59.gif" alt=""> -->
             </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { MACHINE_STATUS, MACHINE_TYPE } from '@l/judge'
+import { MACHINE_STATUS_TYPE, MACHINE_TYPE } from '@l/judge'
 export default {
   name: '',
   props: {
@@ -52,7 +52,7 @@ export default {
         ...v,
         items: v.items.map(its => ({
           ...its,
-          MACHINE_STATUS: MACHINE_STATUS[its.lack_type],
+          MACHINE_STATUS: MACHINE_STATUS_TYPE[its.status_type],
           MACHINE_TYPE: MACHINE_TYPE[its.machine_type],
           coins_sell: its.coins_sell ? its.coins_sell + '币' : ''
         }))
@@ -62,7 +62,7 @@ export default {
   methods: {
     handleHref ({ machineId, machineType, parentId, giftId, giftIdBak }) {
       if (machineType === '1' && parentId !== '54') { // 礼品机可以去详情
-        if (!giftId && !giftIdBak) {
+        if ((!giftId && !giftIdBak) || (giftId === '0' && giftIdBak === '0')) {
           this.$toast.fail('该机型未设置礼品，请先设置礼品')
           return
         }

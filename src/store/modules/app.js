@@ -4,6 +4,9 @@ export default {
     collapsed: false // 是否展示popup菜单栏
   },
   mutations: {
+    APP_CLEARSTATE_MUTATE (state) {
+
+    },
     // 操作是否展示popup菜单栏
     APP_SHOWCOLLAPSED_MUTATE (state, collapsed) {
       state.collapsed = collapsed

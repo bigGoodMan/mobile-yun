@@ -7,7 +7,7 @@ const MyMachine = {
   }
 }
 const MachineDetail = {
-  path: '/machine-detail',
+  path: '/my-machine/machine-detail',
   name: 'machine_detail',
   component: () => import(/* webpackChunkName: "MachineDetail" */ '@v/machine-detail/machine-detail.vue'),
   meta: {
@@ -15,7 +15,7 @@ const MachineDetail = {
   }
 }
 const PlayPrice = {
-  path: '/play-price',
+  path: '/my-machine/machine-detail/play-price',
   name: 'play_price',
   component: () => import(/* webpackChunkName: "PlayPrice" */ '@v/play-price/play-price.vue'),
   meta: {
@@ -23,7 +23,7 @@ const PlayPrice = {
   }
 }
 const EarlyWarningParameters = {
-  path: '/early-warning-parameters',
+  path: '/my-machine/machine-detail/early-warning-parameters',
   name: 'early_warning_parameters',
   component: () => import(/* webpackChunkName: "EarlyWarningParameters" */ '@v/early-warning-parameters/early-warning-parameters.vue'),
   meta: {
@@ -31,7 +31,7 @@ const EarlyWarningParameters = {
   }
 }
 const OperationalParameters = {
-  path: '/operational-parameters',
+  path: '/my-machine/machine-detail/operational-parameters',
   name: 'operational_parameters',
   component: () => import(/* webpackChunkName: "OperationalParameters" */ '@v/operational-parameters/operational-parameters.vue'),
   meta: {

@@ -43,18 +43,15 @@ axios.interceptors.response.use(response => {
   switch (status) {
     case 200:
       let { data } = response
-      // const { code } = data
+      const code = data.return_code
       // 未登录
-      // if (code === -1) {
-      //   store.dispatch('USER_LOGOUT_ACTION')
-      //   return false
-      // } else if (!options.notLogin) { // 需要登录接口（已登录）
-      //   store.commit('setToken', store.state.user.token) // 重置cookie（延长操作时效性）
-      // }
+      if (code === '-200') {
+        store.dispatch('USER_LOGOUT_ACTION')
+      }
       return data
     default:
       // doSomething 收集信息
-      return false
+      return {}
   }
 }, error => {
   // 网络异常 收集信息

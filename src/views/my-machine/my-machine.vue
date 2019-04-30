@@ -1,27 +1,33 @@
 <!-- 我的机台 -->
 <template>
-  <div class="my-machine bgcolor-f2">
+  <div class="my-machine bgcolor-f2 main-body">
     <div class="my-machine-header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
         :default-index="0"
       />
     </div>
-    <div class="my-machine-container bgcolor-f2">
-      <div class="border"></div>
-      <van-pull-refresh v-model="isLoading" class="my-machine-fresh" @refresh="handleRefresh">
-      <van-collapse
-        class="my-machine-content"
-        v-model="activeNames"
-      >
-        <van-collapse-item
-          title="我的机台"
-          :name="0"
+    <div class="main-container">
+      <div class="my-machine-container bgcolor-f2">
+        <div class="border"></div>
+        <van-pull-refresh
+          v-model="isLoading"
+          class="my-machine-fresh"
+          @refresh="handleRefresh"
         >
-          <MachineList :columns="columns" />
-        </van-collapse-item>
-      </van-collapse>
-      </van-pull-refresh>
+          <van-collapse
+            class="my-machine-content"
+            v-model="activeNames"
+          >
+            <van-collapse-item
+              title="我的机台"
+              :name="0"
+            >
+              <MachineList :columns="columns" />
+            </van-collapse-item>
+          </van-collapse>
+        </van-pull-refresh>
+      </div>
     </div>
   </div>
 </template>
@@ -55,7 +61,6 @@ export default {
     },
     handleGetMachineList (callback = () => {}) {
       this.$toast.loading({
-        mask: true,
         message: '加载中...',
         duration: 0
       })
@@ -82,14 +87,17 @@ export default {
 </script>
 <style lang="stylus">
 .my-machine
+  min-height 100vh
   .my-machine-header
-    position fixed
+    position absolute
     top 0
     left 0
     width 100%
-    z-index 20
+    z-index 10
   .my-machine-container
-    margin-top rems(106)
+    padding-top rems(106)
+    height 100%
+    box-sizing border-box
     .my-machine-fresh
       padding-top rems(30)
       overflow initial
