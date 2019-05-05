@@ -1,3 +1,4 @@
+import { initZIndexReduce } from '../utils/initParams'
 const Mask = {
   props: {
     maskPacity: {
@@ -6,14 +7,23 @@ const Mask = {
     maskColor: {
       type: String
     }
-  }
-  render () {
+  },
+  methods: {
+    close () {
+      this.$emit('trigger-close')
+    }
+  },
+  render (h) {
     const styles = {
       opacity: this.maskPacity,
-      backgroundColor: this.maskColor
+      backgroundColor: this.maskColor,
+      zIndex: 1010 + initZIndexReduce()
     }
+    const {
+      close
+    } = this
     return (
-      <div class="hhf-plugins-mask" style={styles}></div>
+      <div class="hhf-plugins-mask" style={styles} onClick={close}></div>
     )
   }
 }

@@ -6,10 +6,12 @@ import store from './store'
 import '@a/css/common.styl'
 import '@a/css/animate.styl'
 import Vant from 'vant'
+import plugins from './plugins'
 import '@/plugins/css/common.styl'
 
 Vue.config.productionTip = false
 Vue.use(Vant)
+Vue.use(plugins)
 // Vue.use(Lazyload, {
 //   preLoad: 1.3,
 //   error: 'static/img/error.jpg',

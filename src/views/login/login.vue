@@ -1,7 +1,6 @@
 <!-- 登录 -->
 <template>
   <div class="login">
-  <Tip/>
     <div class="padding-20-30 flex-row flex-center">
       <div class="login-logo">
         <img
@@ -49,7 +48,6 @@
 </template>
 
 <script>
-import Tip from '@/plugins/tip'
 import { logo } from '@l/img'
 import { mapActions } from 'vuex'
 import JSEncrypt from 'jsencrypt'
@@ -67,7 +65,6 @@ export default {
   },
 
   components: {
-    Tip
   },
 
   computed: {
@@ -128,7 +125,11 @@ export default {
       })
     }
   },
-  mounted () {},
+  mounted () {
+    this.$Tip.success({
+      mask: true
+    })
+  },
   beforeDestroy () {
   }
 }
