@@ -60,7 +60,7 @@ function tip (options = {}) {
   newInstance.add(options)
 }
 ['info', 'success', 'warning', 'error', 'close'].forEach(item => {
-  confirm[item] = (options) => {
+  tip[item] = (options) => {
     options.type = item
     tip(options)
   }

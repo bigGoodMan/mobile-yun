@@ -126,9 +126,6 @@ export default {
     }
   },
   mounted () {
-    this.$Tip.success({
-      mask: true
-    })
   },
   beforeDestroy () {
   }
