@@ -1,10 +1,14 @@
 import { initZIndexAdd } from '../utils/initParams'
-import Mask from '../mask'
 export default {
+  data () {
+    return {
+      show: false
+    }
+  },
   props: {
     duration: {
       type: Number,
-      default: 30
+      default: 3
     },
     transitionName: {
       type: String,
@@ -21,25 +25,16 @@ export default {
       type: Object,
       default: () => ({})
     },
-    mask: { // 是否有遮罩层
-      type: Boolean,
-      default: false
-    },
-    maskClose: { // 关闭遮罩层是否去除组件
-      type: Boolean,
-      default: true
+    position: {
+      type: String,
+      default: 'center'
     }
   },
   methods: {
     // 去除当前组件
-    close () {
+    remove () {
       this.clearTimer()
-      this.$emit('trigger-close', this.keyName)
-    },
-    maskClick () {
-      if (this.maskClose) {
-        this.close()
-      }
+      this.$emit('trigger-remove', this.keyName)
     },
     // 清除计时器
     clearTimer () {
@@ -50,16 +45,22 @@ export default {
     }
   },
   mounted () {
+    this.$nextTick(() => {
+      this.show = true // 为了动画
+    })
+    // setTimeout(() => {
+    //   this.show = true
+    // }, 1000)
     this.clearTimer()
     if (this.duration !== 0) {
       this.timer = setTimeout(() => {
-        this.close()
+        this.remove()
       }, this.duration * 1000)
     }
   },
   beforeDestroy () {
     this.clearTimer()
-    this.$emit('trigger-before-close') // 销毁组件之前的回调
+    this.$emit('trigger-close') // 销毁组件之前的回调
   },
   destoryed () {
     this.$emit('trigger-after-close') // 销毁组件之后的回调
@@ -68,26 +69,34 @@ export default {
     const {
       $slots,
       transitionName,
-      mask,
-      maskClick
+      show,
+      classes,
+      styles,
+      position
     } = this
-    const wrapStyle = {
-      'z-index': 1010 + initZIndexAdd(),
-      ...this.styles
+    let parentStyles = {
+      'z-index': initZIndexAdd()
     }
-    const className = [
-      'hhf-plugins-popup',
-      this.classes
+    let parentClasses = ['hhf-plugins-popup']
+    let wrapClasses = [
+      'hhf-plugins-popup-container', `hhf-plugins-popup-${position}`
     ]
+    let childStyles = {
+      'z-index': initZIndexAdd(),
+      ...styles
+    }
+    if (Object.prototype.toString.call(classes) === '[object Array]') {
+      wrapClasses = wrapClasses.concat(classes)
+    } else if (typeof classes === 'string') {
+      wrapClasses = wrapClasses.concat(classes.split(' '))
+    }
     return (
-      <div>
-        {
-          mask ? <Mask on={{ 'trigger-close': maskClick }} /> : null
-        }
-        <transition name={transitionName}>
-          <div class={className} style={wrapStyle}>{$slots.default}</div>
-        </transition>
-      </div>
+      <transition name={transitionName}>
+        {show ? <div class={parentClasses} style={parentStyles}>
+          {$slots.mask}
+          <div class={wrapClasses} style={childStyles}>{$slots.default}</div>
+        </div> : null}
+      </transition>
     )
   }
 }

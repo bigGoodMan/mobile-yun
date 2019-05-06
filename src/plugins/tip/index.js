@@ -1,5 +1,6 @@
 // import Mask from '../mask'
 import PopupMenu from '../popup-menu'
+import Icon from '../icon'
 // import initParams from '../uitls/initParams'
 // import Vue from 'vue'
 let instance
@@ -7,9 +8,18 @@ function createInstance () {
   instance = instance || PopupMenu.createInstance()
   return instance
 }
-function tip (options) {
-  let tipInstance = createInstance()
+function tip (options = {}) {
+  let newInstance = createInstance(options)
+  if (options.type === 'close') {
+    newInstance.remove(options)
+    return
+  }
+  const {
+    type,
+    content
+  } = options
   options = {
+    ...options,
     name: 'plugins_tip',
     Content: {
       props: {
@@ -19,39 +29,40 @@ function tip (options) {
         }
       },
       methods: {
-        handleClick () {
-          this.$emit('trigger-confirm')
-        }
       },
       render (h, context) {
-        const {
-          handleClick
-        } = this.handleClick
+        let color
+        switch (type) {
+          case 'success':
+            color = '#52c41a'
+            break
+          case 'info':
+            color = '#1890ff'
+            break
+          case 'warning':
+            color = '#e6a23c'
+            break
+          case 'error':
+            color = '#f5222d'
+            break
+        }
         return (
-          <div class="size-30" onClick={handleClick}>{options.type}</div>
+          <div class="size-30 hhf-plugins-tip"><Icon format={type} color={color} size={'20px'} style={{ marginRight: '10px' }}/>{content}</div>
         )
       }
     },
     ...options
   }
-  tipInstance.add(options)
+  // options.duration = 0
+  options.position = 'top'
+  options.transitionName = options.transitionName || 'slide'
+  options.transitionName = `hhf-plugins-${options.transitionName}`
+  newInstance.add(options)
 }
-export default {
-  name: 'tip',
-
-  info (options) {
-    return this.tip({ type: 'info', ...options })
-  },
-  success (options) {
-    return this.tip({ type: 'success', ...options })
-  },
-  warning (options) {
-    return this.tip({ type: 'warning', ...options })
-  },
-  error (options) {
-    return this.tip({ type: 'error', ...options })
-  },
-  tip (options) {
-    return tip(options)
+['info', 'success', 'warning', 'error', 'close'].forEach(item => {
+  confirm[item] = (options) => {
+    options.type = item
+    tip(options)
   }
-}
+})
+export default tip

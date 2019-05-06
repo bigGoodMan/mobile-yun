@@ -1,5 +1,7 @@
 import Popup from './Popup'
-import { initKeyAdd } from '../utils/initParams'
+import Mask from '../mask'
+import mixins from '../mixins'
+import { initKeyAdd, initZIndexAdd } from '../utils/initParams'
 // let defaultOptions = {}
 const PopupMenu = {
   name: 'hhf-plugins-popup-menu',
@@ -8,68 +10,117 @@ const PopupMenu = {
       popupArr: []
     }
   },
+  mixins: [mixins],
   methods: {
     add (popupProp) {
       // popupProp.keyName = initKeyAdd('popup_menu')
-      this.popupArr = []
+      // this.popupArr = []
+      this.popupArr.push(this.listNode(popupProp))
+      if (this.popupArr.length > 0) {
+        this.addOverflow()
+      }
+    },
+    listNode (popupProp) {
       popupProp.keyName = popupProp.keyName || initKeyAdd(popupProp.name)
-      this.popupArr.push(popupProp)
-    },
-    remove (keyName) {
-      this.popupArr = this.popupArr.filter(v => v.keyName !== keyName)
-    },
-    btnClick (keyName, callback = () => {}) {
-      this.remove(keyName)
-      callback(keyName)
-    }
-  },
-  render (h, context) {
-    const popupNodes = this.popupArr.map(v => {
-      const {
+      let {
         Content,
-        confrim,
+        confirm,
         cancel,
         close,
         keyName,
-        notConfrimClose, // 确认按钮是否要关闭
         duration,
         transitionName,
         classes,
         styles,
+        position,
+        maskColor,
+        maskPacity,
+        maskZIndex,
         mask,
         maskClose // 关闭遮罩层是否去除组件
-      } = v
+      } = popupProp
       const key = keyName
       const popupProps = {
         key,
         props: {
+          key,
           duration,
           transitionName,
+          keyName,
           classes,
           styles,
-          mask,
-          maskClose, // 关闭遮罩层是否去除组件
-          keyName
+          position
         },
         on: {
-          'trigger-close': (keyname) => this.btnClick(keyname, close)
+          'trigger-close': close || (() => {}),
+          'trigger-remove': () => this.remove(keyName)
         }
       }
       const contentProps = {
         on: {
-          'trigger-confrim': notConfrimClose ? null : () => this.btnClick(keyName, confrim),
-          'trigger-cancel': () => this.btnClick(keyName, cancel)
+          'trigger-confirm': () => this.handleConfirm(keyName, confirm),
+          'trigger-cancel': () => this.handleCancel(keyName, cancel)
         }
+      }
+      const maskProps = {
+        props: {
+          maskColor,
+          maskPacity,
+          maskZIndex: maskZIndex || initZIndexAdd(),
+          maskClose // 关闭遮罩层是否去除组件
+        },
+        on: {
+          'trigger-remove': () => {
+            if (maskClose) {
+              this.remove(keyName)
+            }
+          }
+        },
+        slot: 'mask'
       }
       return (
         <Popup {...popupProps}>
+          {
+            mask ? <Mask {...maskProps}/> : null
+          }
           <Content {...contentProps} />
         </Popup>
       )
-    })
+    },
+    remove (keyName) {
+      if (keyName) {
+        this.popupArr = this.popupArr.filter(v => v.key !== keyName)
+      } else {
+        this.popupArr = []
+      }
+      if (this.popupArr.length === 0) {
+        this.removeOverflow()
+      }
+    },
+    handleConfirm (keyName, callback = () => true) {
+      !callback(keyName) || this.remove(keyName)
+    },
+    handleCancel (keyName, callback) {
+      callback(keyName)
+      this.remove(keyName)
+    }
+  },
+  render (h) {
+    // 不要在这里处理变量逻辑，会重新渲染一遍的
+    // const popupNodes = this.popupArr.map(v => {
+    //   console.log(maskProps)
+    //   return (
+    //     <Popup {...popupProps}>
+    //       {
+    //         mask ? <Mask {...maskProps}/> : null
+    //       }
+    //       <Content {...contentProps} />
+    //     </Popup>
+    //   )
+    // })
     return (
       <div class="hhf-plugins-popup-menu">
-        {popupNodes}
+        {this.popupArr}
       </div>
     )
   }

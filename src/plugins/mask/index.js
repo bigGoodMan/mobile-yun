@@ -1,4 +1,4 @@
-import { initZIndexReduce } from '../utils/initParams'
+
 const Mask = {
   props: {
     maskPacity: {
@@ -6,24 +6,27 @@ const Mask = {
     },
     maskColor: {
       type: String
+    },
+    maskZIndex: {
+      type: Number
     }
   },
   methods: {
-    close () {
-      this.$emit('trigger-close')
+    remove () {
+      this.$emit('trigger-remove')
     }
   },
   render (h) {
     const styles = {
       opacity: this.maskPacity,
       backgroundColor: this.maskColor,
-      zIndex: 1010 + initZIndexReduce()
+      zIndex: this.maskZIndex
     }
     const {
-      close
+      remove
     } = this
     return (
-      <div class="hhf-plugins-mask" style={styles} onClick={close}></div>
+      <div class="hhf-plugins-mask" style={styles} onClick={remove}></div>
     )
   }
 }

@@ -15,8 +15,9 @@ PopupMenu.createInstance = (properties = {}) => {
       Instance.remove(keyName)
     },
     destroy () {
+      this.remove()
       setTimeout(() => {
-        document.body.removeChild(component.$el)
+        parentDom.removeChild(component.$el)
       }, 500)
     }
   }
