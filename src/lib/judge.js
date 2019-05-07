@@ -44,6 +44,14 @@ const PAW_POSITION_C2 = {
   '3': '8/10',
   '4': '9/10'
 }
+const STOCK_TAKING_STATUS = {
+  '1': '全部',
+  '2': '盘点中',
+  '3': '待审核',
+  '4': '通过',
+  '5': '不通过',
+  '6': '取消'
+}
 export {
   MACHINE_STATUS, // 缺货类型
   MACHINE_STATUS_TYPE, // 礼品机状态
@@ -52,5 +60,6 @@ export {
   MAINBOARD, // 主板
   CRANE_SPEED, // 天车速度
   CRANE_DELAY, // 天车碰上停止时间
-  PAW_POSITION_C2 // 变c2点
+  PAW_POSITION_C2, // 变c2点
+  STOCK_TAKING_STATUS // 库存盘点状态
 }

@@ -14,7 +14,7 @@
     "jsencrypt": "^3.0.0-rc.1",
     "moment": "^2.24.0",
     "register-service-worker": "^1.6.2",
-    "vant": "^1.6.15",
+    "vant": "^1.6.17",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"

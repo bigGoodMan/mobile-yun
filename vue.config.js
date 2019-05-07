@@ -45,7 +45,7 @@ module.exports = {
       wx: 'wx',
       vue: 'Vue',
       jsencrypt: 'JSEncrypt',
-      vant: 'vant'
+      Vant: 'vant'
     }
   },
   // pluginOptions: {
@@ -67,8 +67,8 @@ module.exports = {
   productionSourceMap: false,
   // http://dev.hahaipi.com/wxxcx/index.php/Home/getMachineInfo
   devServer: {
-    // host: '100.100.100.23',
-    // port: 8080,
+    host: '100.100.100.23',
+    port: 8080,
     https: false,
     hotOnly: false,
     proxy: 'http://dev.hahaipi.com'

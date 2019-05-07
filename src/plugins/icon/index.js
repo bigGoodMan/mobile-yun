@@ -22,7 +22,7 @@ export default {
     } else if (typeof classes === 'string') {
       cls = classes.split(' ')
     }
-    const wrapClasses = ['other-iconfont', `other-icon-${format}`, ...cls]
+    const wrapClasses = ['hhf-iconfont', `hhf-icon-${format}`, ...cls]
     const wrapStyles = {
       color,
       fontSize: size,

@@ -64,7 +64,7 @@ export default {
     },
     '$route': {
       handler (route) {
-        this.hide = config.homeHide.includes(route.name)
+        this.hide = !config.homeShow.includes(route.name)
       },
       immediate: true
     }

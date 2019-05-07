@@ -8,6 +8,8 @@ import '@a/css/animate.styl'
 import Vant from 'vant'
 import plugins from './plugins'
 import '@/plugins/css/common.styl'
+import '@a/icon/iconfont.css'
+import 'vant/lib/index.css'
 
 Vue.config.productionTip = false
 Vue.use(Vant)
