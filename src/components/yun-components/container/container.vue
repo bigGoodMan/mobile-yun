@@ -74,6 +74,10 @@ export default {
       this.transitionName = 'slide-up'
     } else if (from.name === 'login') {
       this.transitionName = 'slide-down'
+    } else if (to.meta.toTransition) {
+      this.transitionName = to.meta.toTransition
+    } else if (from.meta.fromTransition) {
+      this.transitionName = from.meta.fromTransition
     } else if (to.path.split('/').length > from.path.split('/').length) {
       this.transitionName = 'slide-left'
     } else if (to.path.split('/').length < from.path.split('/').length) {

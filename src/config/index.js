@@ -34,7 +34,7 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: '/merchant/index.php/', // 'http://dev.hahaipi.com:8228/index.php/',
+    dev: '/merchant/index.php/web/', // 'http://dev.hahaipi.com:8228/index.php/',
     pro: ''
   },
   homeShow: ['machine_detail', 'play_price', 'early_warning_parameters', 'operational_parameters'],

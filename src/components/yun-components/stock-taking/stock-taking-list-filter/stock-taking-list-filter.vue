@@ -27,10 +27,10 @@
         <span
           class="stock-taking-list-filter-date flex-row flex-center"
           @click="handleDateClick('startShow', true)"
-        >{{start}}</span><span class="stock-taking-list-filter-rod size-32">-</span><span
+        >{{startStr}}</span><span class="stock-taking-list-filter-rod size-32">-</span><span
           class="stock-taking-list-filter-date flex-row flex-center"
           @click="handleDateClick('endShow', true)"
-        >{{end}}</span>
+        >{{endStr}}</span>
       </div>
     </FilterList>
     <FilterList title="门店">
@@ -38,7 +38,7 @@
     </FilterList>
     <div class="stock-taking-list-filter-btn flex-row flex-center">
       <div class="flex-1"><HhfButton @trigger-click="handleReset" size="large">重置</HhfButton></div>
-      <div class="flex-1"><HhfButton type="info" size="large">确定</HhfButton></div>
+      <div class="flex-1"><HhfButton @trigger-click="handleConfirm" type="info" size="large">确定</HhfButton></div>
     </div>
   </van-popup>
     <!-- 开始时间 -->
@@ -49,7 +49,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         @cancel="handleDateClick('startShow', false)"
-        @confirm="(val) => handleDateConfirm('start', val, 'startShow')"
+        @confirm="(val) => handleDateConfirm('startStr', val, 'startShow')"
       />
     </van-popup>
     <!-- 结束时间 -->
@@ -60,7 +60,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         @cancel="handleDateClick('endShow', false)"
-        @confirm="(val) => handleDateConfirm('end', val, 'endShow')"
+        @confirm="(val) => handleDateConfirm('endStr', val, 'endShow')"
       />
     </van-popup>
      <BottomPopup :columns="storeColumns" :default-index="defaultIndex" :show="storeShow" @trigger-confirm="handleStoreConfirm" @trigger-close="handleStoreClose" />
@@ -94,9 +94,9 @@ export default {
       endShow: false,
       startDate: '',
       endDate: '',
-      start: '开始时间',
-      end: '结束时间',
-      minDate: new Date(2018, 5, 5),
+      startStr: '开始时间',
+      endStr: '结束时间',
+      minDate: moment().add(-2, 'year').toDate(),
       maxDate: new Date(),
       // 门店
       defaultIndex: 0,
@@ -141,25 +141,33 @@ export default {
     },
     // 点击状态
     handleClick (items) {
-      // let index
-      // let { statusList } = this
-      // statusList.some((v, i) => {
-      //   if (v.id === items.id) {
-      //     index = i
-      //     return true
-      //   }
-      //   return false
-      // })
-      // statusList.splice(index, 1, { ...items, checked: !items.checked })
-      this.statusList = this.statusList.map(v => {
+      if (items.id === '1') {
+        let checked = !items.checked
+        this.statusList = this.statusList.map(v => ({
+          ...v,
+          checked
+        }))
+        return
+      }
+      const len = this.statusList.length - 1
+      let i = 0 // 是否为全选
+      let statusList = this.statusList.map(v => {
         const obj = {
           ...v
         }
         if (items.id === v.id) {
           obj.checked = !v.checked
         }
+        v.id !== '1' && obj.checked && i++
         return obj
       })
+      statusList.some(v => {
+        if (v.id === '1') {
+          v.checked = i === len
+        }
+        return v.id === '1'
+      })
+      this.statusList = statusList
     },
     // 整理状态数据
     statusArrange () {
@@ -222,6 +230,29 @@ export default {
         store_id: '0',
         store_name: '全部门店'
       }
+    },
+    handleConfirm () {
+      const {
+        startDate,
+        endDate,
+        startStr,
+        endStr,
+        store,
+        statusList
+      } = this
+      if (startDate - 0 > endDate) {
+        this.startDate = endDate
+        this.endDate = startDate
+        this.startStr = endStr
+        this.endStr = startStr
+      }
+      this.$emit('trigger-confirm', {
+        startDate: this.startDate ? moment(`${this.startStr} 00:00:00`).unix() : '',
+        endDate: this.endDate ? moment(`${this.endStr} 23:59:59`).unix() : '',
+        store,
+        statusList
+      })
+      this.handleClose()
     }
   },
   created () {

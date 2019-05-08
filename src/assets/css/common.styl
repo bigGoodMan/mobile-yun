@@ -19,12 +19,18 @@ body
 .flex-column
   display flex
   flex-flow column nowrap
+.flex-start
+  justify-content flex-start
+  align-items flex-start
 .flex-start-center
   justify-content flex-start
   align-items center
 .flex-start-stretch
   justify-content flex-start
   align-items stretch
+.flex-end
+  justify-content flex-end
+  align-items flex-end
 .flex-end-center
   justify-content flex-end
   align-items center
@@ -100,6 +106,8 @@ body
   color #000000
 .color-3
   color #333333
+.color-45
+  color #454545
 .color-9
   color #999999
 .color-de
@@ -124,6 +132,16 @@ body
   color #ff5722
 .color-ff0000
   color #ff0000
+.color-success
+  color #52c41a
+.color-info
+  color #1890ff
+.color-warning
+  color #e6a23c
+.color-error
+  color #f5222d
+.color-c
+  color #cccccc
 // 文字其它
 .text-center
   text-align center
@@ -131,6 +149,10 @@ body
   text-align left
 .text-right
   text-align right
+.text-ellipsis
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
 // 边框
 .vant-border
   &.border-left-15
@@ -177,8 +199,16 @@ body
   padding rems(20) rems(30)
 .padding-0
   padding 0
+.padding-left-10
+  padding-left rems(10)
+.padding-bottom-20
+  padding-bottom rems(20)
 .margin-0
   margin 0
+.margin-top-20
+  margin-top rems(20)
+.margin-bottom-20
+  margin-bottom rems(20)
 .max-width
   width 100%
 .main-body
@@ -190,6 +220,6 @@ body
   .main-container
     overflow auto
     height 100%
-    -webkit-overflow-scrolling: touch
+    -webkit-overflow-scrolling touch
     .main-container-overflow-hidden
       overflow hidden

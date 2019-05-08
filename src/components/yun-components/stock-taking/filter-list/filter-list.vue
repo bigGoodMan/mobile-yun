@@ -1,7 +1,7 @@
 <!-- 筛选的列表 -->
 <template>
   <dl class="filter-list">
-    <dt class="filter-list-dt size-32 weight-bold color-393d49">{{title}}</dt>
+    <dt class="filter-list-dt size-32 weight-bold color-393d49">{{title}}<span v-if="placeholder" class="color-9 size-24">{{placeholder}}</span></dt>
     <dd class="filter-list-dd"><slot></slot></dd>
   </dl>
 </template>
@@ -10,7 +10,8 @@
 export default {
   name: 'filter_list',
   props: {
-    title: String
+    title: String,
+    placeholder: String
   },
   data () {
     return {

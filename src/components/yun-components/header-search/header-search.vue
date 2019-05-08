@@ -1,10 +1,10 @@
 <!-- 头部搜索 -->
 <template>
-    <div class="flex-row flex-between-center bgcolor-f header-search">
+    <div class="flex-row flex-between-center bgcolor-f2 header-search">
       <form action="javascript:return true" class="flex-1">
-      <van-search :placeholder="placeholder" @search="handleSearch" v-model="value" />
+      <van-search :placeholder="placeholder" class="header-search-content" background="#f2f2f2" @search="handleSearch" v-model="value" />
       </form>
-      <div class="header-search-filter color-2f4056">
+      <div v-if="filter" class="header-search-filter color-2f4056">
         <van-icon name="filter-o" @click="handleClick" />
       </div>
     </div>
@@ -19,6 +19,10 @@ export default {
   props: {
     value: {
       default: ''
+    },
+    filter: {
+      type: Boolean,
+      default: false
     },
     status: {
       type: Boolean,
@@ -53,6 +57,9 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .header-search
+  .header-search-content
+    .van-search__content
+      background-color #ffffff
   .header-search-filter
     padding-right rems(20)
     font-size rems(50)

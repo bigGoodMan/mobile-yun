@@ -7,4 +7,48 @@ const StockTaking = {
     title: '库存盘点'
   }
 }
-export default [StockTaking]
+const CreateInventory = {
+  path: '/stock-taking/create-inventory',
+  name: 'create_inventory',
+  component: () => import(/* webpackChunkName: "CreateInventory" */ '@v/stock-taking/create-inventory.vue'),
+  meta: {
+    title: '新建盘点单'
+  }
+}
+const Inventorying = {
+  path: '/stock-taking/create-inventory/inventorying',
+  name: 'inventorying',
+  component: () => import(/* webpackChunkName: "Inventory" */ '@v/stock-taking/inventorying.vue'),
+  meta: {
+    title: '盘点中'
+  }
+}
+const MoreGift = {
+  path: '/stock-taking/create-inventory/inventorying/more-gift',
+  name: 'more_gift',
+  component: () => import(/* webpackChunkName: "MoreGift" */ '@v/stock-taking/more-gift.vue'),
+  meta: {
+    title: '更多礼品',
+    toTransition: 'slide-down',
+    fromTransition: 'slide-up'
+  }
+}
+const InventoryDetail = {
+  path: '/stock-taking/inventory-detail',
+  name: 'inventory_detail',
+  component: () => import(/* webpackChunkName: "InventoryDetail" */ '@v/stock-taking/inventory-detail.vue'),
+  meta: {
+    title: '盘点单详情'
+  }
+}
+const InventoryGiftList = {
+  path: '/stock-taking/inventory-detail/inventory-gift-list',
+  name: 'inventory_gift_list',
+  component: () => import(/* webpackChunkName: "InventoryGiftList" */ '@v/stock-taking/inventory-gift-list.vue'),
+  meta: {
+    title: '盘点礼品列表',
+    toTransition: 'slide-down',
+    fromTransition: 'slide-up'
+  }
+}
+export default [StockTaking, CreateInventory, Inventorying, MoreGift, InventoryDetail, InventoryGiftList]

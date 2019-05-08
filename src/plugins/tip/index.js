@@ -54,7 +54,7 @@ function tip (options = {}) {
     ...options
   }
   // options.duration = 0
-  options.position = 'top'
+  options.position = options.position || 'top'
   options.transitionName = options.transitionName || 'slide'
   options.transitionName = `hhf-plugins-${options.transitionName}`
   newInstance.add(options)
