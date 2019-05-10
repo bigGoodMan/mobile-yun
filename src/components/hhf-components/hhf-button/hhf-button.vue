@@ -157,7 +157,7 @@ danger()
   display inline-block
   box-sizing border-box
   &.hhf-button-disabled
-    opacity 0.5
+    opacity 0.4
   &.hhf-button-loading, &.hhf-button-disabled
     &::before
       display none
@@ -179,6 +179,7 @@ danger()
 .hhf-button-container
   height 100%
   width 100%
+  line-height 1
 .hhf-button-large
   width 100%
   height rems(100)
@@ -195,7 +196,6 @@ danger()
   font-size rems(24)
 .hhf-button-mini
   font-size rems(20)
-  min-width rems(100)
 .hhf-button-default
   color #323233
   background-color #fff

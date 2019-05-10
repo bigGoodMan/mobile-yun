@@ -5,6 +5,7 @@ import user from './modules/user'
 import app from './modules/app'
 import machine from './modules/machine'
 import common from './modules/common'
+import inventory from './modules/inventory'
 
 Vue.use(Vuex)
 // 数据初始化保存
@@ -12,7 +13,8 @@ const initData = {
   user: user.state,
   app: app.state,
   machine: machine.state,
-  common: common.state
+  common: common.state,
+  inventory: inventory.state
 }
 export default new Vuex.Store({
   state: {
@@ -33,6 +35,7 @@ export default new Vuex.Store({
     user,
     app,
     machine,
-    common
+    common,
+    inventory
   }
 })

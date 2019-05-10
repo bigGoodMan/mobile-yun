@@ -16,27 +16,27 @@
           <div class="border"></div>
           <div>
             <div
-              v-for="items in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
-              :key="items"
+              v-for="items in giftList"
+              :key="items.gift_id"
             >
               <div
                 class="flex-row flex-between-center size-28 color-393d49 more-gift-describe bgcolor-f"
-                @click="handleCheck"
+                @click="handleCheck(items)"
               >
                 <van-checkbox
-                  name="1"
-                  v-model="checked"
+                  :name="items.gift_id"
+                  v-model="items.checked"
                 ></van-checkbox>
                 <div class="flex-1 flex-row flex-start">
                   <div class="more-gift-describe-img bgcolor-f2 flex-row flex-center">
                     <img
                       class="more-gift-describe-img-content"
-                      v-lazy="img"
+                      v-lazy="items.thumb"
                     >
                   </div>
                   <div class="flex-column flex-start">
-                    <span class="color-393d49 size-32 weight-bold padding-bottom-20">30cm大猩猩</span>
-                    <span class="size-28 color-454545">编号123236</span>
+                    <span class="color-393d49 size-32 weight-bold padding-bottom-20">{{items.name}}</span>
+                    <span class="size-28 color-454545">编号{{items.gift_id}}</span>
                   </div>
                 </div>
               </div>
@@ -51,7 +51,7 @@
             <HhfButton
               type="info"
               size="large"
-              @trigger-click="$router.push({ name: 'inventorying'})"
+              @trigger-click="handleAdd"
             >添加列表</HhfButton>
           </div>
         </div>
@@ -61,6 +61,7 @@
 <script>
 import HeaderSearch from '@yun/header-search'
 import HhfButton from '@hhf/hhf-button'
+import { inventoryGiftApi } from '@/api'
 export default {
   name: 'more_gift',
   props: {
@@ -71,9 +72,9 @@ export default {
   },
   data () {
     return {
-      value: '',
-      checked: true,
-      img: 'https://img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg'
+      initGiftList: [],
+      giftList: [],
+      arr: [{ id: 1 }, { id: 2 }]
     }
   },
 
@@ -88,11 +89,42 @@ export default {
     handleSearch () {
 
     },
-    handleCheck () {
-      this.checked = !this.checked
+    handleCheck (items) {
+      items.checked = !items.checked
+    },
+    getInventoryGift () {
+      this.$toast.loading({
+        message: '加载中...',
+        duration: 0
+      })
+      const {
+        sid,
+        id
+      } = this.$route.query
+      inventoryGiftApi({
+        type: '1',
+        store_id: sid,
+        inventory_id: id
+      }).then(res => {
+        console.log(2)
+        this.$toast.clear()
+        if (res.return_code === '0') {
+          this.initGiftList = res.data.list.map(v => ({ ...v, checked: false }))
+          this.giftList = this.initGiftList
+        } else if (res.msg) {
+          this.$Tip.warning({
+            mask: true,
+            content: res.msg
+          })
+        }
+      })
+    },
+    handleAdd () {
     }
   },
-
+  created () {
+    this.getInventoryGift()
+  },
   mounted () {}
 }
 </script>
@@ -109,9 +141,9 @@ export default {
         width rems(150)
         height rems(150)
         margin 0 rems(20) 0 rems(50)
-      .more-gift-describe-img-content
-        max-width 100%
-        min-height 100%
+        .more-gift-describe-img-content
+          max-width 100%
+          max-height 100%
 .more-gift-btn
   height rems(100)
   .more-gift-btn-container

@@ -2,30 +2,20 @@
 <template>
   <div class="create-inventory">
     <van-radio-group v-model="radio">
-      <template>
+      <div v-for="(items, index) in list" :key="index">
         <div
           class="flex-row flex-between-center size-28 color-393d49 create-inventory-store bgcolor-f"
-          @click="radio = '1'"
+          @click="handleCheck(items)"
         >
-          <van-radio name="1"><span class="weight-bold">西溪印象城</span></van-radio>
-          <span class="color-error size-24">盘点中</span>
+          <van-radio :name="items.store_id" :disabled="items.disabled"><span class="weight-bold">{{items.store_name}}</span></van-radio>
+          <span class="color-error size-24">{{items.statusName}}</span>
         </div>
         <div class="border"></div>
-      </template>
-      <template>
-        <div
-          class="flex-row flex-between-center size-28 color-393d49 create-inventory-store bgcolor-f"
-          @click="radio = '2'"
-        >
-          <van-radio name="2"><span class="weight-bold">西溪印象城</span></van-radio>
-          <span class="color-error size-24">盘点中</span>
-        </div>
-        <div class="border"></div>
-      </template>
+      </div>
     </van-radio-group>
     <div class="create-inventory-btn">
       <div class="create-inventory-btn-container">
-        <HhfButton type="info" size="large">开始盘点</HhfButton>
+        <HhfButton type="info" size="large" :loading="loading" @trigger-click="handleCreate">开始盘点</HhfButton>
       </div>
     </div>
   </div>
@@ -33,12 +23,16 @@
 
 <script>
 import HhfButton from '@hhf/hhf-button'
+import { STOCK_TAKING_STATUS } from '@l/judge'
+import { getStoreApi, createInventoryOrderApi } from '@/api'
 export default {
   name: 'create_inventory',
 
   data () {
     return {
-      radio: null
+      radio: null,
+      list: [],
+      loading: false
     }
   },
 
@@ -48,8 +42,71 @@ export default {
 
   computed: {},
 
-  methods: {},
-
+  methods: {
+    // 获取盘点门店
+    getInventoryStore () {
+      this.$toast.loading({
+        message: '加载中...',
+        duration: 0
+      })
+      getStoreApi({
+        type: 1
+      }).then(res => {
+        this.$toast.clear()
+        if (res.return_code === '0') {
+          this.list = res.data.map(v => {
+            const obj = {
+              ...v,
+              statusName: '',
+              disabled: false
+            }
+            if (v.audit_status === '2' || v.audit_status === '3') {
+              obj.statusName = STOCK_TAKING_STATUS[v.audit_status]
+              obj.disabled = true
+            }
+            return obj
+          })
+        }
+      })
+    },
+    // 选中
+    handleCheck (items) {
+      if (!items.disabled) {
+        this.radio = items.store_id
+      }
+    },
+    // 创建盘点单
+    handleCreate () {
+      const {
+        radio
+      } = this
+      if (!radio) {
+        this.$Tip.warning({
+          content: '请选择门店'
+          // transitionName: 'fade',
+          // position: 'center'
+        })
+        return
+      }
+      this.loading = true
+      createInventoryOrderApi({
+        store_id: radio
+      }).then(res => {
+        this.loading = false
+        if (res.return_code === '0') {
+          this.$router.push({ name: 'inventorying', query: { id: res.data, sid: radio } })
+        } else if (res.return_code) {
+          this.$Tip.warning({
+            mask: true,
+            content: res.msg
+          })
+        }
+      })
+    }
+  },
+  created () {
+    this.getInventoryStore()
+  },
   mounted () {}
 }
 </script>
