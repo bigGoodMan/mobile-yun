@@ -57,7 +57,7 @@ export default {
           this.list = res.data
         } else if (res.msg) {
           this.$Tip.warn({
-            content: res.msg
+            message: res.msg
           })
         }
       })

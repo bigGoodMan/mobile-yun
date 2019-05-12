@@ -3,6 +3,10 @@ import Mask from '../mask'
 import mixins from '../mixins'
 import { initKeyAdd, initZIndexAdd } from '../utils/initParams'
 // let defaultOptions = {}
+function maxZindexFunc (arr) {
+  let ar = arr.sort((a, b) => b.zIndex - a.zIndex)
+  return ar.length > 0 ? ar[0] : {}
+}
 const PopupMenu = {
   name: 'hhf-plugins-popup-menu',
   data () {
@@ -33,12 +37,9 @@ const PopupMenu = {
         classes,
         styles,
         position,
-        maskColor,
-        maskPacity,
-        maskZIndex,
-        mask,
-        maskClose // 关闭遮罩层是否去除组件
+        zIndex
       } = popupProp
+      popupProp.zIndex = zIndex || initZIndexAdd(2)
       const key = keyName
       const popupProps = {
         key,
@@ -49,7 +50,8 @@ const PopupMenu = {
           keyName,
           classes,
           styles,
-          position
+          position,
+          zIndex: popupProp.zIndex
         },
         on: {
           'trigger-close': close || (() => {}),
@@ -62,34 +64,18 @@ const PopupMenu = {
           'trigger-cancel': () => this.handleCancel(keyName, cancel)
         }
       }
-      const maskProps = {
-        props: {
-          maskColor,
-          maskPacity,
-          maskZIndex: maskZIndex || initZIndexAdd(),
-          maskClose // 关闭遮罩层是否去除组件
-        },
-        on: {
-          'trigger-remove': () => {
-            if (maskClose) {
-              this.remove(keyName)
-            }
-          }
-        },
-        slot: 'mask'
+      return {
+        passValue: popupProp,
+        content: (
+          <Popup {...popupProps}>
+            <Content {...contentProps} />
+          </Popup>
+        )
       }
-      return (
-        <Popup {...popupProps}>
-          {
-            mask ? <Mask {...maskProps}/> : null
-          }
-          <Content {...contentProps} />
-        </Popup>
-      )
     },
     remove (keyName) {
       if (keyName) {
-        this.popupArr = this.popupArr.filter(v => v.key !== keyName)
+        this.popupArr = this.popupArr.filter(v => v.passValue.keyName !== keyName)
       } else {
         this.popupArr = []
       }
@@ -103,24 +89,52 @@ const PopupMenu = {
     handleCancel (keyName, callback) {
       callback(keyName)
       this.remove(keyName)
+    },
+    showMask (obj) {
+      if (Object.keys(obj).length === 0) {
+        return false
+      }
+      const {
+        maskColor,
+        maskPacity,
+        maskZIndex,
+        zIndex,
+        keyName,
+        maskClose // 关闭遮罩层是否去除组件
+      } = obj
+      const maskProps = {
+        props: {
+          maskColor,
+          maskPacity,
+          maskZIndex: maskZIndex || zIndex - 1,
+          maskClose // 关闭遮罩层是否去除组件
+        },
+        on: {
+          'trigger-remove': () => {
+            if (maskClose) {
+              this.remove(keyName)
+            }
+          }
+        },
+        slot: 'mask'
+      }
+      return maskProps
     }
   },
   render (h) {
-    // 不要在这里处理变量逻辑，会重新渲染一遍的
-    // const popupNodes = this.popupArr.map(v => {
-    //   console.log(maskProps)
-    //   return (
-    //     <Popup {...popupProps}>
-    //       {
-    //         mask ? <Mask {...maskProps}/> : null
-    //       }
-    //       <Content {...contentProps} />
-    //     </Popup>
-    //   )
-    // })
+    const arr = []
+    const jsxDom = this.popupArr.map(v => {
+      arr.push(v.passValue)
+      return v.content
+    })
+    const maxObj = maxZindexFunc(arr)
+    const maskProps = this.showMask(maxObj)
     return (
       <div class="hhf-plugins-popup-menu">
-        {this.popupArr}
+        {
+          maskProps && maxObj.mask ? <Mask {...maskProps}/> : null
+        }
+        {jsxDom}
       </div>
     )
   }

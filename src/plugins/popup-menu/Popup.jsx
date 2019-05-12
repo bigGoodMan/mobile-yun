@@ -14,6 +14,10 @@ export default {
       type: String,
       default: 'fade'
     },
+    zIndex: {
+      type: Number,
+      default: initZIndexAdd(2)
+    },
     keyName: {
       type: String,
       required: true
@@ -72,17 +76,18 @@ export default {
       show,
       classes,
       styles,
+      zIndex,
       position
     } = this
     let parentStyles = {
-      'z-index': initZIndexAdd()
+      'z-index': zIndex
     }
     let parentClasses = ['hhf-plugins-popup']
     let wrapClasses = [
       'hhf-plugins-popup-container', `hhf-plugins-popup-${position}`
     ]
     let childStyles = {
-      'z-index': initZIndexAdd(),
+      'z-index': zIndex + 1,
       ...styles
     }
     if (Object.prototype.toString.call(classes) === '[object Array]') {

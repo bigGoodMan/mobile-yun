@@ -62,7 +62,7 @@ export default {
     ...mapActions(['MACHINE_SAVEPLAYPRICE_ACTION']),
     handleSaveClick () {
       if (!positiveIntegerRegularTool(this.coinsSell) || this.coinsSell < 1 || this.coinsSell > 99) {
-        this.$toast.fail('游玩单价需在1~99区间内')
+        this.$Tip.warning('游玩单价需在1~99区间内')
         return
       }
       this.loading = true
@@ -86,7 +86,7 @@ export default {
           return
         }
         if (res.return_code !== '0') {
-          $this.$toast.fail(res.msg)
+          $this.$Tip.warning(res.msg)
         }
       })
     }

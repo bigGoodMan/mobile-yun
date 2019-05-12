@@ -74,7 +74,7 @@ export default {
     getStore () {
       this.COMMON_GETSTORE_ACTION().then(res => {
         if (res.return_code !== '0') {
-          this.$toast.fail(res.msg)
+          this.$Tip.warning(res.msg)
         }
       })
     }

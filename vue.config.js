@@ -42,10 +42,11 @@ module.exports = {
   configureWebpack: {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
     externals: {
-      wx: 'wx',
+      wx: 'wx', // 键名是引入的名字 键值是全局变量名
       vue: 'Vue',
       jsencrypt: 'JSEncrypt',
-      Vant: 'vant'
+      vant: 'vant',
+      moment: 'moment'
     }
   },
   // pluginOptions: {
@@ -67,8 +68,8 @@ module.exports = {
   productionSourceMap: false,
   // http://dev.hahaipi.com/wxxcx/index.php/Home/getMachineInfo
   devServer: {
-    host: '100.100.100.23',
-    port: 8080,
+    // host: '100.100.100.23',
+    // port: 8080,
     https: false,
     hotOnly: false,
     proxy: 'http://dev.hahaipi.com'

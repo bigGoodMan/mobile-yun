@@ -1,24 +1,24 @@
 // import Mask from '../mask'
-import PopupMenu from '../popup-menu'
+import createNewInstance from '../popup-menu'
 import Icon from '../icon'
 // import initParams from '../uitls/initParams'
 // import Vue from 'vue'
-let instance
-function createInstance () {
-  instance = instance || PopupMenu.createInstance()
-  return instance
-}
+// let instance
+// function createInstance () {
+//   instance = instance || PopupMenu.createInstance()
+//   return instance
+// }
 function tip (options = {}) {
-  let newInstance = createInstance(options)
+  let newInstance = createNewInstance(options)
   if (options.type === 'close') {
-    newInstance.remove(options)
+    newInstance.remove(options.message)
     return
   }
   const {
     type,
-    content
+    message
   } = options
-  options = {
+  let opt = {
     ...options,
     name: 'plugins_tip',
     Content: {
@@ -47,22 +47,32 @@ function tip (options = {}) {
             break
         }
         return (
-          <div class="size-30 hhf-plugins-tip"><Icon format={type} color={color} size={'20px'} style={{ marginRight: '10px' }}/>{content}</div>
+          <div class="size-30 hhf-plugins-tip"><Icon format={type} color={color} size={'20px'} style={{ marginRight: '10px' }}/>{message}</div>
         )
       }
-    },
-    ...options
+    }
   }
   // options.duration = 0
-  options.position = options.position || 'top'
-  options.transitionName = options.transitionName || 'slide'
-  options.transitionName = `hhf-plugins-${options.transitionName}`
-  newInstance.add(options)
+  opt.position = opt.position || 'top'
+  opt.transitionName = opt.transitionName || 'slide'
+  opt.transitionName = `hhf-plugins-${opt.transitionName}`
+  newInstance.add(opt)
 }
 ['info', 'success', 'warning', 'error', 'close'].forEach(item => {
   tip[item] = (options) => {
-    options.type = item
-    tip(options)
+    let opt = {}
+    if (typeof options === 'object') {
+      opt = {
+        type: item,
+        ...options
+      }
+    } else {
+      opt = {
+        type: item,
+        message: options
+      }
+    }
+    tip(opt)
   }
 })
 export default tip

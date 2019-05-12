@@ -72,7 +72,7 @@ import BottomPopup from '@yun/bottom-popup'
 import HhfButton from '@hhf/hhf-button'
 import FilterList from '../filter-list'
 import { STOCK_TAKING_STATUS } from '@l/judge'
-import moment from 'moment'
+// import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'stock_taking_list_filter',
@@ -192,7 +192,7 @@ export default {
     getStore () {
       this.COMMON_GETSTORE_ACTION().then(res => {
         if (res.return_code !== '0') {
-          this.$toast.fail(res.msg)
+          this.$Tip.warning(res.msg)
         }
       })
     },

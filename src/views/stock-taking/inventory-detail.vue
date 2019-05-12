@@ -67,7 +67,7 @@
 import HhfButton from '@hhf/hhf-button'
 import { getInventoryDetailApi } from '@/api'
 import { STOCK_TAKING_STATUS } from '@l/judge'
-import moment from 'moment'
+// import moment from 'moment'
 export default {
   name: 'inventory_detail',
 
@@ -111,7 +111,7 @@ export default {
           this.result = res.data
         } else if (res.msg) {
           this.$Tip.warning({
-            content: res.msg
+            message: res.msg
           })
         }
       })

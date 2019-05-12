@@ -70,7 +70,7 @@ export default {
         if (res.return_code === '0') {
           this.columns = res.data.machine_list
         } else {
-          this.$toast.faile(res.msg)
+          this.$Tip.warning(res.msg)
         }
       })
     },

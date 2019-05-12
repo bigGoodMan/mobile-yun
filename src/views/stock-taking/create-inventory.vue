@@ -81,11 +81,7 @@ export default {
         radio
       } = this
       if (!radio) {
-        this.$Tip.warning({
-          content: '请选择门店'
-          // transitionName: 'fade',
-          // position: 'center'
-        })
+        this.$Tip.warning('请选择门店')
         return
       }
       this.loading = true
@@ -98,7 +94,7 @@ export default {
         } else if (res.return_code) {
           this.$Tip.warning({
             mask: true,
-            content: res.msg
+            message: res.msg
           })
         }
       })

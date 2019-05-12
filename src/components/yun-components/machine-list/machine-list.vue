@@ -63,7 +63,7 @@ export default {
     handleHref ({ machineId, machineType, parentId, giftId, giftIdBak }) {
       if (machineType === '1' && parentId !== '54') { // 礼品机可以去详情
         if ((!giftId && !giftIdBak) || (giftId === '0' && giftIdBak === '0')) {
-          this.$toast.fail('该机型未设置礼品，请先设置礼品')
+          this.$Tip.warning('该机型未设置礼品，请先设置礼品')
           return
         }
         this.$router.push({
@@ -71,7 +71,7 @@ export default {
           query: { id: machineId }
         })
       } else {
-        this.$toast.fail('该机型不可设置参数')
+        this.$Tip.warning('该机型不可设置参数')
       }
     }
   },

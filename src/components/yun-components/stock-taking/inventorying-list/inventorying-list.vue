@@ -78,7 +78,7 @@ export default {
         }).then(res => {
           if (res.return_code !== '0' && res.msg) {
             this.$Tip.warning({
-              content: res.msg,
+              message: res.msg,
               mask: true
             })
           }

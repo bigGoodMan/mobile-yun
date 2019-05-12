@@ -284,15 +284,15 @@ export default {
     // 下发参数
     handleSet () {
       if (this.gameType !== '0' && this.gameType !== '1') {
-        this.$toast.fail('没有选择游戏模式')
+        this.$Tip.warning('没有选择游戏模式')
         return
       }
       if (!positiveIntegerRegularTool(this.gameWinningNumberValue) || this.gameWinningNumberValue > 99 || this.gameWinningNumberValue <= 0) {
-        this.$toast.fail('获奖局数需在1~99区间内')
+        this.$Tip.warning('获奖局数需在1~99区间内')
         return
       }
       if (!positiveIntegerRegularTool(this.palyTimePopupValue) || this.palyTimePopupValue > 99 || this.palyTimePopupValue < 10) {
-        this.$toast.fail('游玩时间需在10~99区间内')
+        this.$Tip.warning('游玩时间需在10~99区间内')
         return
       }
       const data = {}
@@ -315,11 +315,11 @@ export default {
       }).then(res => {
         this.loading = false
         if (res.return_code === '0') {
-          this.$toast.success({
+          this.$Tip.success({
             message: '下发成功！',
-            duration: 1500,
+            duration: 1.5,
             mask: true,
-            onClose () {
+            close () {
               this.$router.push({
                 name: 'machine_detail',
                 query: {
@@ -331,7 +331,7 @@ export default {
           return
         }
         if (res.return_code !== '0') {
-          this.$toast.fail(res.msg)
+          this.$Tip.warning(res.msg)
         }
       })
     }

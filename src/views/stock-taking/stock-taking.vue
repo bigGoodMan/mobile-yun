@@ -1,6 +1,6 @@
 <!-- 库存盘点 -->
 <template>
-  <div class="stock-taking">
+  <div class="stock-taking bgcolor-f2">
     <!-- 头部搜索 -->
     <div class="stock-taking-header">
       <HeaderSearch
@@ -51,7 +51,7 @@ import StockTakingListFilter from '@yun/stock-taking/stock-taking-list-filter'
 import StockTakingList from '@yun/stock-taking/stock-taking-list'
 import HeaderSearch from '@yun/header-search'
 import { getInventoryListApi } from '@/api'
-import moment from 'moment'
+// import moment from 'moment'
 export default {
   name: 'stock_taking',
 
@@ -141,7 +141,7 @@ export default {
         } else if (res.msg) {
           callback(arr)
           this.$Tip.warning({
-            content: res.msg
+            message: res.msg
           })
         }
       })
@@ -170,6 +170,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .stock-taking
+  min-height 100%
   .stock-taking-header
     position relative
     z-index 1

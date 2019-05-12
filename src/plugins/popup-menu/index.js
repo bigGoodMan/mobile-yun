@@ -1,5 +1,7 @@
 import PopupMenu from './PopupMenu'
 import Vue from 'vue'
+
+let instance
 PopupMenu.createInstance = (properties = {}) => {
   const Instance = new Vue({ ...PopupMenu })
   const component = Instance.$mount()
@@ -22,4 +24,8 @@ PopupMenu.createInstance = (properties = {}) => {
     }
   }
 }
-export default PopupMenu
+function createNewInstance (options) {
+  instance = instance || PopupMenu.createInstance(options)
+  return instance
+}
+export default createNewInstance

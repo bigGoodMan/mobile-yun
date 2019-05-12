@@ -129,7 +129,7 @@ export default {
         this.MACHINE_MACHINEDETAIL_ACTION({ id }).then(res => {
           this.$toast.clear()
           if (res.return_code !== '0') {
-            this.$toast.fail(res.msg)
+            this.$Tip.warning(res.msg)
           }
         })
       }

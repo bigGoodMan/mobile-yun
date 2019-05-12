@@ -1,48 +1,50 @@
 <!-- 登录 -->
 <template>
-  <div class="login">
-    <div class="padding-20-30 flex-row flex-center">
-      <div class="login-logo">
-        <img
-          class="max-width"
-          :src="logo"
-        />
+  <div>
+    <div class="login">
+      <div class="padding-20-30 flex-row flex-center">
+        <div class="login-logo">
+          <img
+            class="max-width"
+            :src="logo"
+          />
+        </div>
       </div>
-    </div>
-    <div class="padding-20-30">
-      <div class="radius-10">
-        <van-cell-group>
-          <div class="radius-10">
-            <van-field
-              v-model="account"
-              class="size-32"
-              type="tel"
-              clearable
-              label="手机"
-              placeholder="请输入手机号"
-            />
-          </div>
-          <div class="radius-10">
-            <van-field
-              v-model="password"
-              class="size-32"
-              clearable
-              type="password"
-              label="密码"
-              placeholder="请输入密码"
-            />
-          </div>
-        </van-cell-group>
+      <div class="padding-20-30">
+        <div class="radius-10">
+          <van-cell-group>
+            <div class="radius-10">
+              <van-field
+                v-model="account"
+                class="size-32"
+                type="tel"
+                clearable
+                label="手机"
+                placeholder="请输入手机号"
+              />
+            </div>
+            <div class="radius-10">
+              <van-field
+                v-model="password"
+                class="size-32"
+                clearable
+                type="password"
+                label="密码"
+                placeholder="请输入密码"
+              />
+            </div>
+          </van-cell-group>
+        </div>
       </div>
-    </div>
-    <div class="padding-20-30">
-      <van-button
-        type="info"
-        :loading="loading"
-        @click="handleLogin"
-        :disabled="disabled"
-        size="large"
-      >登录</van-button>
+      <div class="padding-20-30">
+        <van-button
+          type="info"
+          :loading="loading"
+          @click="handleLogin"
+          :disabled="disabled"
+          size="large"
+        >登录</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -91,12 +93,12 @@ export default {
         this.loading = false
         if (res.return_code === '0') {
           const $this = this
-          this.$toast({
+          $this.$Tip({
             type: 'success',
             message: '登录成功！',
-            duration: 1500,
+            duration: 1.5,
             mask: true,
-            onClose () {
+            close () {
               if ($this.$route.query.url) {
                 const url = $this.$route.query.url
                 $this.$router.push({
@@ -110,7 +112,7 @@ export default {
             }
           })
         } else {
-          this.$toast.fail(res.msg)
+          this.$Tip.warning(res.msg)
         }
       })
     }

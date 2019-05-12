@@ -68,11 +68,11 @@ export default {
     ...mapActions(['MACHINE_SAVEEARLYPARAM_ACTION']),
     handleSaveClick () {
       if (!positiveIntegerRegularTool(this.canClawNum) || this.canClawNum < 1 || this.canClawNum > 999) {
-        this.$toast.fail('可抓取量需在1~999区间内')
+        this.$Tip.warning('可抓取量需在1~999区间内')
         return
       }
       if (!positiveIntegerRegularTool(this.canClawSafeNum) || this.canClawSafeNum > this.canClawNum - 0) {
-        this.$toast.fail('可抓取安全量需大于等于1且小于等于可抓取量')
+        this.$Tip.warning('可抓取安全量需大于等于1且小于等于可抓取量')
         return
       }
       this.loading = true
@@ -84,9 +84,9 @@ export default {
       }).then(res => {
         $this.loading = false
         if (res.return_code === '0') {
-          $this.$toast.success({
+          $this.$Tip.success({
             message: '设置成功！',
-            onClose () {
+            close () {
               $this.$router.push({
                 name: 'machine_detail',
                 query: {
@@ -98,7 +98,7 @@ export default {
           return
         }
         if (res.return_code !== '0') {
-          $this.$toast.fail(res.msg)
+          $this.$Tip.warning(res.msg)
         }
       })
     }

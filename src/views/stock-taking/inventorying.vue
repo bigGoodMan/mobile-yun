@@ -136,7 +136,7 @@ export default {
         } else if (res.msg) {
           this.$Tip.warning({
             mask: true,
-            content: res.msg
+            message: res.msg
           })
         }
       })
@@ -167,14 +167,14 @@ export default {
       for (let items of $this.inventoryGiftList) {
         if (items.num === '') {
           this.$Tip.warning({
-            content: '有实盘数未填'
+            message: '有实盘数未填'
           })
           this.submitLoading = false
           return
         }
         if (items.num < items.conf_num - 0) {
           this.$Tip.warning({
-            content: '有实盘数小于可抓取数'
+            message: '有实盘数小于可抓取数'
           })
           this.submitLoading = false
           return
@@ -187,7 +187,7 @@ export default {
         this.submitLoading = false
         if (res.return_code === '0') {
           this.$Tip.success({
-            content: '提交成功',
+            message: '提交成功',
             mask: true,
             close () {
               $this.$router.push({ name: 'stock_taking' })
@@ -195,7 +195,7 @@ export default {
           })
         } else if (res.msg) {
           this.$Tip.warning({
-            content: res.msg
+            message: res.msg
           })
         }
       })
@@ -215,7 +215,7 @@ export default {
         this.closeLoading = false
         if (res.return_code === '0') {
           this.$Tip.success({
-            content: '关闭成功',
+            message: '关闭成功',
             mask: true,
             close () {
               $this.$router.push({ name: 'stock_taking' })
@@ -223,7 +223,7 @@ export default {
           })
         } else if (res.msg) {
           this.$Tip.warning({
-            content: res.msg
+            message: res.msg
           })
         }
       })

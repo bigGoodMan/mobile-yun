@@ -114,7 +114,7 @@ export default {
         } else if (res.msg) {
           this.$Tip.warning({
             mask: true,
-            content: res.msg
+            message: res.msg
           })
         }
       })

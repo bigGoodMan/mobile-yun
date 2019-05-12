@@ -1,8 +1,5 @@
 
-.slide-left-enter-active
-.slide-left-leave-active
-.slide-right-enter-active
-.slide-right-leave-active
+.slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active
   position fixed
   height 100%
   width 100%
@@ -19,12 +16,12 @@
   transform translate(rems(-100), 0)
 .slide-down-leave-active
   position fixed
-  width: 100%
+  width 100%
   height 100%
   transition all 0.5s ease
 .slide-up-leave-active
   position fixed
-  width: 100%
+  width 100%
   height 100%
   transition all 0.5s ease
   z-index 99
@@ -34,17 +31,16 @@
   height 100%
   top 0
   left 0
-  transition all 0.51s ease //稍微动画时间长一点 防止层级出问题
+  transition all 0.51s ease // 稍微动画时间长一点 防止层级出问题
 .slide-down-enter-active
   position fixed
   width 100%
   height 100%
   top 0
   left 0
-  transition all 0.52s ease //稍微动画时间长一点 防止层级出问题
+  transition all 0.52s ease // 稍微动画时间长一点 防止层级出问题
   z-index 99
 .slide-down-enter
-// .slide-up-leave-active
   transform translate(0, 100vh)
 // .slide-down-leave-active,
 .slide-up-leave-to
