@@ -1,0 +1,130 @@
+// first gear
+gearRotate(n)
+  div:nth-of-type({n})
+    transform rotate((30 * n)deg)
+.loader
+  height 400px
+  position relative
+  margin auto
+  width 400px
+.loader_overlay
+  width 150px
+  height 150px
+  background transparent
+  box-shadow 0px 0px 0px 1000px rgba(255, 255, 255, 0.67), 0px 0px 19px 0px rgba(0, 0, 0, 0.16) inset
+  border-radius 100%
+  z-index -1
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  margin auto
+.loader_cogs
+  z-index -2
+  width 100px
+  height 100px
+  top -120px !important
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  margin auto
+.loader_cogs__top
+  position relative
+  width 100px
+  height 100px
+  transform-origin 50px 50px
+  animation loading_rotate_top 10s infinite linear
+  div.top_part
+    width 100px
+    border-radius 10px
+    position absolute
+    height 100px
+    background #f98db9
+  gearRotate(1)
+  gearRotate(2)
+  gearRotate(3)
+  div.top_hole
+    width 50px
+    height 50px
+    border-radius 100%
+    background white
+    position absolute
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    margin auto
+@keyframes loading_rotate_top
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(360deg)
+.loader_cogs__left
+  position relative
+  width 80px
+  transform rotate(16deg)
+  top 28px
+  transform-origin 40px 40px
+  animation loading_rotate_left 10s 0.1s infinite reverse linear
+  left -24px
+  height 80px
+  div.left_part
+    width 80px
+    border-radius 6px
+    position absolute
+    height 80px
+    background #97ddff
+  gearRotate(1)
+  gearRotate(2)
+  gearRotate(3)
+  div.left_hole
+    width 40px
+    height 40px
+    border-radius 100%
+    background white
+    position absolute
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    margin auto
+@keyframes loading_rotate_left
+  0%
+    transform rotate(16deg)
+  100%
+    transform rotate(376deg)
+.loader_cogs__bottom
+  position relative
+  width 60px
+  top -65px
+  transform-origin 30px 30px
+  animation loading_rotate_left 10.2s 0.4s infinite linear
+  transform rotate(4deg)
+  left 79px
+  height 60px
+  div.bottom_part
+    width 60px
+    border-radius 5px
+    position absolute
+    height 60px
+    background #ffcd66
+  gearRotate(1)
+  gearRotate(2)
+  gearRotate(3)
+  div.bottom_hole
+    width 30px
+    height 30px
+    border-radius 100%
+    background white
+    position absolute
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    margin auto

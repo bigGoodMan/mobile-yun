@@ -9,7 +9,6 @@ import Icon from '../icon'
 //   return instance
 // }
 function confirm (options) {
-  console.log(options)
   let newInstance = createNewInstance(options)
   // let newInstance = createInstance(options)
   if (options.type === 'close') {
@@ -18,7 +17,7 @@ function confirm (options) {
   }
   const {
     type,
-    title,
+    descrition,
     message,
     cancelName,
     cancelClasses,
@@ -67,8 +66,8 @@ function confirm (options) {
         return (
           <div class="size-30 hhf-plugins-confirm">
             <div class="hhf-plugins-confirm-container">
-              <h5 class="hhf-plugins-confirm-first"><Icon format={type} color={color} size={'23px'} style={{ marginRight: '10px' }}/><span class="hhf-plugins-confirm-title">{title || '免费玩'}</span></h5>
-              <p class="hhf-plugins-confirm-content">{message || '是否确认'}</p>
+              <h5 class="hhf-plugins-confirm-first"><Icon format={type} color={color} size={'23px'} style={{ marginRight: '10px' }}/><span class="hhf-plugins-confirm-title">{message || '免费玩'}</span></h5>
+              <p class="hhf-plugins-confirm-content">{descrition}</p>
               <div class="hhf-plugins-confirm-btn">
                 {cancel ? <div class={['hhf-plugins-confirm-btn-content hhf-plugins-confirm-default', cancelClasses]} onClick={handleCancel}>{cancelName || '取消'}</div> : null}
                 <div class={['hhf-plugins-confirm-btn-content hhf-plugins-confirm-primary', confirmClasses]} onClick={handleConfirm}>{confirmName || '确认'}</div>

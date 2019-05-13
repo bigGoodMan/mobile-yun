@@ -80,22 +80,34 @@ export default {
       const {
         radio
       } = this
+      const $this = this
       if (!radio) {
         this.$Tip.warning('请选择门店')
         return
       }
-      this.loading = true
-      createInventoryOrderApi({
-        store_id: radio
-      }).then(res => {
-        this.loading = false
-        if (res.return_code === '0') {
-          this.$router.push({ name: 'inventorying', query: { id: res.data, sid: radio } })
-        } else if (res.return_code) {
-          this.$Tip.warning({
-            mask: true,
-            message: res.msg
+      $this.loading = true
+      $this.$Confirm.warning({
+        message: '提示',
+        descrition: '开始盘点后系统将会禁止出入库操作，同时请确保机器停止营业无礼品掉落',
+        mask: true,
+        confirm (keyName) {
+          createInventoryOrderApi({
+            store_id: radio
+          }).then(res => {
+            $this.$Confirm.close(keyName)
+            $this.loading = false
+            if (res.return_code === '0') {
+              $this.$router.push({ name: 'inventorying', query: { id: res.data, sid: radio } })
+            } else if (res.return_code) {
+              $this.$Tip.warning({
+                mask: true,
+                message: res.msg
+              })
+            }
           })
+        },
+        cancel () {
+          $this.loading = false
         }
       })
     }

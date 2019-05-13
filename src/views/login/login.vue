@@ -1,6 +1,6 @@
 <!-- 登录 -->
 <template>
-  <div>
+  <div class="bgcolor-f2">
     <div class="login">
       <div class="padding-20-30 flex-row flex-center">
         <div class="login-logo">
@@ -112,7 +112,10 @@ export default {
             }
           })
         } else {
-          this.$Tip.warning(res.msg)
+          this.$Tip.warning({
+            message: res.msg,
+            mask: true
+          })
         }
       })
     }

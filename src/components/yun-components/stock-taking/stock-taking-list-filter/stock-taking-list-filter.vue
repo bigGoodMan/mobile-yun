@@ -49,7 +49,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         @cancel="handleDateClick('startShow', false)"
-        @confirm="(val) => handleDateConfirm('startStr', val, 'startShow')"
+        @confirm="(val) => handleDateConfirm('startStr', 'startDate', val, 'startShow')"
       />
     </van-popup>
     <!-- 结束时间 -->
@@ -60,7 +60,7 @@
         :min-date="minDate"
         :max-date="maxDate"
         @cancel="handleDateClick('endShow', false)"
-        @confirm="(val) => handleDateConfirm('endStr', val, 'endShow')"
+        @confirm="(val) => handleDateConfirm('endStr', 'endDate', val, 'endShow')"
       />
     </van-popup>
      <BottomPopup :columns="storeColumns" :default-index="defaultIndex" :show="storeShow" @trigger-confirm="handleStoreConfirm" @trigger-close="handleStoreClose" />
@@ -184,7 +184,8 @@ export default {
     handleDateClick (key, bool) {
       this[key] = bool
     },
-    handleDateConfirm (key, val, show) {
+    handleDateConfirm (key, key2, val, show) {
+      this[key2] = val
       this[key] = moment(val).format('YYYY-MM-DD')
       this.handleDateClick(show, false)
     },
@@ -223,8 +224,8 @@ export default {
       // 时间重置
       this.startDate = ''
       this.endDate = ''
-      this.start = '开始时间'
-      this.end = '结束时间'
+      this.startStr = '开始时间'
+      this.endStr = '结束时间'
       // 门店重置
       this.store = {
         store_id: '0',

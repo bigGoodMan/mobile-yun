@@ -28,6 +28,7 @@
         <InventoryingList
           :obj="items"
           :key="items.gift_id"
+          @trigger-preview="handlePreview"
         />
       </template>
     </div>
@@ -52,6 +53,11 @@
       </ul>
     </div>
     <MoreGift :show="giftShow" @trigger-close="handleAddMore" />
+    <van-image-preview
+  v-model="show"
+  :images="images"
+>
+</van-image-preview>
   </div>
 </template>
 
@@ -73,7 +79,10 @@ export default {
       giftShow: false,
       giftList: [], // 当前展示数据
       submitLoading: false,
-      closeLoading: false
+      closeLoading: false,
+
+      images: [],
+      show: false
     }
   },
 
@@ -107,6 +116,12 @@ export default {
   methods: {
     ...mapActions(['INVENTORY_GETINVENTORYGIFT_ACTION']),
     ...mapMutations(['INVENTORY_ADDINVENTORYMOREGIFT_MUTATE']),
+    // 预览图片
+    handlePreview (img) {
+      this.images = [img]
+      this.show = true
+    },
+
     handleShowPopup (key, boo) {
       this[key] = boo
     },
@@ -158,44 +173,62 @@ export default {
     },
     // 提交
     handleSubmit () {
-      this.submitLoading = true
       const $this = this
+      $this.submitLoading = true
       const {
         sid,
         id
       } = $this.$route.query
+      if ($this.inventoryGiftList.length === 0) {
+        this.$Tip.warning({
+          message: '盘点礼品为空，无法提交审核'
+        })
+        $this.submitLoading = false
+        return
+      }
       for (let items of $this.inventoryGiftList) {
         if (items.num === '') {
           this.$Tip.warning({
             message: '有实盘数未填'
           })
-          this.submitLoading = false
+          $this.submitLoading = false
           return
         }
         if (items.num < items.conf_num - 0) {
           this.$Tip.warning({
             message: '有实盘数小于可抓取数'
           })
-          this.submitLoading = false
+          $this.submitLoading = false
           return
         }
       }
-      submitInventoryApi({
-        store_id: sid,
-        inventory_id: id
-      }).then(res => {
-        this.submitLoading = false
-        if (res.return_code === '0') {
-          this.$Tip.success({
-            message: '提交成功',
-            mask: true,
-            close () {
-              $this.$router.push({ name: 'stock_taking' })
+      $this.$Confirm.warning({
+        message: '是否确定提交，提交后不可修改',
+        mask: true,
+        cancel () {
+          $this.submitLoading = false
+        },
+        confirm (keyName) {
+          submitInventoryApi({
+            store_id: sid,
+            inventory_id: id
+          }).then(res => {
+            $this.$Confirm.close(keyName)
+            $this.submitLoading = false
+            if (res.return_code === '0') {
+              this.$Tip.success({
+                message: '提交成功',
+                mask: true,
+                close () {
+                  $this.$router.push({ name: 'stock_taking' })
+                }
+              })
+            } else if (res.msg) {
+              $this.$Tip.warning({
+                message: res.msg,
+                mask: true
+              })
             }
-          })
-        } else if (res.msg) {
-          this.$Tip.warning({
-            message: res.msg
           })
         }
       })
@@ -203,28 +236,39 @@ export default {
     // 关闭盘点单
     handleClose () {
       const $this = this
-      this.closeLoading = true
-      const {
-        sid,
-        id
-      } = this.$route.query
-      closeInventoryApi({
-        store_id: sid,
-        inventory_id: id
-      }).then(res => {
-        this.closeLoading = false
-        if (res.return_code === '0') {
-          this.$Tip.success({
-            message: '关闭成功',
-            mask: true,
-            close () {
-              $this.$router.push({ name: 'stock_taking' })
+      $this.closeLoading = true
+      $this.$Confirm.warning({
+        message: '是否关闭',
+        mask: true,
+        confirm (keName) {
+          const {
+            sid,
+            id
+          } = $this.$route.query
+          closeInventoryApi({
+            store_id: sid,
+            inventory_id: id
+          }).then(res => {
+            $this.closeLoading = false
+            $this.$Confirm.close(keName)
+            if (res.return_code === '0') {
+              $this.$Tip.success({
+                message: '关闭成功',
+                mask: true,
+                close () {
+                  $this.$router.push({ name: 'stock_taking' })
+                }
+              })
+            } else if (res.msg) {
+              $this.$Tip.warning({
+                message: res.msg,
+                mask: true
+              })
             }
           })
-        } else if (res.msg) {
-          this.$Tip.warning({
-            message: res.msg
-          })
+        },
+        cancel () {
+          $this.closeLoading = false
         }
       })
     },
@@ -247,8 +291,10 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 .inventorying
+  .van-search__content
+    background-color #ffffff
   .inventorying-header-data
     padding rems(20)
     .inventorying-store

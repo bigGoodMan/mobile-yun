@@ -7,6 +7,7 @@
           <img
             class="inventorying-list-cell-img-content"
             v-lazy="obj.thumb"
+            @click="handlePreview(obj)"
           >
         </div>
         <div class="inventorying-list-describe flex-column flex-start size-393d49">
@@ -42,7 +43,8 @@ export default {
     return {
       max: 99999,
       emptyShow: false,
-      errShow: false
+      errShow: false,
+      images: []
     }
   },
 
@@ -53,6 +55,10 @@ export default {
   computed: {},
 
   methods: {
+    handlePreview (items) {
+      this.$emit('trigger-preview', items.img)
+    },
+
     handleClearTime () {
       clearTimeout(this.timer)
       this.timer = null

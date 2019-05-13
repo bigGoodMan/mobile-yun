@@ -9,7 +9,7 @@ const MyMachine = {
 const MachineDetail = {
   path: '/my-machine/machine-detail',
   name: 'machine_detail',
-  component: () => import(/* webpackChunkName: "MachineDetail" */ '@v/machine-detail/machine-detail.vue'),
+  component: () => import(/* webpackChunkName: "MachineDetail" */ '@v/my-machine/machine-detail.vue'),
   meta: {
     title: '机台详情'
   }
@@ -17,7 +17,7 @@ const MachineDetail = {
 const PlayPrice = {
   path: '/my-machine/machine-detail/play-price',
   name: 'play_price',
-  component: () => import(/* webpackChunkName: "PlayPrice" */ '@v/play-price/play-price.vue'),
+  component: () => import(/* webpackChunkName: "PlayPrice" */ '@v/my-machine/play-price.vue'),
   meta: {
     title: '游玩单价设置'
   }
@@ -25,7 +25,7 @@ const PlayPrice = {
 const EarlyWarningParameters = {
   path: '/my-machine/machine-detail/early-warning-parameters',
   name: 'early_warning_parameters',
-  component: () => import(/* webpackChunkName: "EarlyWarningParameters" */ '@v/early-warning-parameters/early-warning-parameters.vue'),
+  component: () => import(/* webpackChunkName: "EarlyWarningParameters" */ '@v/my-machine/early-warning-parameters.vue'),
   meta: {
     title: '预警参数设置'
   }
@@ -33,7 +33,7 @@ const EarlyWarningParameters = {
 const OperationalParameters = {
   path: '/my-machine/machine-detail/operational-parameters',
   name: 'operational_parameters',
-  component: () => import(/* webpackChunkName: "OperationalParameters" */ '@v/operational-parameters/operational-parameters.vue'),
+  component: () => import(/* webpackChunkName: "OperationalParameters" */ '@v/my-machine/operational-parameters.vue'),
   meta: {
     title: '运营参数设置'
   }

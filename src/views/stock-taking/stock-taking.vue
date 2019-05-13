@@ -102,8 +102,8 @@ export default {
         statusList,
         store
       } = dt
-      this.startDate = startDate ? moment(`${startDate} 00:00:00`).unix() : 0
-      this.endDate = endDate ? moment(`${endDate} 23:59:59`).unix() : 0
+      this.startDate = startDate || 0
+      this.endDate = endDate || 0
       this.storeId = store.store_id
       this.status = statusList.filter(v => v.checked).map(v => v.id)
       this.page = 1
@@ -165,7 +165,9 @@ export default {
   },
   created () {
   },
-  mounted () {}
+  mounted () {
+    // this.$Loading('111')
+  }
 }
 </script>
 <style lang="stylus" scoped>

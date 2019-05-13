@@ -33,7 +33,7 @@
 </template>
 <script>
 import MyStore from '@yun/my-store'
-import MachineList from '@yun/machine-list'
+import MachineList from '@yun/machine/machine-list'
 import { getMachineListApi } from '@/api'
 export default {
   name: 'my_machine',

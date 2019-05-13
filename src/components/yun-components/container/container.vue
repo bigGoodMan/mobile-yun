@@ -70,11 +70,12 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    if (to.name === 'login') {
-      this.transitionName = 'slide-up'
-    } else if (from.name === 'login') {
-      this.transitionName = 'slide-down'
-    } else if (to.meta.toTransition) {
+    // if (to.name === 'login') {
+    //   this.transitionName = 'slide-up'
+    // } else if (from.name === 'login') {
+    //   this.transitionName = 'slide-down'
+    // } else
+    if (to.meta.toTransition) {
       this.transitionName = to.meta.toTransition
     } else if (from.meta.fromTransition) {
       this.transitionName = from.meta.fromTransition

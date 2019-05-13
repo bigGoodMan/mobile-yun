@@ -1,11 +1,18 @@
 <!-- 盘点礼品列表 -->
 <template>
   <div class="bgcolor-f2 inventory-gift-list">
-    <div v-for="(items, index) of list" :key="index">
+    <div
+      v-for="(items, index) of list"
+      :key="index"
+    >
       <div class="flex-row flex-between-stretch padding-20-30 bgcolor-f">
         <div class="flex-row flex-start-stretch">
           <div class="inventory-gift-list-img flex-center flex-row size-0 bgcolor-edeced">
-            <img class="inventory-gift-list-img-content" v-lazy="items.thumb" />
+            <img
+              class="inventory-gift-list-img-content"
+              v-lazy="items.thumb"
+              @click="handlePreview(items.img)"
+            />
           </div>
           <ul class="flex-column flex-between-start color-393d49">
             <li class="size-28 weight-bold inventory-gift-list-name">{{items.gift_name}}</li>
@@ -17,14 +24,28 @@
           <li class="size-28 weight-bold">库存量<i class="padding-left-10 color-error">{{items.sys_num}}</i></li>
           <li class="size-28">实盘数<i class="padding-left-10 color-393d49">{{items.num}}</i></li>
           <li class="size-24">差异
-            <i v-if="items.num - items.sys_num > 0" class="padding-left-10 color-success">+{{items.num - items.sys_num}}</i>
-            <i v-else-if="items.num - items.sys_num < 0" class="padding-left-10 color-error">{{items.num - items.sys_num}}</i>
-            <i v-else class="padding-left-10 color-393d49">{{items.num - items.sys_num}}</i>
+            <i
+              v-if="items.num - items.sys_num > 0"
+              class="padding-left-10 color-success"
+            >+{{items.num - items.sys_num}}</i>
+            <i
+              v-else-if="items.num - items.sys_num < 0"
+              class="padding-left-10 color-error"
+            >{{items.num - items.sys_num}}</i>
+            <i
+              v-else
+              class="padding-left-10 color-393d49"
+            >{{items.num - items.sys_num}}</i>
           </li>
         </ul>
       </div>
       <div class="border"></div>
     </div>
+    <van-image-preview
+      v-model="showPreview"
+      :images="images"
+    >
+    </van-image-preview>
   </div>
 </template>
 
@@ -35,7 +56,9 @@ export default {
 
   data () {
     return {
-      list: []
+      list: [],
+      showPreview: false,
+      images: []
     }
   },
 
@@ -44,6 +67,11 @@ export default {
   computed: {},
 
   methods: {
+    // 预览图片
+    handlePreview (img) {
+      this.images = [img]
+      this.showPreview = true
+    },
     getInventoryDetailGiftList () {
       const {
         id,

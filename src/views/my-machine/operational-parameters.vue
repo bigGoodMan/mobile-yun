@@ -167,9 +167,9 @@
 </template>
 
 <script>
-import GamePatternSet from '@yun/game-pattern-set'
-import GamePrizeWinningNumber from '@yun/game-prize-winning-number'
-import PlayTimePopup from '@yun/play-time-popup'
+import GamePatternSet from '@yun/machine/game-pattern-set'
+import GamePrizeWinningNumber from '@yun/machine/game-prize-winning-number'
+import PlayTimePopup from '@yun/machine/play-time-popup'
 import { mapState, mapActions } from 'vuex'
 import { GAME_MODE } from '@l/judge'
 import { positiveIntegerRegularTool } from '@l/tools'

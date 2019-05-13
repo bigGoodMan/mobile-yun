@@ -55,9 +55,9 @@
         <span>{{getTime(result.audit_time)}}</span>
       </div>
     </div>
-    <div class="inventory-detail-btn">
+    <div class="inventory-detail-btn" v-if="result.status === '5'">
       <div class="inventory-detail-btn-container">
-        <HhfButton type="info" size="large">重新开始盘点</HhfButton>
+        <HhfButton type="info" size="large" :loading="loading" @trigger-click="handleCreate">重新开始盘点</HhfButton>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
 
 <script>
 import HhfButton from '@hhf/hhf-button'
-import { getInventoryDetailApi } from '@/api'
+import { getInventoryDetailApi, createInventoryOrderApi } from '@/api'
 import { STOCK_TAKING_STATUS } from '@l/judge'
 // import moment from 'moment'
 export default {
@@ -74,6 +74,7 @@ export default {
   data () {
     return {
       result: {},
+      loading: false,
       status: STOCK_TAKING_STATUS
     }
   },
@@ -111,6 +112,23 @@ export default {
           this.result = res.data
         } else if (res.msg) {
           this.$Tip.warning({
+            message: res.msg
+          })
+        }
+      })
+    },
+    handleCreate () {
+      this.loading = true
+      const sid = this.result.store_id
+      createInventoryOrderApi({
+        store_id: sid
+      }).then(res => {
+        this.loading = false
+        if (res.return_code === '0') {
+          this.$router.push({ name: 'inventorying', query: { id: res.data, sid } })
+        } else if (res.return_code) {
+          this.$Tip.warning({
+            mask: true,
             message: res.msg
           })
         }

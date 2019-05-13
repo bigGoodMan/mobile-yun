@@ -12,7 +12,9 @@ const Login = {
   name: 'login',
   component: () => import(/* webpackChunkName: "login" */ '@v/login/login.vue'),
   meta: {
-    title: '登录'
+    title: '登录',
+    toTransition: 'slide-down',
+    fromTransition: 'slide-up'
   }
 }
 export {

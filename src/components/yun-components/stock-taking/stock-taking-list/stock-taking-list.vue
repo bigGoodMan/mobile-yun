@@ -59,6 +59,10 @@ export default {
     handleRouter (items) {
       const inventoryId = items.inventory_id
       const storeId = items.store_id
+      if (items.status === '6') {
+        this.$Tip.warning('该盘点单已取消')
+        return
+      }
       if (items.status === '2') {
         this.$router.push({
           name: 'inventorying',
