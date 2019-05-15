@@ -1,9 +1,15 @@
 export default {
   state: {
     errorList: [], // 日错误志列表
-    collapsed: false // 是否展示popup菜单栏
+    collapsed: false, // 是否展示popup菜单栏
+    imagePreviewShow: false, // 预览图片展示默认关闭
+    previewImage: [] // 预览的图片
   },
   mutations: {
+    APP_IMAGEPREVIEW_MUTATE (state, { imagePreviewShow, previewImage }) {
+      state.previewImage = previewImage
+      state.imagePreviewShow = imagePreviewShow
+    },
     APP_CLEARSTATE_MUTATE (state) {
 
     },

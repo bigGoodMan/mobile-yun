@@ -83,6 +83,9 @@ const PopupMenu = {
         this.removeOverflow()
       }
     },
+    removeSimilar (kind) {
+      this.popupArr = this.popupArr.filter(v => v.passValue.kind !== kind)
+    },
     handleConfirm (keyName, callback = () => true) {
       !callback(keyName) || this.remove(keyName)
     },

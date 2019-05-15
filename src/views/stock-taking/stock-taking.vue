@@ -32,9 +32,11 @@
     </div>
     <!-- 盘点按钮 -->
     <div class="stock-taking-create-btn">
+    <div class="fixed-max-width bottom-0">
       <div class="stock-taking-create-btn-container">
         <HhfButton type="info" size="large" @trigger-click="$router.push({ name: 'create_inventory' })">盘点</HhfButton>
       </div>
+    </div>
     </div>
     <!-- 筛选类目 -->
     <StockTakingListFilter
@@ -166,7 +168,6 @@ export default {
   created () {
   },
   mounted () {
-    // this.$Loading('111')
   }
 }
 </script>
@@ -178,10 +179,4 @@ export default {
     z-index 1
   .stock-taking-create-btn
     height rems(100)
-    .stock-taking-create-btn-container
-      position fixed
-      bottom 0
-      left 0
-      width 100%
-      font-size 0
 </style>

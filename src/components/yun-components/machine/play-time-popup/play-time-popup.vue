@@ -44,7 +44,7 @@ export default {
       if (/(^[1-9]{1}[0-9]{1}$)|100$/.test(this.value)) {
         this.validatorContent = ''
       } else {
-        this.validatorContent = '格式不正确'
+        this.validatorContent = '请输入游玩时间10~99'
       }
     }
   }

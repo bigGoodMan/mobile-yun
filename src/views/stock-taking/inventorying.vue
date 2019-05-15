@@ -216,7 +216,7 @@ export default {
             $this.$Confirm.close(keyName)
             $this.submitLoading = false
             if (res.return_code === '0') {
-              this.$Tip.success({
+              $this.$Tip.success({
                 message: '提交成功',
                 mask: true,
                 close () {

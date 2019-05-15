@@ -15,6 +15,10 @@ function confirm (options) {
     newInstance.remove(options.message)
     return
   }
+  if (options.type === 'clear') {
+    newInstance.removeSimilar('confirm')
+    return
+  }
   const {
     type,
     descrition,
@@ -27,6 +31,7 @@ function confirm (options) {
   } = options
   let opt = {
     ...options,
+    kind: 'confirm',
     name: 'plugins_confirm',
     Content: {
       props: {
@@ -83,7 +88,7 @@ function confirm (options) {
   opt.transitionName = `hhf-plugins-${opt.transitionName}`
   newInstance.add(opt)
 }
-['info', 'success', 'warning', 'error', 'close'].forEach(item => {
+['info', 'success', 'warning', 'error', 'close', 'clear'].forEach(item => {
   confirm[item] = (options) => {
     let opt = {}
     if (typeof options === 'object') {

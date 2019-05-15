@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="flex-row flex-between-center">
-        <div class="size-28 size-393d49 width-50">所在库位：<span>{{obj.location_info ? obj.location_info : '未标记库位'}}</span></div>
+        <div class="size-28 size-393d49 width-half">所在库位：<span>{{obj.location_info ? obj.location_info : '未标记库位'}}</span></div>
         <div class="flex-row flex-center">
           <span class="size-28 size-393d49 inventorying-list-text">实盘数</span>
           <HhfStepper v-model="obj.num" :max="99999" :min="0" @trigger-blur="handleStepperWatch" @trigger-add="handleStepperWatch" @trigger-reduce="handleStepperWatch"/>

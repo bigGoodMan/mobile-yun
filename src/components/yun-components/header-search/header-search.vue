@@ -55,7 +55,7 @@ export default {
   mounted () {}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 .header-search
   .header-search-content
     .van-search__content

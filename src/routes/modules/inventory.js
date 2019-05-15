@@ -2,7 +2,7 @@
 const StockTaking = {
   path: '/stock-taking',
   name: 'stock_taking',
-  component: () => import(/* webpackChunkName: "MyMachine" */ '@v/stock-taking/stock-taking.vue'),
+  component: () => import(/* webpackChunkName: "StockTaking" */ '@v/stock-taking/stock-taking.vue'),
   meta: {
     title: '库存盘点'
   }
@@ -23,10 +23,10 @@ const Inventorying = {
     title: '盘点中'
   }
 }
-const MoreGift = {
-  path: '/stock-taking/create-inventory/inventorying/more-gift',
-  name: 'more_gift',
-  component: () => import(/* webpackChunkName: "MoreGift" */ '@v/stock-taking/more-gift.vue'),
+const InventoryMoreGift = {
+  path: '/stock-taking/create-inventory/inventorying/inventory-more-gift',
+  name: 'inventory_more_gift',
+  component: () => import(/* webpackChunkName: "InventoryMoreGift" */ '@v/stock-taking/inventory-more-gift.vue'),
   meta: {
     title: '更多礼品',
     toTransition: 'slide-down',
@@ -51,4 +51,4 @@ const InventoryGiftList = {
     fromTransition: 'slide-up'
   }
 }
-export default [StockTaking, CreateInventory, Inventorying, MoreGift, InventoryDetail, InventoryGiftList]
+export default [StockTaking, CreateInventory, Inventorying, InventoryMoreGift, InventoryDetail, InventoryGiftList]

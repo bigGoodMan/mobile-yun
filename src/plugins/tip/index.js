@@ -14,12 +14,17 @@ function tip (options = {}) {
     newInstance.remove(options.message)
     return
   }
+  if (options.type === 'clear') {
+    newInstance.removeSimilar('tip')
+    return
+  }
   const {
     type,
     message
   } = options
   let opt = {
     ...options,
+    kind: 'tip',
     name: 'plugins_tip',
     Content: {
       props: {
@@ -58,7 +63,7 @@ function tip (options = {}) {
   opt.transitionName = `hhf-plugins-${opt.transitionName}`
   newInstance.add(opt)
 }
-['info', 'success', 'warning', 'error', 'close'].forEach(item => {
+['info', 'success', 'warning', 'error', 'close', 'clear'].forEach(item => {
   tip[item] = (options) => {
     let opt = {}
     if (typeof options === 'object') {

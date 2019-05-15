@@ -5,7 +5,7 @@
       <div class="padding-20-30 flex-row flex-center">
         <div class="login-logo">
           <img
-            class="max-width"
+            class="max-width-2half"
             :src="logo"
           />
         </div>

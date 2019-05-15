@@ -152,10 +152,16 @@ body
   text-align left
 .text-right
   text-align right
+.text-justify
+  text-align justify
 .text-ellipsis
   overflow hidden
   white-space nowrap
   text-overflow ellipsis
+.text-break
+  word-break: break-all
+.text-nowrap
+  white-space nowrap
 // 边框
 .vant-border
   &.border-left-15
@@ -214,8 +220,10 @@ body
   margin-top rems(20)
 .margin-bottom-20
   margin-bottom rems(20)
-.max-width
+.max-width-2half
   width 100%
+.max-width-400
+  width rems(400)
 .fixed-max-width
   position fixed
   width rems(750)
@@ -225,8 +233,10 @@ body
   margin-right auto
 .bottom-0
   bottom: 0
-.width-50
+.width-half
   width 50%
+.height-100
+  height rems(100)
 .main-body
   position absolute
   top 0

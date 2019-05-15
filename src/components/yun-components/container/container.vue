@@ -16,13 +16,18 @@
         color="#ffffff"
       />
     </div>
+    <van-image-preview
+  v-model="show"
+  :images="previewImage"
+>
+</van-image-preview>
   </div>
 </template>
 
 <script>
 import config from '@/config'
 import { home } from '@l/img'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'container',
 
@@ -35,8 +40,18 @@ export default {
   },
   computed: {
     ...mapState({
-      token: state => state.user.token
-    })
+      token: state => state.user.token,
+      imagePreviewShow: state => state.app.imagePreviewShow,
+      previewImage: state => state.app.previewImage
+    }),
+    show: {
+      get () {
+        return this.imagePreviewShow
+      },
+      set (imagePreviewShow) {
+        this.APP_IMAGEPREVIEW_MUTATE({ imagePreviewShow, previewImage: [] })
+      }
+    }
   },
 
   watch: {
@@ -89,6 +104,7 @@ export default {
   components: {},
 
   methods: {
+    ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
     handleGoHome () {
       this.$router.push({
         name: 'my_machine'

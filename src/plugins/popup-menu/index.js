@@ -13,8 +13,11 @@ PopupMenu.createInstance = (properties = {}) => {
     add (popupProp) {
       Instance.add(popupProp)
     },
-    remove (keyName) {
+    remove (keyName) { // 移除该名字类型的popup或者全部移除
       Instance.remove(keyName)
+    },
+    removeSimilar (kind) { // 移除该类型的popup
+      Instance.removeSimilar(kind)
     },
     destroy () {
       this.remove()
