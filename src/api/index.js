@@ -4,8 +4,13 @@ import {
 } from './user'
 // 公共接口
 import {
-  getStoreApi
+  getStoreApi,
+  getChildBrandListApi
 } from './common'
+import {
+  uploadImgToOssApi,
+  getOssInfoApi
+} from './app'
 import {
   getMachineDetailApi,
   getMachineListApi,
@@ -24,10 +29,19 @@ import {
   getInventoryDetailApi,
   getInventoryDetailGiftListApi
 } from './inventory'
+import {
+  getGiftCreateListApi,
+  getGiftCreateInfoApi,
+  addGiftCreateApi
+} from './gift'
 export {
   loginApi, // 登录
 
   getStoreApi, // 获取门店
+  getChildBrandListApi, // 获取子品牌列表
+
+  uploadImgToOssApi, // 上传图片到oss
+  getOssInfoApi, // 获取oss签名等相关信息
 
   getMachineListApi, // 机台列表
   getMachineDetailApi, // 机台详情
@@ -43,5 +57,9 @@ export {
   addInventoryDataApi, // 增加盘点数
   getInventoryListApi, // 盘点单列表
   getInventoryDetailApi, // 盘点单详情
-  getInventoryDetailGiftListApi // 盘点单详情礼品列表
+  getInventoryDetailGiftListApi, // 盘点单详情礼品列表
+
+  getGiftCreateListApi, // 获取礼品创建列表
+  getGiftCreateInfoApi, // 获取创建礼品信息
+  addGiftCreateApi // 添加礼品创建
 }

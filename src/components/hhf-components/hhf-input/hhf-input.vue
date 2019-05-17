@@ -9,19 +9,22 @@
       </div>
     </div>
     <div class="hhf-input-right">
-      <div class="hhf-input-content">
+      <div class="hhf-input-content size-28">
         <slot
           v-if="$slots['content']"
           name="content"
         ></slot>
         <input
           v-else
+          :maxlength="maxlength"
           :type="type"
           :style="{'text-align': position}"
           :value="value"
-          class="hhf-input-entry"
+          :class="['hhf-input-entry', inputClass]"
           @input="$emit('trigger-input', $event.target.value)"
           :placeholder="placeholder"
+          @focus="handleFocus"
+          @blur="$emit('trigger-blur', $event.target.value)"
         />
       </div>
       <slot name="end"></slot>
@@ -57,6 +60,8 @@ export default {
       default: '',
       type: String
     },
+    inputClass: [String, Array],
+    maxlength: Number,
     type: {
       default: 'text',
       type: String,
@@ -74,14 +79,32 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+    handleFocus (e) {
+      // if (this.type === 'number') {
+      //   return
+      // }
+      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { // 移动端
+        let target = e.target
+        if (target.setSelectionRange) { // 火狐
+          target.setSelectionRange(target.value.length, target.value.length) // 将光标定位在textarea的开头，需要定位到其他位置的请自行修改
+        // target.focus()
+        }
+      }
+      //  else if (target.createTextRange) { // ie
+      //   var rtextRange = target.createTextRange()
+      //   rtextRange.moveStart('character', target.value.length)
+      //   rtextRange.collapse(true)
+      //   rtextRange.select()
+      // }
+    }
+  },
   mounted () {
   }
 }
 </script>
 <style lang="stylus">
 .hhf-input
-  padding rems(20) rems(10)
 .hhf-input-left-title
   padding-right rems(10)
 .hhf-input-right
@@ -95,5 +118,4 @@ export default {
   margin 0
   width 100%
   height rems(48)
-  font-size rems(30)
 </style>

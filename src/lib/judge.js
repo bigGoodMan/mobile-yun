@@ -52,6 +52,18 @@ const STOCK_TAKING_STATUS = {
   '5': '不通过',
   '6': '取消'
 }
+const GIFT_MACHINE_TYPE = {
+  '3': '小爪机',
+  '51': '大爪机',
+  '52': '剪刀机',
+  '53': '乐淘机'
+}
+const CLAW_TYPE = {
+  '3-7': '3-7',
+  '5-5': '5-5',
+  '15-3': '15-3',
+  '9-3': '9-3'
+}
 export {
   MACHINE_STATUS, // 缺货类型
   MACHINE_STATUS_TYPE, // 礼品机状态
@@ -61,5 +73,7 @@ export {
   CRANE_SPEED, // 天车速度
   CRANE_DELAY, // 天车碰上停止时间
   PAW_POSITION_C2, // 变c2点
-  STOCK_TAKING_STATUS // 库存盘点状态
+  STOCK_TAKING_STATUS, // 库存盘点状态
+  GIFT_MACHINE_TYPE, // 礼品机类型
+  CLAW_TYPE // 爪型
 }

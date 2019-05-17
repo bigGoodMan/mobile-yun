@@ -136,7 +136,6 @@ export default {
       this.$emit('trigger-change', val)
     },
     handleInput (e) {
-      console.log(e.target.value)
       let val = e.target.value
       val = String(val).replace(/[^0-9.-]/g, '')
       //  this.handleFormat(e.target.value, this.currentValue)

@@ -30,8 +30,8 @@ export default {
     // 天车参数
     car_speed_front_back: '', // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
     car_speed_front_back_value: '', // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
-    car_speed_left_right: '', // 天车前后速度L 0 最快 1快 2中 3慢 4最慢
-    car_speed_left_right_value: '', // 天车前后速度L 0 最快 1快 2中 3慢 4最慢
+    car_speed_left_right: '', // 天车左右速度L 0 最快 1快 2中 3慢 4最慢
+    car_speed_left_right_value: '', // 天车左右速度L 0 最快 1快 2中 3慢 4最慢
     car_speed_up_down: '', // 天车上下速度U 0 最快 1快 2中 3慢 4最慢
     car_speed_up_down_value: '', // 天车上下速度U 0 最快 1快 2中 3慢 4最慢
     key20: '', // 碰上停DELAY 0 0秒 1 0.2秒 2 0.4秒 3 0.6秒

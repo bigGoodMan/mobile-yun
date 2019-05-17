@@ -3,7 +3,7 @@
   <div class="create-gift-list">
     <div class="create-gift-list-header">
       <HeaderSearch
-        v-model="value"
+        v-model="giftSearch"
         @trigger-search="handleSearch"
         placeholder="请输入礼品名称或编号"
       />
@@ -25,7 +25,7 @@
           v-for="(items, index) of list"
           :key="index"
         >
-          <GiftList :result="items" />
+          <GiftList :result="items" @trigger-click="$router.push({ name: 'create_gift_detail', query: { id: items.gift_id } })" />
           <div class="border"></div>
         </div>
       </van-list>
@@ -33,7 +33,7 @@
     <!-- 按钮 -->
     <div class="height-100">
     <div class="fixed-max-width bottom-0 size-0">
-        <HhfButton type="info" size="large" @trigger-click="$router.push({ name: 'create_inventory' })">新增礼品</HhfButton>
+        <HhfButton type="info" size="large" @trigger-click="$router.push({ name: 'add_edit_gift' })">新增礼品</HhfButton>
     </div>
     </div>
   </div>
@@ -43,34 +43,19 @@
 import HeaderSearch from '@yun/header-search'
 import HhfButton from '@hhf/hhf-button'
 import GiftList from '@yun/gift-list'
+import { getGiftCreateListApi } from '@/api'
 export default {
   name: 'create_gift_list',
 
   data () {
     return {
-      list: [
-        {
-          gift_id: 1,
-          gift_name: '13cm大肥肥',
-          thumb: 'http://img.hahaipi.com/gift/14/14751496243321.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/quality,Q_80',
-          img: 'http://img.hahaipi.com/gift/14/14751496243321.jpg'
-        },
-        {
-          gift_id: 2,
-          gift_name: '13cm大肥肥',
-          thumb: 'http://img.hahaipi.com/gift/14/14751496243321.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/quality,Q_80',
-          img: 'http://img.hahaipi.com/gift/14/14751496243321.jpg'
-        },
-        {
-          gift_id: 3,
-          gift_name: '13cm大肥肥',
-          thumb: 'http://img.hahaipi.com/gift/14/14751496243321.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/quality,Q_80',
-          img: 'http://img.hahaipi.com/gift/14/14751496243321.jpg'
-        }
-      ],
+      list: [],
       isLoading: false, // 下拉刷新loading状态
       loading: false, // 上拉加载loading状态
-      finished: true // 是否加载完成
+      finished: true, // 是否加载完成
+
+      giftSearch: '', // 搜索内容
+      page: 1
     }
   },
 
@@ -85,22 +70,57 @@ export default {
   methods: {
     // 搜索
     handleSearch (val) {
-
+      this.page = 1
+      this.getGiftCreateList(dt => {
+        this.list = dt
+      })
+    },
+    getGiftCreateList (callback = () => {}) {
+      this.$Loading({
+        message: '加载中...'
+      })
+      let {
+        giftSearch,
+        page
+      } = this
+      getGiftCreateListApi({
+        gift_id: giftSearch,
+        page: page
+      }).then(res => {
+        let arr = []
+        this.$Loading.clear()
+        if (res.return_code === '0') {
+          this.page = ++page
+          arr = res.data
+        } else if (res.msg) {
+          this.$Tip.warning({
+            mask: true,
+            message: res.msg
+          })
+        }
+        callback(arr)
+      })
     },
     // 下拉刷新
     handleRefresh () {
-      console.log(this.isLoading)
-      setTimeout(() => {
+      this.page = 1
+      this.getGiftCreateList(dt => {
+        this.list = dt
         this.isLoading = false
-      }, 1)
+      })
     },
     // 上拉加载
     handleLoading () {
-
+      this.getGiftCreateList((dt) => {
+        this.list = this.list.concat(dt)
+        this.finished = dt.length === 0
+        this.loading = false
+      })
     }
   },
-
-  mounted () {}
+  mounted () {
+    this.handleLoading()
+  }
 }
 </script>
 <style lang="stylus" scoped>

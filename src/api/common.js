@@ -6,6 +6,14 @@ function getStoreApi (data) {
     data
   })
 }
+// 获取子品牌列表
+function getChildBrandListApi (data) {
+  return HttpReq.formPost({
+    url: 'Gift_storage/getBrandList',
+    data
+  })
+}
 export {
-  getStoreApi // 获取门店
+  getStoreApi,
+  getChildBrandListApi
 }

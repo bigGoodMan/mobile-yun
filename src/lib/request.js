@@ -90,7 +90,7 @@ class HttpRequest {
     options = this.getOptionChange(options)
     let method = options.method
     let baseURL = options.baseURL
-    let url = options.url
+    let url = options.url || ''
     let headers = options.headers || {}
     let head = options.head || {}
     let data = options.data || {}

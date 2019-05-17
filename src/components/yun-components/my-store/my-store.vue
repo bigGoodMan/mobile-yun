@@ -40,21 +40,32 @@ export default {
     ...mapState({
       storeList: state => state.common.storeList
     }),
-    columns () {
-      const storeList = this.storeList
-      return storeList.map((v) => {
-        const items = {
-          text: v.store_name,
-          ...v
-        }
-        return items
-      })
+    columns: {
+      get () {
+        const storeList = this.storeList
+        return storeList.map((v) => {
+          const items = {
+            text: v.store_name,
+            ...v
+          }
+          return items
+        })
+      }
     },
     arrow () {
       return this.show ? 'arrow-up' : 'arrow-down'
     }
   },
-
+  watch: {
+    storeList (currArr) {
+      if (currArr.length > 0) {
+        this.store = {
+          ...currArr[0]
+        }
+        this.$emit('trigger-click', { value: currArr[0], index: 0 })
+      }
+    }
+  },
   methods: {
     ...mapActions(['COMMON_GETSTORE_ACTION']),
     // 打开

@@ -6,6 +6,7 @@ import app from './modules/app'
 import machine from './modules/machine'
 import common from './modules/common'
 import inventory from './modules/inventory'
+import gift from './modules/gift'
 
 Vue.use(Vuex)
 // 数据初始化保存
@@ -14,7 +15,8 @@ const initData = {
   app: app.state,
   machine: machine.state,
   common: common.state,
-  inventory: inventory.state
+  inventory: inventory.state,
+  gift: gift.state
 }
 export default new Vuex.Store({
   state: {
@@ -36,6 +38,7 @@ export default new Vuex.Store({
     app,
     machine,
     common,
-    inventory
+    inventory,
+    gift
   }
 })

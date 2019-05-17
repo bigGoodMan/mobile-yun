@@ -46,9 +46,6 @@ export default {
     columns: {
       handler (val, oldVal) {
         this.loading = false
-        if (val.length > 0) {
-          this.$emit('trigger-confirm', { value: val[this.defaultIndex], index: this.defaultIndex })
-        }
       }
     }
   },

@@ -1,14 +1,23 @@
 <!-- 可以压缩上传图片 -->
 <template>
-  <div class="hhf-upload-img">
-    <input type="file" :accept="accept" v-show="false" @change="handleChange($event)" ref="imgRef" />
-    <div class="hhf-upload-img-container">
-      <div class="hhf-upload-img-add" @click="handleClick">
-        <div class="hhf-upload-img-add-container">
-          <HhfIcon name="add" class="size-32 hhf-upload-img-add-icon" />
-          <span class="hhf-upload-img-add-img">添加图片</span>
-        </div>
-      </div>
+  <div class="hhf-upload-img size-0 display-inline-block">
+    <input
+      type="file"
+      :accept="accept"
+      v-show="false"
+      @change="handleChange($event)"
+      ref="imgRef"
+    />
+    <div
+      class="hhf-upload-img-container flex-column flex-center size-0"
+      @click="handleClick"
+    >
+    <div :class="['hhf-upload-img-add-icon size-36 flex-row flex-center', btnCls]">
+      <HhfIcon
+        name="add"
+      />
+    </div>
+      <span class="hhf-upload-img-add-img size-26 color-7">添加图片</span>
     </div>
   </div>
 </template>
@@ -30,20 +39,11 @@ export default {
       default: false
     },
     // 压缩质量
-    quality: {
-      type: Number,
-      default: 1
-    },
+    quality: Number,
     // 压缩之后的最大宽度
-    maxWidth: {
-      type: Number,
-      default: 500
-    },
+    maxWidth: Number,
     // 压缩之后的最大高度
-    maxHeight: {
-      type: Number,
-      default: 500
-    }
+    maxHeight: Number
   },
   data () {
     return {
@@ -54,12 +54,18 @@ export default {
     HhfIcon
   },
 
-  computed: {},
+  computed: {
+    btnCls () {
+      return this.disabled ? 'hhf-upload-img-btn-disabled' : null
+    }
+  },
 
   methods: {
     handleClick () {
-      this.$refs['imgRef'].value = ''
-      this.$refs['imgRef'].click()
+      if (!this.disabled) {
+        this.$refs['imgRef'].value = ''
+        this.$refs['imgRef'].click()
+      }
     },
     handleChange (e) {
       let file = e.target.files[0]
@@ -69,17 +75,21 @@ export default {
         maxWidth,
         maxHeight
       } = _this
-      pictureCompress.fileResizetoFile(file, function (b) {
-        // if (Object.prototype.toString.call(b) === '[object Blob]') {
-        //   var fileReader = new FileReader()
-        //   fileReader.onload = function (ee) {
-        //     _this.handleCallBack(ee.target.result)
-        //   }
-        //   fileReader.readAsDataURL(b)
-        // } else {
-        _this.handleCallBack(b)
-        // }
-      }, quality, maxWidth, maxHeight)
+      if (!quality && !maxWidth && !maxHeight) {
+        _this.handleCallBack(file)
+      } else {
+        pictureCompress.fileResizetoFile(file, function (b) {
+          // if (Object.prototype.toString.call(b) === '[object Blob]') {
+          //   var fileReader = new FileReader()
+          //   fileReader.onload = function (ee) {
+          //     _this.handleCallBack(ee.target.result)
+          //   }
+          //   fileReader.readAsDataURL(b)
+          // } else {
+          _this.handleCallBack(b)
+          // }
+        }, quality, maxWidth, maxHeight)
+      }
     },
     handleCallBack (blob) {
       this.$emit('trigger-change', blob)
@@ -90,42 +100,19 @@ export default {
 }
 </script>
 <style lang="stylus">
-.hhf-upload-img
-  background-color #ffffff
-  border-radius 0.1rem
-  .hhf-upload-img-container
-    display flex
-    flex-flow row wrap
-    justify-content flex-start
-    align-items flex-start
-    width 100%
-    padding 0.23rem
-    min-height 3.2rem
-    box-sizing border-box
-    .hhf-upload-img-add
-      width 25%
-      box-sizing border-box
-      padding-right 0.15rem
-      .hhf-upload-img-add-container
-        display flex
-        flex-flow column nowrap
-        justify-content center
-        align-items center
-        border 1px dashed #c6c6c6
-        height 1.49rem
-      .hhf-upload-img-add-icon
-        display flex
-        width 0.6rem
-        height 0.6rem
-        flex-flow row nowrap
-        justify-content center
-        align-items center
-        border-radius 50%
-        background-color #5094f3
-        color #ffffff
-        font-size 0.36rem
-      .hhf-upload-img-add-img
-        padding-top 0.1rem
-        font-size 0.26rem
-        color #919191
+.hhf-upload-img-container
+  width rems(150)
+  height rems(150)
+  box-sizing border-box
+.hhf-upload-img-add-icon
+  width rems(60)
+  height @width
+  border-radius 50%
+  background-color #5094f3
+  color #ffffff
+  &.hhf-upload-img-btn-disabled
+    background-color #dcdcdc
+color #ffffff
+.hhf-upload-img-add-img
+  padding-top rems(10)
 </style>
