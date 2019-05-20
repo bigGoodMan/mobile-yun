@@ -84,7 +84,7 @@ export default {
       // if (this.type === 'number') {
       //   return
       // }
-      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { // 移动端
+      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent) && !/(Win32)/i.test(navigator.platform)) { // 移动端
         let target = e.target
         if (target.setSelectionRange) { // 火狐
           target.setSelectionRange(target.value.length, target.value.length) // 将光标定位在textarea的开头，需要定位到其他位置的请自行修改

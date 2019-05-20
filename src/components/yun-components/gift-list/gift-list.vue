@@ -5,7 +5,7 @@
     @click="handleClick(result)"
   >
     <div
-      class="gift-list-check"
+      class="gift-list-check flex-row flex-center"
       v-if="checked !== void 0"
     >
       <van-checkbox

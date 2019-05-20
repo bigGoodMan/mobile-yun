@@ -32,7 +32,10 @@ import {
 import {
   getGiftCreateListApi,
   getGiftCreateInfoApi,
-  addGiftCreateApi
+  addGiftCreateApi,
+  editGiftCreateApi,
+  getGiftStorageRecordApi,
+  addGiftStorageOrderApi
 } from './gift'
 export {
   loginApi, // 登录
@@ -61,5 +64,8 @@ export {
 
   getGiftCreateListApi, // 获取礼品创建列表
   getGiftCreateInfoApi, // 获取创建礼品信息
-  addGiftCreateApi // 添加礼品创建
+  addGiftCreateApi, // 添加礼品创建
+  editGiftCreateApi, // 修改礼品创建
+  getGiftStorageRecordApi, // 获取礼品入库记录
+  addGiftStorageOrderApi // 添加礼品入库单
 }

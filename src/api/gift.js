@@ -20,8 +20,32 @@ function addGiftCreateApi (data) {
     data
   })
 }
+// 修改礼品创建
+function editGiftCreateApi (data) {
+  return HttpReq.formPost({
+    url: 'Gift_storage/saveGiftInfo',
+    data
+  })
+}
+// 获取礼品入库记录
+function getGiftStorageRecordApi (data) {
+  return HttpReq.formPost({
+    url: 'Gift_storage/getGiftStockRecord',
+    data
+  })
+}
+// 添加礼品入库单
+function addGiftStorageOrderApi (data) {
+  return HttpReq.formPost({
+    url: 'Gift_storage/addGiftStock',
+    data
+  })
+}
 export {
   getGiftCreateListApi,
   getGiftCreateInfoApi,
-  addGiftCreateApi
+  addGiftCreateApi,
+  editGiftCreateApi,
+  getGiftStorageRecordApi,
+  addGiftStorageOrderApi
 }

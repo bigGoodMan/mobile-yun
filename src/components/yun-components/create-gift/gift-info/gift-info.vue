@@ -7,7 +7,7 @@
     <div class="border border-ebedf0"></div>
     <div class="gift-info-img-column flex-row flex-start-center">
       <span class="gift-info-name size-28">图片（必填）</span>
-      <UploadImg class="flex-1" :maxlength="1" :column="result.column" @trigger-change="handleChange" />
+      <UploadImg class="flex-1" :max-length="1" :column="column" @trigger-change="handleChange" @trigger-delete="handleDelete" />
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
     column () {
       return this.result.img ? [{
         src: this.result.img
-      }] : null
+      }] : []
     },
     giftName: {
       get () {
@@ -57,6 +57,12 @@ export default {
       this.$emit('trigger-change', {
         ...this.result,
         img: obj.src
+      })
+    },
+    handleDelete () {
+      this.$emit('trigger-change', {
+        ...this.result,
+        img: ''
       })
     }
   },

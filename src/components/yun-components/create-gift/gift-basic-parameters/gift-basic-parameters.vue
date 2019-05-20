@@ -4,7 +4,7 @@
     <div>
       <van-cell
         title="适用机型"
-        :value="giftMachineType[result.type_id]"
+        :value="giftMachineType[result.machine_type]"
         @click="typeShow = true"
         is-link
       />
@@ -23,16 +23,16 @@
       <HhfInput
         title="预设毛利率（%）"
         type="tel"
-        v-model="profit"
+        v-model="defaultEarnRate"
         class="color-input"
         placeholder="可填1~100，不填则默认75%"
       />
       <div class="color-error size-20 text-right height-err">
-        <span v-show="errObj.profit">不在毛利率范围1~100</span>
+        <span v-show="errObj.defaultEarnRate">不在毛利率范围1~100</span>
       </div>
       <div class="size-22 color-7 gift-basic-parameters-tip">该礼品配置到机台上时，系统会根据此值计算出合理的获奖局数</div>
     </div>
-       <BottomPopup :columns="typeColumns"  :show="typeShow" @trigger-confirm="(val) => handleConfirm('type_id', val)" @trigger-close="typeShow = false" />
+       <BottomPopup :columns="typeColumns"  :show="typeShow" @trigger-confirm="(val) => handleConfirm('machine_type', val)" @trigger-close="typeShow = false" />
        <BottomPopup :columns="clawColumns" :show="clawShow" @trigger-confirm="(val) => handleConfirm('claw_type', val)" @trigger-close="clawShow = false" />
   </div>
 </template>
@@ -70,24 +70,24 @@ export default {
   computed: {
     // 机型
     typeColumns () {
-      return this.commonColumn('type_id', GIFT_MACHINE_TYPE)
+      return this.commonColumn('machine_type', GIFT_MACHINE_TYPE)
     },
     clawColumns () {
       return this.commonColumn('claw_type', CLAW_TYPE)
     },
-    profit: {
+    defaultEarnRate: {
       get () {
-        return this.result.profit
+        return this.result.default_earn_rate
       },
       set (val) {
         this.judgeFunc({
           value: val,
           range: [1, 100],
-          key: 'profit'
+          key: 'defaultEarnRate'
         })
         this.$emit('trigger-change', {
           ...this.result,
-          profit: val
+          default_earn_rate: val
         })
       }
     }

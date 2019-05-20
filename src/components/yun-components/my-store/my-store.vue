@@ -7,7 +7,7 @@
     </div>
     <div class="border"></div>
     <div>
-       <BottomPopup :columns="columns" :default-index="defaultIndex" :show="show" @trigger-confirm="handleConfirm" @trigger-close="handleClose" />
+       <BottomPopup :columns="columns" :default-index="selectIndex" :show="show" @trigger-confirm="handleConfirm" @trigger-close="handleClose" />
     </div>
   </div>
 </template>
@@ -21,15 +21,17 @@ export default {
     open: { // 是否打开
       default: false,
       type: Boolean
-    }
+    },
+    defaultIndex: Number,
+    storeId: [String, Number]
   },
   data () {
     return {
       show: false,
-      defaultIndex: 0,
       store: {
         store_name: '请选择门店'
-      }
+      },
+      selectIndex: null
     }
   },
   components: {
@@ -58,12 +60,34 @@ export default {
   },
   watch: {
     storeList (currArr) {
+      const {
+        storeId,
+        defaultIndex
+      } = this
+
       if (currArr.length > 0) {
-        this.store = {
-          ...currArr[0]
+        if (storeId >= 0) {
+          const arr = currArr.map((v, i) => {
+            return {
+              ...v,
+              index: i
+            }
+          }).filter((v, i) => v.sotre_id === String(storeId))
+          if (arr.length > 0) {
+            let obj = arr[0]
+            this.selectIndex = obj.index
+            this.store = {
+              ...obj
+            }
+          }
+        } else if (defaultIndex >= 0) {
+          this.selectIndex = defaultIndex
+          this.store = {
+            ...currArr[0]
+          }
         }
-        this.$emit('trigger-click', { value: currArr[0], index: 0 })
       }
+      this.$emit('trigger-click', { value: { ...this.store, index: this.selectIndex } })
     }
   },
   methods: {

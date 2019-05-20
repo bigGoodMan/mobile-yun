@@ -1,12 +1,24 @@
 <!-- 自建礼品列表 -->
 <template>
-  <div class="create-gift-list">
-    <div class="create-gift-list-header">
+  <div class="storege-gift-add-list">
+    <div class="storege-gift-add-list-header">
+      <div class="fixed-max-width top-0">
       <HeaderSearch
         v-model="giftSearch"
         @trigger-search="handleSearch"
         placeholder="请输入礼品名称或编号"
       />
+      <h5 class="size-28 flex-row flex-between-center margin-0 padding-20-30 bgcolor-f">
+        <span>礼品列表</span>
+        <HhfButton
+          type="info"
+          size="small"
+          radius="0.4rem"
+          @trigger-click="handleGo"
+        >新增礼品</HhfButton>
+      </h5>
+      <div class="border"></div>
+      </div>
     </div>
     <!-- 礼品列表内容 -->
     <van-pull-refresh
@@ -27,7 +39,7 @@
         >
           <GiftList
             :result="items"
-            @trigger-click="$router.push({ name: 'create_gift_detail', query: { id: items.gift_id } })"
+            @trigger-click="handleChecked"
           />
           <div class="border"></div>
         </div>
@@ -39,8 +51,8 @@
         <HhfButton
           type="info"
           size="large"
-          @trigger-click="$router.push({ name: 'add_edit_gift' })"
-        >新增礼品</HhfButton>
+          @trigger-click="handleAdd"
+        >添加</HhfButton>
       </div>
     </div>
   </div>
@@ -51,8 +63,9 @@ import HeaderSearch from '@yun/header-search'
 import HhfButton from '@hhf/hhf-button'
 import GiftList from '@yun/gift-list'
 import { getGiftCreateListApi } from '@/api'
+import { mapMutations } from 'vuex'
 export default {
-  name: 'create_gift_list',
+  name: 'storege_gift_add_list',
 
   data () {
     return {
@@ -68,13 +81,14 @@ export default {
 
   components: {
     HeaderSearch,
-    GiftList,
-    HhfButton
+    HhfButton,
+    GiftList
   },
 
   computed: {},
 
   methods: {
+    ...mapMutations(['GIFT_GIFTSTORAGELIST_MUTATE']),
     // 搜索
     handleSearch (val) {
       this.page = 1
@@ -98,7 +112,7 @@ export default {
         this.$Loading.clear()
         if (res.return_code === '0') {
           this.page = ++page
-          arr = res.data
+          arr = res.data.map(v => ({ ...v, checked: false }))
         } else if (res.msg) {
           this.$Tip.warning({
             mask: true,
@@ -123,15 +137,41 @@ export default {
         this.finished = dt.length === 0
         this.loading = false
       })
+    },
+    // 选中
+    handleChecked (items) {
+      this.list = this.list.map(v => {
+        let obj = {
+          ...v
+        }
+        if (items.gift_id === v.gift_id) {
+          obj.checked = items.checked
+        }
+        return obj
+      })
+    },
+    handleAdd () {
+      this.GIFT_GIFTSTORAGELIST_MUTATE(this.list.filter(v => v.checked).map(v => ({ ...v, checked: void 0, num: '', money_cost: '' })))
+      this.$router.go(-1)
+    },
+    handleGo () {
+      this.$router.push({
+        name: 'add_edit_gift',
+        query: {
+          url: encodeURIComponent(JSON.stringify({ name: 'storege_gift_add_list' }))
+        }
+      })
     }
   },
+
   mounted () {
     this.handleLoading()
   }
 }
 </script>
 <style lang="stylus" scoped>
-.create-gift-list-header
+.storege-gift-add-list-header
   position relative
   z-index 1
+  height rems(208)
 </style>

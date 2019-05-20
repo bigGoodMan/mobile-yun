@@ -5,7 +5,7 @@
         <span class="upload-img-remove" @click.stop="handleDelete(index)">×</span>
        <img :src="item.src">
       </dd>
-      <dt class="upload-img-add" v-if="list.length < maxLength">
+      <dt class="upload-img-add" v-if="column.length < maxLength">
         <HhfUploadImg :accept="accept" :disabled="disabled" :quality="quality" :maxWidth="maxWidth" :maxHeight="maxHeight" @trigger-change="handleChange" />
       </dt>
     </dl>
@@ -134,8 +134,8 @@ export default {
       })
     },
     handleDelete (index) {
-      this.list.splice(index, 1)
-      console.log(index, this.list)
+      const obj = this.column.filter((v, i) => i === index)[0]
+      this.$emit('trigger-delete', obj)
     },
     handleRevoke (e) {
       window.URL.revokeObjectURL(e.target.src)
