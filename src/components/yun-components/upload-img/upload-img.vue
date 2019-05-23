@@ -1,12 +1,12 @@
 <!-- 上传图片 -->
 <template>
     <dl class="upload-img-container size-0">
-      <dd class="upload-img-list flex-row flex-" v-for="(item,index) of column" :key="index" @click="APP_IMAGEPREVIEW_MUTATE({ previewImage: [item.src], imagePreviewShow: true })">
+      <dd class="upload-img-list flex-row flex-start-center" v-for="(item,index) of column" :key="index" @click="APP_IMAGEPREVIEW_MUTATE({ previewImage: [item.src], imagePreviewShow: true })">
         <span class="upload-img-remove" @click.stop="handleDelete(index)">×</span>
-       <img :src="item.src">
+       <img class="upload-img-content" :src="item.src">
       </dd>
       <dt class="upload-img-add" v-if="column.length < maxLength">
-        <HhfUploadImg :accept="accept" :disabled="disabled" :quality="quality" :maxWidth="maxWidth" :maxHeight="maxHeight" @trigger-change="handleChange" />
+        <HhfUploadImg :accept="accept" :maxSize="maxSize" :disabled="disabled" :quality="quality" :maxWidth="maxWidth" :maxHeight="maxHeight" @trigger-change="handleChange" />
       </dt>
     </dl>
 </template>
@@ -35,6 +35,7 @@ export default {
     maxWidth: Number,
     // 压缩之后的最大高度
     maxHeight: Number,
+    maxSize: Number,
     maxLength: {
       type: Number,
       default: 6
@@ -62,16 +63,11 @@ export default {
     ...mapActions(['APP_SETOSSINFO_ACTION']), // 设置oss信息
     ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']), // 预览图片
     handleChange (blob) {
-      this.uploadImg(blob)
-
-      // var fileReader = new FileReader()
-      // fileReader.onload = (ee) => {
-      //   this.list.push({
-      //     blob,
-      //     src: ee.target.result
-      //   })
-      // }
-      // fileReader.readAsDataURL(blob)
+      var fileReader = new FileReader()
+      fileReader.onload = (ee) => {
+        this.uploadImg(blob, ee.target.result)
+      }
+      fileReader.readAsDataURL(blob)
       // this.list.push({
       //   blob,
       //   src: window.URL.createObjectURL(blob)
@@ -80,7 +76,7 @@ export default {
       //   this.show = false
       // }
     },
-    uploadImg (blob) {
+    uploadImg (blob, result) {
       const {
         accessKeyID,
         policy,
@@ -99,14 +95,19 @@ export default {
       data.append('file', blob)
       uploadImgToOssApi({ data, callback }).then(res => {
         data = null
-        if (res.return_code === '0') {
-          this.$emit('trigger-change', { src: res.data })
-        } else if (res.msg) {
-          this.$Tip.warning({
-            mask: true,
-            message: res.msg
-          })
+        if (res && res.return_code === '0') {
+          this.$emit('trigger-change', { src: res.data, base64Src: result })
+          return
         }
+        this.$Tip.warning({
+          mask: true,
+          message: '添加失败，请重新添加'
+        })
+      }).catch(() => {
+        this.$Tip.warning({
+          mask: true,
+          message: '添加失败，请重新添加'
+        })
       })
     },
     // 获取oss信息
@@ -158,24 +159,27 @@ export default {
   margin 0
   box-sizing border-box
   .upload-img-add
-    padding rems(10) 0
+    padding rems(20) 0
   .upload-img-list
     position relative
     width rems(150)
     height rems(150)
-    padding rems(10) 0
-    margin 0 rems(10) 0 0
+    padding rems(20) 0
+    margin 0 rems(20) 0 0
+    .upload-img-content
+      max-width 100%
+      max-height 100%
     .upload-img-remove
       position absolute
       top 0
-      right rems(-10)
+      right rems(-20)
       display inline-block
-      width rems(30)
+      width rems(40)
       height @width
       line-height @width
-      background-color #ff0000
+      background-color #333333
       color #ffffff
-      font-size 0.26rem
+      font-size rems(32)
       border-radius 50%
       text-align center
       z-index 1

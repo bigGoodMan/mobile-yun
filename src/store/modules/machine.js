@@ -136,6 +136,10 @@ export default {
       state.game_times_shutdown = data.game_times_shutdown
       state.power_times = data.power_times
       state.sky_grab_thing = data.sky_grab_thing
+    },
+    // 修改运营参数
+    MACHINE_EDITOPERATEPARAM_MUTATE (state, { key, value }) {
+      state[key] = value
     }
   },
   actions: {
@@ -186,26 +190,19 @@ export default {
     // 下发运营参数
     async MACHINE_SETOPERATEPARAM_ACTION ({ commit, state }, { machineId, data }) {
       data = {
-        ...data,
-        car_speed_front_back: state.car_speed_front_back,
-        car_speed_left_right: state.car_speed_left_right,
-        car_speed_up_down: state.car_speed_up_down,
         key20: state.key20,
-        line_length: state.line_length,
-        grab_voltage: state.grab_voltage,
-        fall_voltage: state.fall_voltage,
-        vigorously_voltage: state.vigorously_voltage,
-        key21: state.key21
+        key21: state.key21,
+        ...data
       }
       if (state.main_board === '2') {
         data = {
-          ...data,
           key23: state.key23,
           key24: state.key24,
           key25: state.key25,
           key26: state.key26,
           key27: state.key27,
-          key28: state.key28
+          key28: state.key28,
+          ...data
         }
       }
       const res = await setOperateParamApi({

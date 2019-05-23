@@ -51,6 +51,8 @@ export default {
   data () {
     return {
       storeId: null,
+      brandId: null,
+      brandName: null,
       btnLoading: false
     }
   },
@@ -77,27 +79,46 @@ export default {
       })
       return {
         num,
-        money_cost: price
+        money_cost: price.toFixed(2)
       }
     }
   },
 
   methods: {
-    ...mapMutations(['GIFT_DELETEGIFTSTORAGELIST_MUTATE']),
+    ...mapMutations(['GIFT_DELETEGIFTSTORAGELIST_MUTATE', 'GIFT_CLEARGIFTSTORAGELIST_MUTATE']),
     // 去添加礼品
     handleGo () {
+      if (!this.storeId) {
+        this.$Tip.warning('请选择门店')
+        return
+      }
       this.$router.push({
-        name: 'storege_gift_add_list'
+        name: 'storege_gift_add_list',
+        query: {
+          sid: this.storeId,
+          bid: this.brandId,
+          brandname: this.brandName
+        }
       })
     },
     handleConfirm (obj) {
+      if (this.storeId === obj.value.store_id) {
+        return
+      }
+      this.GIFT_CLEARGIFTSTORAGELIST_MUTATE()
+      this.brandId = obj.value.brand_id
       this.storeId = obj.value.store_id
+      this.brandName = obj.value.brand_name
     },
     // 提交入库
     handleSubmit () {
       let data = []
       if (!this.storeId) {
         this.$Tip.warning('请选择门店')
+        return
+      }
+      if (!this.giftStorageList.length === 0) {
+        this.$Tip.warning('请添加礼品')
         return
       }
       for (let i = 0; i < this.giftStorageList.length; ++i) {
@@ -125,6 +146,7 @@ export default {
         this.btnLoading = false
         if (res.return_code === '0') {
           const $this = this
+          this.GIFT_CLEARGIFTSTORAGELIST_MUTATE()
           $this.$Tip.success({
             message: '提交成功',
             mask: true,

@@ -54,7 +54,7 @@ export default {
       }
     },
     getTime (time) {
-      return moment(time * 1000).format('YYYY-MM-DD hh:mm:ss')
+      return moment(time * 1000).format('YYYY-MM-DD HH:mm:ss')
     },
     handleRouter (items) {
       const inventoryId = items.inventory_id

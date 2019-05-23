@@ -21,6 +21,10 @@ export default {
     // 删除当前门店礼品入库
     GIFT_DELETEGIFTSTORAGELIST_MUTATE (state, obj) {
       state.giftStorageList = state.giftStorageList.filter(v => v.gift_id !== obj.gift_id)
+    },
+    // 清楚当前门店礼品入库
+    GIFT_CLEARGIFTSTORAGELIST_MUTATE (state) {
+      state.giftStorageList = []
     }
     // 修改当前礼品列表
     // GIFT_EDITGIFTSTORAGELIST_MUTATE (state, obj) {

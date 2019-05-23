@@ -104,8 +104,12 @@ export default {
         giftSearch,
         page
       } = this
+      let {
+        bid
+      } = this.$route.query
       getGiftCreateListApi({
         gift_id: giftSearch,
+        brand_id: bid,
         page: page
       }).then(res => {
         let arr = []
@@ -155,10 +159,17 @@ export default {
       this.$router.go(-1)
     },
     handleGo () {
+      const {
+        sid,
+        bid,
+        brandname
+      } = this.$route.query
       this.$router.push({
         name: 'add_edit_gift',
         query: {
-          url: encodeURIComponent(JSON.stringify({ name: 'storege_gift_add_list' }))
+          sid,
+          bid,
+          brandname
         }
       })
     }

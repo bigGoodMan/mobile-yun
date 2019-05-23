@@ -2,11 +2,13 @@
 <template>
   <div class="create-gift-list">
     <div class="create-gift-list-header">
+      <div class="fixed-max-width top-0">
       <HeaderSearch
         v-model="giftSearch"
         @trigger-search="handleSearch"
         placeholder="请输入礼品名称或编号"
       />
+      </div>
     </div>
     <!-- 礼品列表内容 -->
     <van-pull-refresh
@@ -134,4 +136,5 @@ export default {
 .create-gift-list-header
   position relative
   z-index 1
+  height rems(108)
 </style>

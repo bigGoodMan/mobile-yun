@@ -9,16 +9,16 @@
       </div>
     </GiftList>
     <div class="border border-ebedf0"></div>
-    <div class="padding-20-30">
+    <div class="padding-20-30-0">
       <HhfInput title="成本单价（元）" placeholder="请输入成本单价" type="number" v-model="result.money_cost" @trigger-blur="handleBlur('money_cost')"/>
-      <div class="color-error size-20 text-right height-err">
+      <div class="color-error size-24 text-right height-err margin-top-10">
         <span v-show="errObj.money_cost">请填写0.01~999范围的数字</span>
       </div>
     </div>
     <div class="border border-ebedf0"></div>
-    <div class="padding-20-30">
+    <div class="padding-20-30-0">
       <HhfInput title="入库数量" placeholder="请输入数量" type="tel" v-model="result.num" @trigger-blur="handleBlur('num')"/>
-      <div class="color-error size-20 text-right height-err">
+      <div class="color-error size-24 text-right height-err margin-top-10">
         <span v-show="errObj.num">请填写1~99999范围的整数</span>
       </div>
     </div>
@@ -58,13 +58,13 @@ export default {
     },
     handleBlur (key) {
       const val = this.result[key]
-      if (val === 'money_cost') {
+      if (key === 'money_cost') {
         this.judgeNumberNotEmptyFunc({
           value: val,
           range: [0.01, 999],
           key: 'money_cost'
         })
-      } else if (val === 'num') {
+      } else if (key === 'num') {
         this.judgeIntegerNotEmptyFunc({
           value: val,
           range: [1, 99999],

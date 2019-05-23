@@ -24,18 +24,48 @@
       v-model="gameType"
       @trigger-close="handlePopup('gamePatternShow', false)"
     />
-      <GamePrizeWinningNumber
-        :show="gameWinningNumberShow"
-        v-model="gameWinningNumberValue"
-        :coinsSell="machine.coins_sell"
-        :moneyCost="machine.money_cost"
-        :coinsValue="machine.coins_value"
-        @trigger-close="handlePopup('gameWinningNumberShow', false)"
-      />
+    <GamePrizeWinningNumber
+      :show="gameWinningNumberShow"
+      v-model="gameWinningNumberValue"
+      :coinsSell="machine.coins_sell"
+      :moneyCost="machine.money_cost"
+      :coinsValue="machine.coins_value"
+      @trigger-close="handlePopup('gameWinningNumberShow', false)"
+    />
     <!-- 天车参数 -->
     <div class="operational-parameters-car-parameter">
       <h5 class="size-30 color-3 operational-parameters-title">天车参数</h5>
-      <van-cell-group>
+      <CellPicker
+        title="天车前后速度F"
+        :columns="carSpeedColumns.carSpeedFrontBackColumns"
+        :value="craneSpeed[carSpeedFrontBack]"
+        @trigger-confirm="(obj) => handleConfirm(obj, 'carSpeedFrontBack')"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPicker
+        title="天车前后速度L"
+        :columns="carSpeedColumns.carSpeedLeftRightColumns"
+        :value="craneSpeed[carSpeedLeftRight]"
+        @trigger-confirm="(obj) => handleConfirm(obj, 'carSpeedLeftRight')"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPicker
+        title="天车上下速度U"
+        :columns="carSpeedColumns.carSpeedUpDownColumns"
+        :value="craneSpeed[carSpeedUpDown]"
+        @trigger-confirm="(obj) => handleConfirm(obj, 'carSpeedUpDown')"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPopup
+        title="绳长"
+        popupTitle="绳长"
+        @trigger-confirm="(val) => handleInput(val, 'lineLength') "
+        popupPlaceholder="请输入绳长10~50"
+        validatorMessage="请输入绳长10~50"
+        :validator="(val) => /^([1-4][0-9]|50)$/.test(val)"
+        :value="lineLength"
+      />
+      <!-- <van-cell-group>
         <van-cell
           title="天车前后速度F"
           :value="machine.car_speed_front_back_value"
@@ -56,12 +86,51 @@
           title="绳长"
           :value="machine.line_length"
         />
-      </van-cell-group>
+      </van-cell-group> -->
     </div>
     <!-- 抓力参数 -->
     <div class="operational-parameters-grasp-parameter">
       <h5 class="size-30 color-3 operational-parameters-title">抓力参数</h5>
-      <van-cell-group>
+      <CellPopup
+        title="C1抓力"
+        popupTitle="C1抓力"
+        @trigger-confirm="(val) => handleInput(val, 'grabVoltage') "
+        popupPlaceholder="请输入抓力0~48"
+        validatorMessage="请输入抓力0~48"
+        :validator="(val) => /^([0-9]|[1-3][0-9]|4[0-8])$/.test(val)"
+        :value="grabVoltage"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPopup
+        title="C2抓力"
+        popupTitle="C2抓力"
+        @trigger-confirm="(val) => handleInput(val, 'fallVoltage') "
+        popupPlaceholder="请输入抓力0~48"
+        validatorMessage="请输入抓力0~48"
+        :validator="(val) => /^([0-9]|[1-3][0-9]|4[0-8])$/.test(val)"
+        :value="fallVoltage"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPopup
+        title="C3抓力"
+        popupTitle="C3抓力"
+        @trigger-confirm="(val) => handleInput(val, 'afterFallVoltage') "
+        popupPlaceholder="请输入抓力0~48"
+        validatorMessage="请输入抓力0~48"
+        :validator="(val) => /^([0-9]|[1-3][0-9]|4[0-8])$/.test(val)"
+        :value="afterFallVoltage"
+      />
+      <div class="border border-ebedf0"></div>
+      <CellPopup
+        title="C4抓力"
+        popupTitle="C4抓力"
+        @trigger-confirm="(val) => handleInput(val, 'vigorouslyVoltage') "
+        popupPlaceholder="请输入抓力0~48"
+        validatorMessage="请输入抓力0~48"
+        :validator="(val) => /^([0-9]|[1-3][0-9]|4[0-8])$/.test(val)"
+        :value="vigorouslyVoltage"
+      />
+      <!-- <van-cell-group>
         <van-cell
           title="C1抓力"
           :value="machine.grab_voltage"
@@ -82,18 +151,28 @@
           title="变C2点"
           :value="machine.key21_value"
         />
-      </van-cell-group>
+      </van-cell-group> -->
     </div>
     <!-- 游戏参数 -->
     <div class="operational-parameters-game-parameter">
       <h5 class="size-30 color-3 operational-parameters-title">游戏参数</h5>
       <van-cell-group>
-        <van-cell
+        <!-- <van-cell
           title="游戏时间设定"
           :value="palyTimePopupValue"
           is-link
           @click="handlePopup('palyTimePopupShow', true)"
-        />
+        /> -->
+      <CellPopup
+        title="游玩时间"
+        popupTitle="游玩时间"
+        @trigger-confirm="(val) => handleInput(val, 'gameTime') "
+        popupPlaceholder="请输入游玩时间10~99"
+        validatorMessage="请输入游玩时间10~99"
+        :validator="(val) => /^([1-9][0-9])$/.test(val)"
+        :value="gameTime"
+      />
+      <div class="border border-ebedf0"></div>
         <van-switch-cell
           class="vant-border border-left-15"
           v-model="gameTimesShutdown"
@@ -111,11 +190,6 @@
         />
       </van-cell-group>
     </div>
-    <PlayTimePopup
-      :show="palyTimePopupShow"
-      v-model="palyTimePopupValue"
-      @trigger-close="handlePopup('palyTimePopupShow', false)"
-    />
     <!-- 音乐参数 -->
     <div class="operational-parameters-game-pattern">
       <h5 class="size-30 color-3 operational-parameters-title">音乐参数</h5>
@@ -163,15 +237,16 @@
         loading-text="下发参数中"
       >下发参数</van-button>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import GamePatternSet from '@yun/machine/game-pattern-set'
+import CellPicker from '@yun/cell-picker'
+import CellPopup from '@yun/cell-popup'
 import GamePrizeWinningNumber from '@yun/machine/game-prize-winning-number'
-import PlayTimePopup from '@yun/machine/play-time-popup'
 import { mapState, mapActions } from 'vuex'
-import { GAME_MODE } from '@l/judge'
+import { GAME_MODE, CRANE_SPEED } from '@l/judge'
 import { positiveIntegerRegularTool } from '@l/tools'
 export default {
   name: 'operational_parameters',
@@ -187,19 +262,32 @@ export default {
       gameWinningNumberShow: false, // 展示获奖局数
       profit: '', // 获奖局数毛利率
       gameWinningNumberValue: '', // 获奖局数
-      palyTimePopupShow: false, // 展示游玩时间
-      palyTimePopupValue: '', // 游玩时间
+
       gameTimesShutdown: false, // 投币局数开机恢复
       powerTimes: false, // 出奖局数开机恢复
       skyGrabThing: false, // 空中取物
-      awaitMusic: false // 待机音乐
+      awaitMusic: false, // 待机音乐
+
+      craneSpeed: CRANE_SPEED, // 天车速度
+      carSpeedFrontBack: '', // 天车前后速度F
+      carSpeedLeftRight: '', // 天车前后速度L
+      carSpeedUpDown: '', // 天车上下速度U
+      lineLength: '', // 绳长
+
+      grabVoltage: '', // C1抓力
+      fallVoltage: '', // C2抓力
+      afterFallVoltage: '', // C3抓力
+      vigorouslyVoltage: '', // C4抓力
+
+      gameTime: '' // 游玩时间
     }
   },
 
   components: {
     GamePatternSet,
     GamePrizeWinningNumber,
-    PlayTimePopup
+    CellPicker,
+    CellPopup
   },
   computed: {
     ...mapState({
@@ -210,6 +298,41 @@ export default {
       sky_grab_thing: state => state.machine.sky_grab_thing,
       await_music: state => state.machine.await_music
     }),
+    carSpeedColumns () {
+      const keysArr = Object.keys(CRANE_SPEED)
+      let carSpeedFrontBackIndex = 0
+      let carSpeedLeftRightIndex = 0
+      let carSpeedUpDownIndex = 0
+      const values = keysArr.map((v, i) => {
+        if (v === this.carSpeedFrontBack) {
+          carSpeedFrontBackIndex = i
+        }
+        if (v === this.carSpeedLeftRight) {
+          carSpeedLeftRightIndex = i
+        }
+        if (v === this.carSpeedUpDown) {
+          carSpeedUpDownIndex = i
+        }
+        return {
+          id: v,
+          text: CRANE_SPEED[v]
+        }
+      })
+      return {
+        carSpeedFrontBackColumns: [{
+          values: values,
+          defaultIndex: carSpeedFrontBackIndex
+        }],
+        carSpeedLeftRightColumns: [{
+          values: values,
+          defaultIndex: carSpeedLeftRightIndex
+        }],
+        carSpeedUpDownColumns: [{
+          values: values,
+          defaultIndex: carSpeedUpDownIndex
+        }]
+      }
+    },
     gameMode () { // 游戏模式
       return this.machine.main_board === '1' ? this.machine.key22 : this.machine.key29
     },
@@ -227,12 +350,6 @@ export default {
     gameType: {
       handler (val) { // 游戏模式类型
         this.gameValue = GAME_MODE[val]
-      },
-      immediate: true
-    },
-    game_time: {
-      handler (val) { // 游玩时间
-        this.palyTimePopupValue = val
       },
       immediate: true
     },
@@ -272,13 +389,45 @@ export default {
   },
   methods: {
     ...mapActions(['MACHINE_GETOPERATEPARAM_ACTION', 'MACHINE_SETOPERATEPARAM_ACTION']),
+    handleVoluation () {
+      this.carSpeedFrontBack = this.machine.car_speed_front_back
+      this.carSpeedLeftRight = this.machine.car_speed_left_right
+      this.carSpeedUpDown = this.machine.car_speed_up_down
+      this.lineLength = this.machine.line_length
+
+      this.grabVoltage = this.machine.grab_voltage
+      this.fallVoltage = this.machine.fall_voltage
+      this.afterFallVoltage = this.machine.after_fall_voltage
+      this.vigorouslyVoltage = this.machine.vigorously_voltage
+
+      this.gameTime = this.game_time
+    },
+    // inputConfirm
+    handleInput (val, key) {
+      this[key] = val
+    },
+    // pickerConfrim
+    handleConfirm (obj, key) {
+      this[key] = obj.id
+    },
     handlePopup (showParam, boo) {
       this[showParam] = boo
     },
     // 获取运营参数
     getInfo () {
+      this.$Loading('加载中')
       this.MACHINE_GETOPERATEPARAM_ACTION({
         machineId: this.machine_id
+      }).then(res => {
+        this.$Loading.clear()
+        if (res.return_code === '0') {
+          this.handleVoluation()
+        } else if (res.msg) {
+          this.$Tip.warning({
+            mask: true,
+            message: res.msg
+          })
+        }
       })
     },
     // 下发参数
@@ -291,7 +440,27 @@ export default {
         this.$Tip.warning('获奖局数需在1~99区间内')
         return
       }
-      if (!positiveIntegerRegularTool(this.palyTimePopupValue) || this.palyTimePopupValue > 99 || this.palyTimePopupValue < 10) {
+      if (!/^([1-4][0-9]|50)$/.test(this.lineLength)) {
+        this.$Tip.warning('绳长需在10~50区间内')
+        return
+      }
+      if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.grabVoltage)) {
+        this.$Tip.warning('C1抓力需在0~48区间内')
+        return
+      }
+      if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.fallVoltage)) {
+        this.$Tip.warning('C2抓力需在0~48区间内')
+        return
+      }
+      if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.afterFallVoltage)) {
+        this.$Tip.warning('C3抓力需在0~48区间内')
+        return
+      }
+      if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.vigorouslyVoltage)) {
+        this.$Tip.warning('C4抓力需在0~48区间内')
+        return
+      }
+      if (!/^([1-9][0-9])$/.test(this.gameTime)) {
         this.$Tip.warning('游玩时间需在10~99区间内')
         return
       }
@@ -305,39 +474,44 @@ export default {
         data.key32 = this.gameWinningNumberValue
       }
       this.loading = true
-      data.game_time = this.palyTimePopupValue
+      data.line_length = this.lineLength
+      data.grab_voltage = this.grabVoltage
+      data.fall_voltage = this.fallVoltage
+      data.after_fall_voltage = this.afterFallVoltage
+      data.vigorously_voltage = this.vigorouslyVoltage
+      data.game_time = this.gameTime
       data.game_times_shutdown = this.gameTimesShutdown ? '1' : '0'
       data.power_times = this.powerTimes ? '1' : '0'
       data.sky_grab_thing = this.skyGrabThing ? '1' : '0'
+      data.car_speed_front_back = this.carSpeedFrontBack
+      data.car_speed_left_right = this.carSpeedLeftRight
+      data.car_speed_up_down = this.carSpeedUpDown
       this.MACHINE_SETOPERATEPARAM_ACTION({
         machineId: this.machine_id,
         data
       }).then(res => {
-        this.loading = false
+        const $this = this
+        $this.loading = false
         if (res.return_code === '0') {
-          this.$Tip.success({
+          $this.$Tip.success({
             message: '下发成功！',
             duration: 1.5,
             mask: true,
             close () {
-              this.$router.push({
-                name: 'machine_detail',
-                query: {
-                  id: this.machine_id
-                }
-              })
+              $this.$router.go(-1)
             }
           })
           return
         }
         if (res.return_code !== '0') {
-          this.$Tip.warning(res.msg)
+          $this.$Tip.warning(res.msg)
         }
       })
     }
   },
   created () {
     this.machine_id = this.$route.query.id
+
     this.getInfo()
   }
 }

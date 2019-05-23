@@ -21,6 +21,18 @@ Vue.use(plugins)
 //   loading: 'http://www.3d2000.com/wp-content/uploads/2016/05/294194-63df2252ee261b59.gif',
 //   attempt: 3
 // })
+// Vue.directive('soft-keyboard-hide', {
+//   bind: function (el) {
+//     console.log(el)
+//     const display = el.style.display
+//     el.onfocus = () => {
+//       el.style.display = 'none'
+//     }
+//     el.onblur = () => {
+//       el.style.display = display
+//     }
+//   }
+// })
 new Vue({
   router,
   store,

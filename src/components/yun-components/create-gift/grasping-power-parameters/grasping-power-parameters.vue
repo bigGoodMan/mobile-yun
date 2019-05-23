@@ -60,7 +60,7 @@ export default {
       set (val) {
         this.judgeFunc({
           value: val,
-          range: [1, 100],
+          range: [0, 48],
           key: 'grabVoltage'
         })
         this.$emit('trigger-change', {
@@ -76,7 +76,7 @@ export default {
       set (val) {
         this.judgeFunc({
           value: val,
-          range: [1, 100],
+          range: [0, 48],
           key: 'fallVoltage'
         })
         this.$emit('trigger-change', {
@@ -92,7 +92,7 @@ export default {
       set (val) {
         this.judgeFunc({
           value: val,
-          range: [1, 100],
+          range: [0, 48],
           key: 'afterFallVoltage'
         })
         this.$emit('trigger-change', {
@@ -108,7 +108,7 @@ export default {
       set (val) {
         this.judgeFunc({
           value: val,
-          range: [1, 100],
+          range: [0, 48],
           key: 'vigorouslyVoltage'
         })
         this.$emit('trigger-change', {

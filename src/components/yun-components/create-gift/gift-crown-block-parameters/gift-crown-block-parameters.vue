@@ -2,36 +2,36 @@
 <template>
 <div class="gift-crown-block-parameters">
   <div>
-    <van-cell
+    <CellList
       title="天车前后速度F"
       :value="craneSpeed[result.car_speed_front_back]"
-      is-link
-      @click="frontBackShow = true"
+      right-icon
+      @trigger-click="frontBackShow = true"
     />
   </div>
     <div class="border border-ebedf0"></div>
   <div>
-    <van-cell
+    <CellList
       title="天车左右速度L"
       :value="craneSpeed[result.car_speed_left_right]"
-      is-link
-      @click="leftRightShow = true"
+      right-icon
+      @trigger-click="leftRightShow = true"
     />
   </div>
     <div class="border border-ebedf0"></div>
   <div>
-    <van-cell
+    <CellList
       title="天车上下速度U"
       :value="craneSpeed[result.car_speed_up_down]"
-      is-link
-      @click="upDownShow = true"
+      right-icon
+      @trigger-click="upDownShow = true"
     />
   </div>
     <div class="border border-ebedf0"></div>
     <div class="padding-20-30">
-      <HhfInput title="绳长"  type="tel" v-model="lineLength" placeholder="可填1~100，不填则默认75%"/>
+      <HhfInput title="绳长"  type="tel" v-model="lineLength" placeholder="可填10~50，不填则默认18"/>
       <div class="color-error size-20 text-right height-err">
-        <span v-show="errObj.lineLength">不在绳长范围1~100</span>
+        <span v-show="errObj.lineLength">不在绳长范围10~50</span>
       </div>
     </div>
        <BottomPopup :columns="frontBackColumns" :show="frontBackShow" @trigger-confirm="(obj) => handleConfirm('car_speed_front_back', obj)" @trigger-close="frontBackShow = false" />
@@ -42,6 +42,7 @@
 
 <script>
 import HhfInput from '@hhf/hhf-input'
+import CellList from '@yun/cell-list'
 import BottomPopup from '@yun/bottom-popup'
 import { CRANE_SPEED } from '@l/judge'
 import errRangeMixin from '@yun/mixins/errRangeMixin'
@@ -65,7 +66,8 @@ export default {
 
   components: {
     HhfInput,
-    BottomPopup
+    BottomPopup,
+    CellList
   },
 
   computed: {
@@ -85,7 +87,7 @@ export default {
       set (val) {
         this.judgeFunc({
           value: val,
-          range: [1, 100],
+          range: [10, 50],
           key: 'lineLength'
         })
         this.$emit('trigger-change', {
@@ -118,7 +120,6 @@ export default {
       }]
     },
     handleConfirm (key, obj) {
-      console.log(obj)
       this.$emit('trigger-change', {
         ...this.result,
         [key]: obj.value[0].id

@@ -87,7 +87,7 @@ export default {
 
   methods: {
     getTime (time) {
-      return moment(time * 1000).format('YYYY-MM-DD hh:mm:ss')
+      return moment(time * 1000).format('YYYY-MM-DD HH:mm:ss')
     },
     getColor (status) {
       switch (status) {

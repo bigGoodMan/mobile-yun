@@ -39,11 +39,16 @@ export default {
       default: false
     },
     // 压缩质量
-    quality: Number,
+    quality: {
+      type: Number,
+      default: 1
+    },
     // 压缩之后的最大宽度
     maxWidth: Number,
     // 压缩之后的最大高度
-    maxHeight: Number
+    maxHeight: Number,
+    // 最大尺寸
+    maxSize: Number
   },
   data () {
     return {
@@ -73,11 +78,10 @@ export default {
       const {
         quality,
         maxWidth,
-        maxHeight
+        maxHeight,
+        maxSize
       } = _this
-      if (!quality && !maxWidth && !maxHeight) {
-        _this.handleCallBack(file)
-      } else {
+      if (maxSize && file.size > maxSize * 1024 * 1024) {
         pictureCompress.fileResizetoFile(file, function (b) {
           // if (Object.prototype.toString.call(b) === '[object Blob]') {
           //   var fileReader = new FileReader()
@@ -89,6 +93,8 @@ export default {
           _this.handleCallBack(b)
           // }
         }, quality, maxWidth, maxHeight)
+      } else {
+        _this.handleCallBack(file)
       }
     },
     handleCallBack (blob) {

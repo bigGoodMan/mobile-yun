@@ -18,11 +18,12 @@ router.beforeEach((to, from, next) => {
   const token = store.state.user.token
   if (!token && !notLoginPageName.includes(to.name)) {
     // 未登录，跳转的是需要登录页面
-    const name = to.name
+    // const name = to.name
+    const path = to.path
     const query = to.query
     const params = to.params
     const url = encodeURIComponent(JSON.stringify({
-      name,
+      path,
       query,
       params
     }))

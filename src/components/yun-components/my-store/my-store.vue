@@ -87,7 +87,9 @@ export default {
           }
         }
       }
-      this.$emit('trigger-click', { value: { ...this.store, index: this.selectIndex } })
+      if (defaultIndex >= 0 || storeId >= 0) {
+        this.$emit('trigger-click', { value: { ...this.store, index: this.selectIndex } })
+      }
     }
   },
   methods: {

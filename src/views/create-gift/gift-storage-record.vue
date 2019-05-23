@@ -2,11 +2,13 @@
 <template>
   <div class="gift-storage-record">
     <div class="gift-storage-record-header">
+      <div class="fixed-max-width top-0">
       <HeaderSearch
         v-model="giftId"
         @trigger-search="handleSearch"
         placeholder="请输入礼品名称或编号"
       />
+      </div>
     </div>
     <!-- 礼品列表内容 -->
     <van-pull-refresh
@@ -80,7 +82,7 @@ export default {
 
   methods: {
     getDateTime (time) {
-      return moment(time * 1000).format('YYYY-MM-DD hh:mm:ss')
+      return moment(time * 1000).format('YYYY-MM-DD HH:mm:ss')
     },
     getDecimal (num, fix = 2) {
       num = num || 0
@@ -132,7 +134,10 @@ export default {
     }
   },
   created () {
-    this.handleLoading()
+    const {
+      handleLoading
+    } = this
+    handleLoading()
   },
   mounted () {
   }
@@ -142,4 +147,5 @@ export default {
 .gift-storage-record-header
   position relative
   z-index 1
+  height rems(108)
 </style>

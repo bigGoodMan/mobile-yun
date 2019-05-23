@@ -2,20 +2,22 @@
 <template>
   <div class="gift-basic-parameters">
     <div>
-      <van-cell
+      <CellList
         title="适用机型"
         :value="giftMachineType[result.machine_type]"
-        @click="typeShow = true"
-        is-link
+        @trigger-click="typeShow = true"
+        placeholder="请选择"
+        right-icon
       />
     </div>
     <div class="border border-ebedf0"></div>
     <div>
-      <van-cell
+      <CellList
         title="适用爪子"
         :value="clawType[result.claw_type]"
-        @click="clawShow = true"
-        is-link
+        @trigger-click="clawShow = true"
+        placeholder="请选择"
+        right-icon
       />
     </div>
     <div class="border border-ebedf0"></div>
@@ -40,6 +42,7 @@
 <script>
 import HhfInput from '@hhf/hhf-input'
 import BottomPopup from '@yun/bottom-popup'
+import CellList from '@yun/cell-list'
 import { GIFT_MACHINE_TYPE, CLAW_TYPE } from '@l/judge'
 import errRangeMixin from '@yun/mixins/errRangeMixin'
 export default {
@@ -64,7 +67,8 @@ export default {
 
   components: {
     HhfInput,
-    BottomPopup
+    BottomPopup,
+    CellList
   },
 
   computed: {

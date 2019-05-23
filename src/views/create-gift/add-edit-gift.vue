@@ -3,18 +3,21 @@
   <div class="add-edit-gift bgcolor-f2">
     <!-- 所属商家 -->
     <div class="add-edit-gift-margin">
-      <template v-if="$route.query.id">
-        <van-cell
-          title="所属商家"
+      <template v-if="$route.query.id || $route.query.bid">
+        <CellList
+         title="所属商家"
+         class="bgcolor-f"
           :value="brandInfo.brand_name"
-        />
+          />
       </template>
       <template v-else>
-        <van-cell
+        <CellList
           title="所属商家"
+         class="bgcolor-f"
+         placeholder="请选择"
           :value="brandInfo.brand_name"
-          @click="brandShow = true"
-          is-link
+          @trigger-click="brandShow = true"
+          right-icon
         />
       </template>
     </div>
@@ -83,10 +86,12 @@ import GraspingPowerParameters from '@yun/create-gift/grasping-power-parameters'
 import GiftCrownBlockParameters from '@yun/create-gift/gift-crown-block-parameters'
 import GiftEarlyWarningParameters from '@yun/create-gift/gift-early-warning-parameters'
 import BottomPopup from '@yun/bottom-popup'
+import CellList from '@yun/cell-list'
 import HhfButton from '@hhf/hhf-button'
 import { setTitle } from '@l/utils'
 import { mapState } from 'vuex'
 import { getChildBrandListApi, addGiftCreateApi, editGiftCreateApi } from '@/api'
+// import { GIFT_MACHINE_TYPE, CLAW_TYPE, CRANE_SPEED } from '@l/judge'
 export default {
   name: '',
 
@@ -102,20 +107,21 @@ export default {
       },
       giftInfo: {
         gift_name: '',
-        img: ''
+        img: '',
+        base64Src: ''
       },
       brandShow: false,
       // 基础参数
       basicParam: {
-        machine_type: '',
-        claw_type: '',
+        machine_type: '3',
+        claw_type: '2',
         default_earn_rate: ''
       },
       // 天车参数
       carParam: {
-        car_speed_front_back: '',
-        car_speed_left_right: '',
-        car_speed_up_down: '',
+        car_speed_front_back: '2',
+        car_speed_left_right: '2',
+        car_speed_up_down: '1',
         line_length: ''
       },
       // 抓力参数
@@ -140,7 +146,8 @@ export default {
     GraspingPowerParameters,
     GiftEarlyWarningParameters,
     HhfButton,
-    BottomPopup
+    BottomPopup,
+    CellList
   },
 
   computed: {
@@ -163,7 +170,8 @@ export default {
       // 礼品信息
       this.giftInfo = {
         gift_name: giftDetail.gift_name,
-        img: giftDetail.img
+        img: giftDetail.img,
+        base64Src: giftDetail.img
       }
       // 基础信息
       this.basicParam = {
@@ -212,7 +220,13 @@ export default {
       const values = []
       let defaultIndex = 0
       data.forEach((v, i) => {
-        if (this.brandId === v.id) {
+        if (this.brandInfo.brand_id === v.id) {
+          defaultIndex = i
+        } else if (!this.brandInfo.brand_id && data.length === 1) {
+          this.brandInfo = {
+            brand_id: v.id,
+            brand_name: v.name
+          }
           defaultIndex = i
         }
         values.push({
@@ -374,9 +388,9 @@ export default {
     //  增加礼品
     addGiftCreate (data) {
       const $this = this
-      const {
-        url
-      } = $this.$route.query
+      // const {
+      //   url
+      // } = $this.$route.query
       addGiftCreateApi(data).then(res => {
         this.loading = false
         if (res.return_code === '0') {
@@ -384,16 +398,7 @@ export default {
             message: '保存成功',
             mask: true,
             close () {
-              if (url) {
-                // $this.$router.push({
-                //   ...JSON.parse(decodeURIComponent(decodeURIComponent(url)))
-                // })
-                $this.$router.go(-1)
-              } else {
-                $this.$router.push({
-                  name: 'create_gift_list'
-                })
-              }
+              $this.$router.go(-1)
             }
           })
         } else if (res.msg) {
@@ -408,6 +413,7 @@ export default {
     editGiftCreate (data) {
       const $this = this
       editGiftCreateApi(data).then(res => {
+        this.loading = false
         if (res.return_code === '0') {
           this.$Tip.success({
             message: '保存成功',
@@ -426,7 +432,7 @@ export default {
     }
   },
   created () {
-    const { id } = this.$route.query
+    const { id, sid, bid, brandname } = this.$route.query
     if (id) {
       this.giftDetailVoluationFunc()
       setTitle('编辑礼品')
@@ -434,8 +440,14 @@ export default {
         this.$router.go(-1)
         return
       }
-    } else {
-      setTitle('新增礼品')
+    }
+    setTitle('新增礼品')
+    if (sid && bid && brandname) {
+      this.brandInfo = {
+        brand_id: bid,
+        brand_name: brandname
+      }
+      return
     }
     this.getChildBrandListFunc()
   },
