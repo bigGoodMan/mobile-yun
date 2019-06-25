@@ -355,7 +355,7 @@ export default {
       vigorouslyVoltage = vigorouslyVoltage || 48
       canClawNum = canClawNum || 6
       canClawSafeNum = canClawSafeNum || 3
-      if (canClawNum < canClawSafeNum) {
+      if (canClawNum < canClawSafeNum - 0) {
         this.$Tip.warning('最大可抓取量必须大于等于可抓取安全量')
         return
       }
