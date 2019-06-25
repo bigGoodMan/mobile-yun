@@ -303,4 +303,6 @@ export default {
     margin-top rems(20)
   .inventorying-btn
     height rems(100)
+    .inventorying-btn-container
+      z-index 3
 </style>

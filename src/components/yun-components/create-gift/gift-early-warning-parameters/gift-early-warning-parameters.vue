@@ -44,7 +44,7 @@ export default {
     // 最大可抓取量
     canClawNum: {
       get () {
-        return this.result.max_gift_num
+        return this.result.can_claw_num
       },
       set (val) {
         this.judgeFunc({
@@ -54,14 +54,14 @@ export default {
         })
         this.$emit('trigger-change', {
           ...this.result,
-          max_gift_num: val
+          can_claw_num: val
         })
       }
     },
     // 可抓取安全量
     canClawSafeNum: {
       get () {
-        return this.result.min_gift_num
+        return this.result.can_claw_safe_num
       },
       set (val) {
         this.judgeFunc({
@@ -71,7 +71,7 @@ export default {
         })
         this.$emit('trigger-change', {
           ...this.result,
-          min_gift_num: val
+          can_claw_safe_num: val
         })
       }
     }

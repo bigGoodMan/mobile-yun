@@ -104,7 +104,7 @@
       <div>
         <van-cell
           title="最大可抓取量"
-          :value="giftDetail.max_gift_num"
+          :value="giftDetail.can_claw_num"
         />
       </div>
       <div class="size-22 color-7 create-gift-detail-tip">该礼品可抓取区允许摆放的最大数</div>
@@ -112,7 +112,7 @@
       <div>
         <van-cell
           title="可抓取安全量"
-          :value="giftDetail.min_gift_num"
+          :value="giftDetail.can_claw_safe_num"
         />
       </div>
       <div class="size-22 color-7 create-gift-detail-tip">抓取区预警值，低于此值触发预警</div>

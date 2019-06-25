@@ -50,17 +50,17 @@
             </li>
           </ul>
         </div>
+        <div class="height-100">
+        </div>
+      </div>
         <!-- 添加礼品按钮 -->
-        <div class="more-gift-btn">
-          <div class="more-gift-btn-container">
+          <div class="more-gift-btn-container fixed-max-width bottom-0">
             <HhfButton
               type="info"
               size="large"
               @trigger-click="handleAdd"
             >添加列表</HhfButton>
           </div>
-        </div>
-      </div>
     </van-popup>
     <van-image-preview
       v-model="showPreview"
@@ -119,6 +119,9 @@ export default {
         return true
       })
       this.initGiftList = list
+    },
+    show (val) {
+      console.log(val)
     },
     initGiftList () {
       this.giftList = this.initGiftList
@@ -182,13 +185,6 @@ export default {
         .more-gift-describe-img-content
           max-width 100%
           max-height 100%
-.more-gift-btn
-  height rems(100)
   .more-gift-btn-container
-    position absolute
-    bottom 0
-    left 0
-    width 100%
-    font-size 0
     z-index 6
 </style>

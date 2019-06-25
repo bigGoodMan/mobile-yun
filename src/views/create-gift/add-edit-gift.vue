@@ -133,8 +133,8 @@ export default {
       },
       // 预警参数
       warnParam: {
-        max_gift_num: '',
-        min_gift_num: ''
+        can_claw_num: '',
+        can_claw_safe_num: ''
       }
     }
   },
@@ -195,8 +195,8 @@ export default {
       }
       // 预警参数
       this.warnParam = {
-        max_gift_num: giftDetail.max_gift_num, // 最大可抓取量
-        min_gift_num: giftDetail.min_gift_num // 可抓取安全量
+        can_claw_num: giftDetail.can_claw_num, // 最大可抓取量
+        can_claw_safe_num: giftDetail.can_claw_safe_num // 可抓取安全量
       }
     },
     handleChangeBasic (dt) {
@@ -276,8 +276,8 @@ export default {
           vigorously_voltage: vigorouslyVoltage
         },
         warnParam: {
-          max_gift_num: maxGiftNum,
-          min_gift_num: minGiftNum
+          can_claw_num: canClawNum,
+          can_claw_safe_num: canClawSafeNum
         }
       } = this
       let {
@@ -339,11 +339,11 @@ export default {
         this.$Tip.warning('C4抓力格式不正确')
         return
       }
-      if (!this.judgeFormatFunc(maxGiftNum, [1, 99])) {
+      if (!this.judgeFormatFunc(canClawNum, [1, 99])) {
         this.$Tip.warning('最大可抓取量格式不正确')
         return
       }
-      if (!this.judgeFormatFunc(minGiftNum, [1, 99])) {
+      if (!this.judgeFormatFunc(canClawSafeNum, [1, 99])) {
         this.$Tip.warning('可抓取安全量格式不正确')
         return
       }
@@ -353,9 +353,9 @@ export default {
       fallVoltage = fallVoltage || 10
       afterFallVoltage = afterFallVoltage || 8
       vigorouslyVoltage = vigorouslyVoltage || 48
-      maxGiftNum = maxGiftNum || 6
-      minGiftNum = minGiftNum || 3
-      if (maxGiftNum < minGiftNum) {
+      canClawNum = canClawNum || 6
+      canClawSafeNum = canClawSafeNum || 3
+      if (canClawNum < canClawSafeNum) {
         this.$Tip.warning('最大可抓取量必须大于等于可抓取安全量')
         return
       }
@@ -374,8 +374,8 @@ export default {
         fall_voltage: fallVoltage, // C2
         after_fall_voltage: afterFallVoltage, // C3
         vigorously_voltage: vigorouslyVoltage, // C4
-        max_gift_num: maxGiftNum, // 最大可抓取量
-        min_gift_num: minGiftNum // 可抓取安全量
+        can_claw_num: canClawNum, // 最大可抓取量
+        can_claw_safe_num: canClawSafeNum // 可抓取安全量
       }
       if (id) { // 编辑修改礼品
         jsons.gift_id = id

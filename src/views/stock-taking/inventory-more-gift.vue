@@ -47,12 +47,12 @@
         <!-- 添加礼品按钮 -->
     </div>
         <div class="more-gift-btn">
-          <div class="more-gift-btn-container">
+          <div class="more-gift-btn-container fixed-max-width bottom-0">
             <HhfButton
               type="info"
               size="large"
               @trigger-click="handleAdd"
-            >添加列表</HhfButton>
+            >添加到列表</HhfButton>
           </div>
         </div>
   </div>
@@ -106,7 +106,6 @@ export default {
         store_id: sid,
         inventory_id: id
       }).then(res => {
-        console.log(2)
         this.$toast.clear()
         if (res.return_code === '0') {
           this.initGiftList = res.data.list.map(v => ({ ...v, checked: false }))
@@ -147,10 +146,5 @@ export default {
 .more-gift-btn
   height rems(100)
   .more-gift-btn-container
-    position fixed
-    bottom 0
-    left 0
-    width 100%
-    font-size 0
     z-index 6
 </style>

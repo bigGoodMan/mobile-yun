@@ -13,7 +13,6 @@
     "js-cookie": "^2.2.0",
     "jsencrypt": "^3.0.0-rc.1",
     "moment": "^2.24.0",
-    "register-service-worker": "^1.6.2",
     "vant": "^1.6.17",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
@@ -22,7 +21,6 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-plugin-eslint": "^3.6.0",
-    "@vue/cli-plugin-pwa": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",

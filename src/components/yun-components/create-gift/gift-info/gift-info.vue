@@ -63,7 +63,8 @@ export default {
     handleDelete () {
       this.$emit('trigger-change', {
         ...this.result,
-        img: ''
+        img: '',
+        base64Src: ''
       })
     }
   },

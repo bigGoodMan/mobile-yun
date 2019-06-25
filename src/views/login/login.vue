@@ -101,7 +101,8 @@ export default {
             close () {
               if ($this.$route.query.url) {
                 const urlObj = JSON.parse(decodeURIComponent(decodeURIComponent($this.$route.query.url)))
-                const path = urlObj.path.split('/')[1]
+                let path = urlObj.path.split('/')[1]
+                path = path || '/'
                 $this.$router.push({
                   ...urlObj,
                   path
