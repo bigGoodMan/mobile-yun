@@ -7,7 +7,7 @@
     </keep-alive>
       </transition>
     <div
-      v-if="!hide"
+      v-if="goHome"
       class="go-home flex-row flex-center"
       @click="handleGoHome"
     >
@@ -33,8 +33,8 @@ export default {
 
   data () {
     return {
-      hide: true,
       home: home,
+      goHome: '',
       transitionName: 'slide-left'
     }
   },
@@ -79,7 +79,11 @@ export default {
     },
     '$route': {
       handler (route) {
-        this.hide = !config.homeShow.includes(route.name)
+        if (route.meta && route.meta.goHome) {
+          this.goHome = route.meta.goHome
+        } else {
+          this.goHome = ''
+        }
       },
       immediate: true
     }
@@ -107,7 +111,7 @@ export default {
     ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
     handleGoHome () {
       this.$router.push({
-        name: 'my_machine'
+        name: this.goHome
       })
     }
   },

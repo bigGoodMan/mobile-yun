@@ -11,7 +11,8 @@ const MachineDetail = {
   name: 'machine_detail',
   component: () => import(/* webpackChunkName: "MachineDetail" */ '@v/my-machine/machine-detail.vue'),
   meta: {
-    title: '机台详情'
+    title: '机台详情',
+    goHome: 'my_machine'
   }
 }
 const PlayPrice = {
@@ -19,7 +20,8 @@ const PlayPrice = {
   name: 'play_price',
   component: () => import(/* webpackChunkName: "PlayPrice" */ '@v/my-machine/play-price.vue'),
   meta: {
-    title: '游玩单价设置'
+    title: '游玩单价设置',
+    goHome: 'my_machine'
   }
 }
 const EarlyWarningParameters = {
@@ -27,7 +29,8 @@ const EarlyWarningParameters = {
   name: 'early_warning_parameters',
   component: () => import(/* webpackChunkName: "EarlyWarningParameters" */ '@v/my-machine/early-warning-parameters.vue'),
   meta: {
-    title: '预警参数设置'
+    title: '预警参数设置',
+    goHome: 'my_machine'
   }
 }
 const OperationalParameters = {
@@ -35,7 +38,16 @@ const OperationalParameters = {
   name: 'operational_parameters',
   component: () => import(/* webpackChunkName: "OperationalParameters" */ '@v/my-machine/operational-parameters.vue'),
   meta: {
-    title: '运营参数设置'
+    title: '运营参数设置',
+    goHome: 'my_machine'
   }
 }
-export default [MyMachine, MachineDetail, PlayPrice, EarlyWarningParameters, OperationalParameters]
+const FirmwareUpdate = {
+  path: '/my-machine/firmware-update',
+  name: 'FirmwareUpdate',
+  component: () => import(/* webpackChunkName: "FirmwareUpdate" */ '@v/my-machine/firmware-update.vue'),
+  meta: {
+    title: '固件更新'
+  }
+}
+export default [MyMachine, MachineDetail, PlayPrice, EarlyWarningParameters, OperationalParameters, FirmwareUpdate]

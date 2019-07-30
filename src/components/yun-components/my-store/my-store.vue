@@ -1,13 +1,27 @@
 <!-- 我的门店 -->
 <template>
   <div class="my-store">
-    <div class="my-store-container size-32 flex-row flex-start-center" @click="handleClick">
-      <span class="my-store-name color-393D49">{{store.store_name}}</span>
-      <van-icon class="color-de" :name="arrow" />
+    <div
+      class="my-store-container size-32 flex-row flex-start-center"
+    >
+      <div @click="handleClick">
+        <span class="my-store-name color-393D49">{{store.store_name}}</span>
+        <van-icon
+          class="color-de"
+          :name="arrow"
+        />
+      </div>
+      <slot></slot>
     </div>
     <div class="border"></div>
     <div>
-       <BottomPopup :columns="columns" :default-index="selectIndex" :show="show" @trigger-confirm="handleConfirm" @trigger-close="handleClose" />
+      <BottomPopup
+        :columns="columns"
+        :default-index="selectIndex"
+        :show="show"
+        @trigger-confirm="handleConfirm"
+        @trigger-close="handleClose"
+      />
     </div>
   </div>
 </template>
@@ -119,7 +133,8 @@ export default {
   created () {
     this.getStore()
   },
-  mounted () {}
+  mounted () {
+  }
 }
 </script>
 <style lang="stylus" scoped>
