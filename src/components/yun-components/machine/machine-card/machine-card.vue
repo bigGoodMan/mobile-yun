@@ -1,32 +1,21 @@
-<!-- 机器卡 -->
+<!-- 机台卡片 -->
 <template>
-  <div>
-    <div class="machine-list-img bgcolor-f2 flex-row flex-center">
-      <div class="machine-list-tag size-24">
-        <van-tag
-        v-if="$slots.default"
-          :color="tagColor"
-          size="large"
-        >{{its.MACHINE_STATUS}}</van-tag>
-      </div>
-      <img
-        class="machine-list-img-content"
-        :src="its.img"
-        alt=""
-      >
-      <!-- <img class="machine-list-img-content" src="http://www.3d2000.com/wp-content/uploads/2016/05/294194-63df2252ee261b59.gif" alt=""> -->
-    </div>
-    <div class="machine-list-substance">
-      <p><span class="weight-bold size-28 color-3">{{its.name}}-{{its.no}}</span><span class="size-24 color-9 machine-list-panel-number">({{its.machine_id}})</span></p>
-      <p class="flex-row flex-between-center"><span class="size-24 color-9">{{its.type_name}}</span><span class="size-28 color-ff0000 weight-bold">{{its.coins_sell}}</span></p>
-    </div>
-  </div>
+  <dl class="machine-card">
+    <dt class="size-28 color-3 machine-card-place">{{title}}</dt>
+    <dd class="machine-card-main bgcolor-f2">
+      <ul class="machine-card-content">
+        <slot></slot>
+      </ul>
+    </dd>
+  </dl>
 </template>
 
 <script>
 export default {
-  name: 'MachineCard',
-
+  name: '',
+  props: {
+    title: String
+  },
   data () {
     return {
     }
@@ -41,4 +30,22 @@ export default {
   mounted () {}
 }
 </script>
-<style lang="stylus" scoped></style>
+<style lang="stylus">
+.machine-card
+  margin 0
+.machine-card-place
+  padding rems(20)
+.machine-card-main
+  margin 0
+  padding rems(20) rems(20) 0 rems(20)
+.machine-card-content
+  display flex
+  flex-flow row wrap
+  justify-content space-between
+  & > li
+    padding rems(20)
+    box-sizing border-box
+    width rems(345)
+    margin-bottom rems(20)
+    background-color #ffffff
+</style>

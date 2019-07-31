@@ -27,7 +27,15 @@
               title="我的机台"
               :name="0"
             >
-              <MachineList :columns="columns" />
+            <MachineCard v-for="(items, index) of columns" :img="items.img" :key="index" :title="`${items.area_name}（${items.intro}）`">
+              <li v-for="its in items.items" :key="its.machine_id">
+                <TabulatingCard :img="its.img">
+                    <template v-slot:tag>待更新</template>
+                    <template v-slot:title>x区-00</template>
+                    <template v-slot:content>型号</template>
+                </TabulatingCard>
+              </li>
+            </MachineCard>
             </van-collapse-item>
           </van-collapse>
         </van-pull-refresh>
@@ -38,7 +46,8 @@
 
 <script>
 import MyStore from '@yun/my-store'
-import MachineList from '@yun/machine/machine-list'
+import MachineCard from '@yun/machine/machine-card'
+import TabulatingCard from '@yun/tabulating-card'
 import { getMachineListApi } from '@/api'
 export default {
   name: 'FirmwareUpdate',
@@ -54,7 +63,8 @@ export default {
 
   components: {
     MyStore,
-    MachineList
+    MachineCard,
+    TabulatingCard
   },
 
   computed: {},
@@ -74,6 +84,7 @@ export default {
         this.$toast.clear()
         if (res.return_code === '0') {
           this.columns = res.data.machine_list
+          console.log(this.columns)
         } else {
           this.$Tip.warning(res.msg)
         }
