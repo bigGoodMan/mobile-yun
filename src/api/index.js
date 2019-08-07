@@ -17,7 +17,11 @@ import {
   saveEarlyParamApi,
   savePlayPriceApi,
   getOperateParamApi,
-  setOperateParamApi
+  setOperateParamApi,
+  getEquipmentUpdateListApi,
+  judgeEquipmentUpdateStatusApi,
+  getEquipmentUpdateProgressApi,
+  putEquipmentUpdateApi
 } from './machine'
 import {
   createInventoryOrderApi,
@@ -67,5 +71,9 @@ export {
   addGiftCreateApi, // 添加礼品创建
   editGiftCreateApi, // 修改礼品创建
   getGiftStorageRecordApi, // 获取礼品入库记录
-  addGiftStorageOrderApi // 添加礼品入库单
+  addGiftStorageOrderApi, // 添加礼品入库单
+  getEquipmentUpdateListApi, // 获取门店设备更新列表
+  judgeEquipmentUpdateStatusApi, // 判断门店设备是否在更新
+  getEquipmentUpdateProgressApi, // 获取门店设备更新进度
+  putEquipmentUpdateApi // 设置门店设备更新
 }

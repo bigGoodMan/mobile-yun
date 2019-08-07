@@ -2,7 +2,7 @@
 <template>
   <div class="container">
       <transition :name="transitionName">
-    <keep-alive :include="['my_machine', 'add_gift_storage']">
+    <keep-alive :include="cachePageList">
         <router-view class="child-view"></router-view>
     </keep-alive>
       </transition>
@@ -42,7 +42,8 @@ export default {
     ...mapState({
       token: state => state.user.token,
       imagePreviewShow: state => state.app.imagePreviewShow,
-      previewImage: state => state.app.previewImage
+      previewImage: state => state.app.previewImage,
+      cachePageList: state => state.app.cachePageList
     }),
     show: {
       get () {

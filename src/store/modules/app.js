@@ -5,6 +5,7 @@ export default {
     collapsed: false, // 是否展示popup菜单栏
     imagePreviewShow: false, // 预览图片展示默认关闭
     previewImage: [], // 预览的图片
+    cachePageList: ['my_machine', 'add_gift_storage'], // 缓存页面
     accessKeyID: '', // oss id
     policy: '', // oss policy
     signature: '', // oss signature
@@ -12,6 +13,17 @@ export default {
     callback: '' // oss callback
   },
   mutations: {
+    APP_ADDCACHEPAGELIST_MUTATE (state, name) {
+      if (!state.cachePageList.includes(name)) {
+        state.cachePageList.push(name)
+      }
+    },
+    APP_REMOVECACHEPAGELIST_MUTATE (state, name) {
+      let index = state.cachePageList.indexOf(name)
+      if (~index) {
+        state.cachePageList.splice(index, 1)
+      }
+    },
     APP_IMAGEPREVIEW_MUTATE (state, { imagePreviewShow, previewImage }) {
       state.previewImage = previewImage
       state.imagePreviewShow = imagePreviewShow

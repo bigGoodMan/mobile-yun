@@ -49,7 +49,7 @@ export default {
       type: String,
       default: 'default',
       validator (val) {
-        return ['default', 'primary', 'info', 'warning', 'danger'].includes(val)
+        return ['default', 'primary', 'success', 'info', 'warning', 'danger'].includes(val)
       }
     },
     size: { // 按钮尺寸
@@ -132,7 +132,7 @@ default()
     color #323233
     background-color #ffffff
     border 1px solid #323233
-primary()
+success()
   &.hhf-button-plain
     color #52c427
     background-color #ffffff
@@ -201,11 +201,11 @@ danger()
   background-color #fff
   border 1px solid #ebedf0
   default()
-.hhf-button-primary
+.hhf-button-success
   background-color #52c427
   color #ffffff
   border 1px solid #52c427
-  primary()
+  success()
 .hhf-button-info
   background-color #1890fc
   color #ffffff

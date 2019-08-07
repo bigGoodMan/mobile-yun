@@ -42,12 +42,4 @@ const OperationalParameters = {
     goHome: 'my_machine'
   }
 }
-const FirmwareUpdate = {
-  path: '/my-machine/firmware-update',
-  name: 'FirmwareUpdate',
-  component: () => import(/* webpackChunkName: "FirmwareUpdate" */ '@v/my-machine/firmware-update.vue'),
-  meta: {
-    title: '固件更新'
-  }
-}
-export default [MyMachine, MachineDetail, PlayPrice, EarlyWarningParameters, OperationalParameters, FirmwareUpdate]
+export default [MyMachine, MachineDetail, PlayPrice, EarlyWarningParameters, OperationalParameters]

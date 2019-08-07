@@ -15,7 +15,7 @@
     </div>
     <div class="flex-1 flex-row flex-between-stretch">
       <div class="flex-row flex-start-stretch">
-        <div class="gift-list-img bgcolor-f2 flex-row flex-center">
+        <div class="gift-list-img bgcolor-f2 flex-row flex-center" v-if="result.thumb">
           <img
             class="gift-list-img-content"
             v-lazy="result.thumb"

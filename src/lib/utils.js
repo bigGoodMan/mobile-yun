@@ -38,9 +38,18 @@ function setTitle (pageTitle) {
 // function hasChildren (item) {
 //   return item.children && item.children.length > 0
 // }
+async function errorCaptured (asyncFunc, ...arg) {
+  try {
+    let res = await asyncFunc(...arg)
+    return [null, res]
+  } catch (err) {
+    return [err, null]
+  }
+}
 export {
   setToken, // 设置token
   getToken, // 获取token
   removeToken, // 移除token
-  setTitle // 设置title
+  setTitle, // 设置title
+  errorCaptured // 异步错误捕获处理
 }

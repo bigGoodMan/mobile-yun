@@ -32,8 +32,24 @@ function dataTypeJudgmentTool (thing, type) {
     return type.includes(objName)
   }
 }
+/**
+ * 获取当前dom到祖级的距离
+ * @param {*} selfEle 自身dom
+ * @param {*} parentsEle 父级dom不填就是顶级dom
+ * @returns {Number} 距离
+ */
+function getParentsOffsetTop (selfEle, parentsEle) {
+  parentsEle = parentsEle || document.documentElement || document.body // 祖级dom
+  let parentEle = selfEle.offsetParent // 父级dom
+  let distance = selfEle.offsetTop
+  if (parentEle === parentsEle || parentEle === null) {
+    return distance
+  }
+  return distance + getParentsOffsetTop(parentEle, parentsEle)
+}
 export {
   positiveNumberRegularTool, // 正数正则判断
   positiveIntegerRegularTool, // 正整数正则判断
-  dataTypeJudgmentTool // 判断数据类型
+  dataTypeJudgmentTool, // 判断数据类型
+  getParentsOffsetTop
 }

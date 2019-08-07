@@ -72,6 +72,7 @@ function tip (options = {}) {
         ...options
       }
     } else {
+      console.log(options)
       opt = {
         type: item,
         message: options

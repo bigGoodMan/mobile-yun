@@ -64,6 +64,10 @@ const CLAW_TYPE = {
   '3': '15-3',
   '4': '9-3'
 }
+const EQUIPMENT_UPDATE_STATUS = {
+  '0': '无需更新',
+  '1': '正在更新'
+}
 export {
   MACHINE_STATUS, // 缺货类型
   MACHINE_STATUS_TYPE, // 礼品机状态
@@ -75,5 +79,6 @@ export {
   PAW_POSITION_C2, // 变c2点
   STOCK_TAKING_STATUS, // 库存盘点状态
   GIFT_MACHINE_TYPE, // 礼品机类型
-  CLAW_TYPE // 爪型
+  CLAW_TYPE, // 爪型
+  EQUIPMENT_UPDATE_STATUS // 机台更新状态
 }
