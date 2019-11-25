@@ -30,14 +30,14 @@ function editGiftCreateApi (data) {
 // 获取礼品入库记录
 function getGiftStorageRecordApi (data) {
   return HttpReq.formPost({
-    url: 'Gift_storage/getGiftStockRecord',
+    url: 'Storage/getGiftStockRecord',
     data
   })
 }
 // 添加礼品入库单
 function addGiftStorageOrderApi (data) {
   return HttpReq.formPost({
-    url: 'Gift_storage/addGiftStock',
+    url: 'Storage/addGiftStock',
     data
   })
 }

@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'BottomPopup',
   props: {
     columns: {
       default: () => ([]),

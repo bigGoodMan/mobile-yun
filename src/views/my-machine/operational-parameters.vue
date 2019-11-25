@@ -30,6 +30,8 @@
       :coinsSell="machine.coins_sell"
       :moneyCost="machine.money_cost"
       :coinsValue="machine.coins_value"
+      :defaultEarnRate="defaultEarnRate"
+      @trigger-change-profit="(val) => this.defaultEarnRate = val"
       @trigger-close="handlePopup('gameWinningNumberShow', false)"
     />
     <!-- 天车参数 -->
@@ -111,6 +113,12 @@
         :value="fallVoltage"
       />
       <div class="border border-ebedf0"></div>
+      <van-cell title="C2智能抓力">
+          <template>
+            <span class="color-error" v-if="machine.mind_fall_voltage >= 0">{{machine.mind_fall_voltage}}</span>
+            <span class="color-success" v-else>未生效</span>
+          </template>
+        </van-cell>
       <CellPopup
         title="C3抓力"
         popupTitle="C3抓力"
@@ -195,7 +203,7 @@
       <h5 class="size-30 color-3 operational-parameters-title">音乐参数</h5>
       <van-cell-group>
         <van-switch-cell
-          v-if="machine.main_board === '1'"
+          v-if="machine.main_board !== '2'"
           class="vant-border border-left-15"
           v-model="awaitMusic"
           title="待机音乐"
@@ -260,7 +268,8 @@ export default {
       gameValue: '', // 类型名字
       gamePatternShow: false, // 展示游戏模式
       gameWinningNumberShow: false, // 展示获奖局数
-      profit: '', // 获奖局数毛利率
+      // profit: '', // 获奖局数毛利率(没有使用)
+      defaultEarnRate: '', // 获奖局数毛利率
       gameWinningNumberValue: '', // 获奖局数
 
       gameTimesShutdown: false, // 投币局数开机恢复
@@ -334,10 +343,13 @@ export default {
       }
     },
     gameMode () { // 游戏模式
-      return this.machine.main_board === '1' ? this.machine.key22 : this.machine.key29
+      return this.machine.main_board === '2' ? this.machine.key29 : this.machine.key22
     },
-    awardNumber () { // 获奖局数
-      return this.machine.main_board === '1' ? this.machine.award_count : this.machine.key32
+    awardNumber () { // 获奖局数 1和3是五马行和自研主板
+      return this.machine.main_board === '2' ? this.machine.key32 : this.machine.award_count
+    },
+    profit () { // 毛利率
+      return this.machine.default_earn_rate / 100
     }
   },
   watch: {
@@ -382,10 +394,13 @@ export default {
         this.gameWinningNumberValue = val
       },
       immediate: true
+    },
+    profit: { // 毛利率
+      handler (val) {
+        this.defaultEarnRate = val
+      },
+      immediate: true
     }
-    // profit (val) { // 毛利率
-    //   this.gameWinningNumberValue = val * 2
-    // }
   },
   methods: {
     ...mapActions(['MACHINE_GETOPERATEPARAM_ACTION', 'MACHINE_SETOPERATEPARAM_ACTION']),
@@ -434,19 +449,15 @@ export default {
     handleSet () {
       if (this.gameType !== '0' && this.gameType !== '1') {
         this.$Tip.warning('没有选择游戏模式')
-        return
       }
       if (!positiveIntegerRegularTool(this.gameWinningNumberValue) || this.gameWinningNumberValue > 99 || this.gameWinningNumberValue <= 0) {
         this.$Tip.warning('获奖局数需在1~99区间内')
-        return
       }
       if (!/^([1-4][0-9]|50)$/.test(this.lineLength)) {
         this.$Tip.warning('绳长需在10~50区间内')
-        return
       }
       if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.grabVoltage)) {
         this.$Tip.warning('C1抓力需在0~48区间内')
-        return
       }
       if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.fallVoltage)) {
         this.$Tip.warning('C2抓力需在0~48区间内')
@@ -465,7 +476,7 @@ export default {
         return
       }
       const data = {}
-      if (this.machine.main_board === '1') { // 武马行
+      if (this.machine.main_board === '1' || this.machine.main_board === '3') { // 武马行
         data.key22 = this.gameType
         data.award_count = this.gameWinningNumberValue
         data.await_music = this.awaitMusic ? '1' : '0'
@@ -486,6 +497,7 @@ export default {
       data.car_speed_front_back = this.carSpeedFrontBack
       data.car_speed_left_right = this.carSpeedLeftRight
       data.car_speed_up_down = this.carSpeedUpDown
+      data.default_earn_rate = this.defaultEarnRate
       this.MACHINE_SETOPERATEPARAM_ACTION({
         machineId: this.machine_id,
         data

@@ -6,14 +6,14 @@
       :value="value"
       :right-icon="rightIcon"
       :placeholder="placeholder"
-      @trigger-click="frontBackShow = true"
+      @trigger-click="show = true"
     >
     <template v-if="$slots.title" v-slot:title>
       <slot name="title"></slot>
     </template>
     </CellList>
 
-    <BottomPopup :columns="columns" :show="show" @trigger-confirm="handleConfirm(obj)" @trigger-close="show = false" />
+    <BottomPopup :columns="columns" :show="show" @trigger-confirm="handleConfirm" @trigger-close="show = false" />
   </div>
 </template>
 
@@ -29,6 +29,10 @@ export default {
   props: {
     value: {
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     title: String,
     placeholder: String,
@@ -53,7 +57,9 @@ export default {
 
   methods: {
     handleConfirm (obj) {
-      this.$emit('trigger-confirm', obj)
+      if (!this.disabled) {
+        this.$emit('trigger-confirm', obj)
+      }
     }
   },
 

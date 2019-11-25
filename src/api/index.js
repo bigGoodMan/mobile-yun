@@ -5,7 +5,9 @@ import {
 // 公共接口
 import {
   getStoreApi,
-  getChildBrandListApi
+  getChildBrandListApi,
+  getAreaListByStoreApi,
+  getMachineListByStoreAndAreaApi
 } from './common'
 import {
   uploadImgToOssApi,
@@ -41,11 +43,24 @@ import {
   getGiftStorageRecordApi,
   addGiftStorageOrderApi
 } from './gift'
+import {
+  getGraspGiftListApi,
+  startConfigureGraspApi,
+  getConfigureGraspResultApi
+} from './intelligent-grasp'
+import {
+  getSwitchgearListApi,
+  setSwitchgearOnOffApi,
+  getSwitchgearDetailApi,
+  getSwitchgearTimeApi
+} from './switchgear'
 export {
   loginApi, // 登录
 
   getStoreApi, // 获取门店
   getChildBrandListApi, // 获取子品牌列表
+  getAreaListByStoreApi, // 根据门店获取区域列表
+  getMachineListByStoreAndAreaApi, // 根据门店区域获取机台列表
 
   uploadImgToOssApi, // 上传图片到oss
   getOssInfoApi, // 获取oss签名等相关信息
@@ -75,5 +90,14 @@ export {
   getEquipmentUpdateListApi, // 获取门店设备更新列表
   judgeEquipmentUpdateStatusApi, // 判断门店设备是否在更新
   getEquipmentUpdateProgressApi, // 获取门店设备更新进度
-  putEquipmentUpdateApi // 设置门店设备更新
+  putEquipmentUpdateApi, // 设置门店设备更新
+
+  getGraspGiftListApi, // 获取抓感配置礼品列表
+  startConfigureGraspApi, // 开始配置只能抓感
+  getConfigureGraspResultApi, // 获取配置抓感结果
+
+  getSwitchgearListApi,
+  setSwitchgearOnOffApi,
+  getSwitchgearDetailApi,
+  getSwitchgearTimeApi
 }

@@ -19,6 +19,7 @@ export default {
     gift_info: [], // 在售礼品
     can_claw_num: '', // 可抓取量
     can_claw_safe_num: '', // 可抓取安全量
+    default_earn_rate: '', // 毛利率
 
     key22: '', // 游玩模式 0固定 1随机(武马行主板)
     key29: '', // 游玩模式 0固定 1随机(花花世界主板)
@@ -73,6 +74,7 @@ export default {
       state.can_claw_num = machineInfo.can_claw_num
       state.can_claw_safe_num = machineInfo.can_claw_safe_num
       state.gift_info = giftInfo
+      state.default_earn_rate = machineInfo.default_earn_rate
     },
     // 保存预警参数
     MACHINE_SAVEEARLYPARAM_MUTATE (state, { canClawNum, canClawSafeNum }) {
@@ -93,6 +95,7 @@ export default {
       state.coins_sell = data.coins_sell // 游玩单价
       state.money_cost = data.money_cost // 礼品成本
       state.coins_value = data.coins_value // 平台币值
+      state.default_earn_rate = data.default_earn_rate // 毛利率
       // 天车参数
       state.car_speed_front_back = data.car_speed_front_back // 天车前后速度F 0 最快 1快 2中 3慢 4最慢
       state.car_speed_front_back_value = CRANE_SPEED[data.car_speed_front_back] // 天车前后速度F 0 最快 1快 2中 3慢 4最慢

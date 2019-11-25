@@ -73,37 +73,40 @@ export default {
     }
   },
   watch: {
-    storeList (currArr) {
-      const {
-        storeId,
-        defaultIndex
-      } = this
+    storeList: {
+      handler (currArr) {
+        const {
+          storeId,
+          defaultIndex
+        } = this
 
-      if (currArr.length > 0) {
-        if (storeId >= 0) {
-          const arr = currArr.map((v, i) => {
-            return {
-              ...v,
-              index: i
+        if (currArr.length > 0) {
+          if (storeId >= 0) {
+            const arr = currArr.map((v, i) => {
+              return {
+                ...v,
+                index: i
+              }
+            }).filter((v, i) => v.store_id === String(storeId))
+            if (arr.length > 0) {
+              let obj = arr[0]
+              this.selectIndex = obj.index
+              this.store = {
+                ...obj
+              }
             }
-          }).filter((v, i) => v.sotre_id === String(storeId))
-          if (arr.length > 0) {
-            let obj = arr[0]
-            this.selectIndex = obj.index
+          } else if (defaultIndex >= 0) {
+            this.selectIndex = defaultIndex
             this.store = {
-              ...obj
+              ...currArr[0]
             }
           }
-        } else if (defaultIndex >= 0) {
-          this.selectIndex = defaultIndex
-          this.store = {
-            ...currArr[0]
+          if (defaultIndex >= 0 || storeId >= 0) {
+            this.$emit('trigger-click', { value: { ...this.store, index: this.selectIndex } })
           }
         }
-      }
-      if (defaultIndex >= 0 || storeId >= 0) {
-        this.$emit('trigger-click', { value: { ...this.store, index: this.selectIndex } })
-      }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -131,7 +134,9 @@ export default {
     }
   },
   created () {
-    this.getStore()
+    if (this.storeList.length === 0) {
+      this.getStore()
+    }
   },
   mounted () {
   }

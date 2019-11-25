@@ -27,9 +27,10 @@ export default {
     },
     // 设置token
     USER_SETTOKEN_MUTATE (state, token) {
-      state.token = token
+      let decodeToken = decodeURIComponent(token)
+      state.token = decodeToken
       if (token) {
-        setToken(token)
+        setToken(decodeToken)
       } else {
         removeToken()
       }

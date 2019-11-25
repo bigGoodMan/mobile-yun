@@ -47,9 +47,41 @@ function getParentsOffsetTop (selfEle, parentsEle) {
   }
   return distance + getParentsOffsetTop(parentEle, parentsEle)
 }
+/**
+ *  防抖动
+ * @param {{callback: Function, wait: Number, immediate: Boolean}} {callback 回调方法, wait 调用时间, immediate 是否立即执行}
+ */
+function debounce ({ callback, wait = 200, immediate = false }) {
+  let args, timer, context, laterFn
+  laterFn = () => setTimeout(() => {
+    timer = null
+    callback.apply(context, args)
+    context = args = null
+  }, wait)
+  return function () {
+    args = arguments
+    context = this
+    if (!timer && immediate) { // 立即执行
+      timer = laterFn()
+      callback.apply(context, args)
+      context = args = null
+    } else {
+      clearTimeout(timer)
+      timer = laterFn()
+    }
+  }
+}
+/**
+ *  节流
+ * @param {{callback: Function, wait: Number, immediate: Boolean}} {callback 回调方法, wait 调用时间, immediate 是否立即执行}
+ */
+function throttle ({ callback, wait = 200, immediate = false }) {
+}
 export {
   positiveNumberRegularTool, // 正数正则判断
   positiveIntegerRegularTool, // 正整数正则判断
   dataTypeJudgmentTool, // 判断数据类型
-  getParentsOffsetTop
+  getParentsOffsetTop, // 获取当前dom到祖级的距离
+  debounce, // 防抖动
+  throttle // 节流
 }

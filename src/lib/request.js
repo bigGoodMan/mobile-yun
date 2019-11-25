@@ -47,6 +47,8 @@ axios.interceptors.response.use(response => {
       // 未登录
       if (code === '-200') {
         store.dispatch('USER_LOGOUT_ACTION')
+      } else if (code === '-300') {
+        store.dispatch('USER_LOGOUT_ACTION')
       }
       return data
     default:

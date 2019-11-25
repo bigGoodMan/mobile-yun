@@ -5,6 +5,8 @@ import Gift from './modules/gift' // 自建礼品
 import Other from './modules/other' //
 import FirmwareUpdate from './modules/firmware-update' // 固件更新
 import IntelligentGrasp from './modules/intelligent-grasp' // 智能抓感
+import Switchgear from './modules/switchgear' // 开关机设置
+import MachineOperate from './modules/machine-operate' // 机台操作
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
 export default [
   {
@@ -15,7 +17,7 @@ export default [
     meta: {
       title: '洞见云'
     },
-    children: [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate]
+    children: [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate]
   },
   Error404
 ]

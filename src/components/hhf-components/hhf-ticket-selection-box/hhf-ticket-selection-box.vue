@@ -48,7 +48,6 @@ export default {
 
   methods: {
     handleClick () {
-      console.log(111)
       this.$emit('trigger-change', !this.value)
     }
   },

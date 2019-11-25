@@ -133,12 +133,12 @@ export default {
         message: '加载中...',
         duration: 0
       })
-      await errorCaptured(this.getEquipmentUpdateList)
       let [err, res] = await errorCaptured(judgeEquipmentUpdateStatusApi, { store_id: this.store_id })
       if (err) {
         this.$toast.clear()
         return
       }
+      await errorCaptured(this.getEquipmentUpdateList)
       if (res.return_code === '0') {
         let status = res.data // 0 无需更新 1是更新中
         if (status === '1') {
@@ -194,13 +194,12 @@ export default {
         mids: this.awaitMidsParams
       }).then(res => {
         if (res.return_code === '0') {
-          this.getEquipmentUpdateProgress()
-          return
         } else if (res.msg) {
           this.$Tip.warning(res.msg)
         }
         this.$toast.clear()
       })
+      this.getEquipmentUpdateProgress()
     },
     async getEquipmentUpdateList () {
       this.$toast.loading({

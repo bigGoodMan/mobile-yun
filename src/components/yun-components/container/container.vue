@@ -61,14 +61,14 @@ export default {
         // 判断是否需要token
         if (!config.notLoginPageName.includes(this.$route.name) && !val) {
           const $route = this.$route
-          const name = $route.name
+          const path = $route.path
           const query = $route.query
           const params = $route.params
           this.$router.push({
             name: 'login',
             query: {
               url: encodeURIComponent(JSON.stringify({
-                name,
+                path,
                 query,
                 params
               }))

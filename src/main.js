@@ -5,7 +5,7 @@ import store from './store'
 // import './registerServiceWorker'
 import '@a/css/common.styl'
 import '@a/css/animate.styl'
-// import { install, Lazyload } from 'vant'
+import vant from 'vant'
 import plugins from './plugins'
 import '@/plugins/css/common.styl'
 import '@a/icon/iconfont.css'
@@ -13,7 +13,6 @@ import '@a/icon/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.use(vant)
-Vue.use(vant.Lazyload)
 Vue.use(plugins)
 // Vue.use(Lazyload, {
 //   preLoad: 1.3,

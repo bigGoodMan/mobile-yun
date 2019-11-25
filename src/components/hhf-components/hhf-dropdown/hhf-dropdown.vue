@@ -1,10 +1,10 @@
 <!-- 下拉菜单 -->
 <template>
-  <div class="hhf-dropdown">
-    <div @click="show = !show" class="bgcolor-f">aaaaaaaa
-      <!-- <slot></slot> -->
-    </div>
-    <div class="hhf-dropdown-mask" v-show="show" :style="{height: maskHeight, top: maskTop}"></div>
+  <div class="hhf-dropdown" ref="dropdown">
+    <!-- <div @click="show = !show" class="bgcolor-f">aaaaaaaa -->
+      <slot></slot>
+    <!-- </div> -->
+    <div class="hhf-dropdown-mask" v-show="show" @click="handleFade" :style="{height: maskHeight, top: maskTop}"></div>
     <div style="position: relative" ref="anim">
     <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @:enter-cancelled="enterCancelled" @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave" @leave-cancelled="leaveCancelled">
       <div v-if="show" class="hhf-dropdown-anim">
@@ -13,24 +13,8 @@
         </template>
         <template v-else>
           <ul class="hhf-dropdown-list">
-            <li>
-              <HhfTicketSelectionBox title="全部" v-model="checked" />
-              <div class="border"></div>
-            </li>
-            <li>
-              <HhfTicketSelectionBox title="全部" v-model="checked" />
-              <div class="border"></div>
-            </li>
-            <li>
-              <HhfTicketSelectionBox title="全部" v-model="checked" />
-              <div class="border"></div>
-            </li>
-            <li>
-              <HhfTicketSelectionBox title="全部" v-model="checked" />
-              <div class="border"></div>
-            </li>
-            <li>
-              <HhfTicketSelectionBox title="全部" v-model="checked" />
+            <li v-for="(items, index) of columns" :key="index">
+              <HhfTicketSelectionBox :title="items.name" :value="items.checked"  @trigger-change="(checked) => handleChange({checked, name: items.name, value: items.value, index})" />
               <div class="border"></div>
             </li>
           </ul>
@@ -46,12 +30,19 @@ import { getParentsOffsetTop } from '@l/tools'
 import HhfTicketSelectionBox from '../hhf-ticket-selection-box'
 export default {
   name: 'HhfDropdown',
+  model: {
+    prop: 'show',
+    event: 'trigger-fade'
+  },
   props: {
+    show: {
+      type: Boolean,
+      default: false
+    },
+    columns: Array
   },
   data () {
     return {
-      checked: false,
-      show: false,
       maskHeight: null,
       maskTop: null
     }
@@ -65,6 +56,9 @@ export default {
   },
 
   methods: {
+    handleFade () {
+      this.$emit('trigger-fade', false)
+    },
     beforeEnter (el) {
     //  const node = this.$refs['anim']
       el.style.transition = 'all 0.5s'
@@ -108,14 +102,17 @@ export default {
     leaveCancelled (el) {
       el.style.height = null
       el.style.transition = null
+    },
+    handleChange ({ name, index, value, checked }) {
+      this.$emit('trigger-change', { name, index, value, checked })
     }
-
   },
 
   mounted () {
-    const top = getParentsOffsetTop(this.$refs['anim'])
+    const maskHeightTop = getParentsOffsetTop(this.$refs['anim'])
+    const top = getParentsOffsetTop(this.$refs['anim'], this.$refs['dropdown'])
     this.maskTop = `${top}px`
-    this.maskHeight = `${document.documentElement.clientHeight - top}px`
+    this.maskHeight = `${document.documentElement.clientHeight - maskHeightTop}px`
   }
 }
 </script>

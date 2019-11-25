@@ -43,7 +43,7 @@ module.exports = {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
     externals: {
       wx: 'wx', // 键名是引入的名字 键值是全局变量名
-      vue: 'Vue',
+      // vue: 'Vue',
       jsencrypt: 'JSEncrypt',
       // vant: 'vant',
       moment: 'moment'
@@ -66,9 +66,9 @@ module.exports = {
   // },
   // 打包时不生成.map文件
   productionSourceMap: false,
-  // http://dev.hahaipi.com/wxxcx/index.php/Home/getMachineInfo
+  // http://mct.api.hahaipi.com/mobile
   devServer: {
-    host: '100.100.100.23',
+    host: '0.0.0.0',
     port: 8080,
     https: false,
     hotOnly: false,

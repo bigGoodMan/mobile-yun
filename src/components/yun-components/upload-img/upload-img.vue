@@ -104,7 +104,7 @@ export default {
           message: '添加失败，请重新添加'
         })
       }).catch(() => {
-        this.$Tip.warning({
+        this.$Tip.error({
           mask: true,
           message: '添加失败，请重新添加'
         })

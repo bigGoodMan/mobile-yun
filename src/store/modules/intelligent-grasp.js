@@ -1,12 +1,10 @@
 export default {
   state: {
-    storeId: '',
-    areaId: '',
-    machineId: ''
+    giftInfoSelected: {}
   },
   mutations: {
-    COMMON_GETSTORE_MUTATE (state, data) {
-      state.storeList = data
+    INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE (state, data) {
+      state.giftInfoSelected = data
     }
   },
   actions: {

@@ -7,6 +7,8 @@ import machine from './modules/machine'
 import common from './modules/common'
 import inventory from './modules/inventory'
 import gift from './modules/gift'
+import intelligentGrasp from './modules/intelligent-grasp'
+import switchgear from './modules/switchgear'
 
 Vue.use(Vuex)
 // 数据初始化保存
@@ -16,7 +18,9 @@ const initData = {
   machine: machine.state,
   common: common.state,
   inventory: inventory.state,
-  gift: gift.state
+  gift: gift.state,
+  intelligentGrasp: intelligentGrasp.state,
+  switchgear: switchgear.state
 }
 export default new Vuex.Store({
   state: {
@@ -39,6 +43,8 @@ export default new Vuex.Store({
     machine,
     common,
     inventory,
-    gift
+    gift,
+    intelligentGrasp,
+    switchgear
   }
 })

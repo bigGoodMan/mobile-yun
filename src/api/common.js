@@ -13,7 +13,24 @@ function getChildBrandListApi (data) {
     data
   })
 }
+// 根据门店store_id获取区域列表
+function getAreaListByStoreApi (data) {
+  return HttpReq.formPost({
+    url: 'Smart_grip/getAreaList',
+    data
+  })
+}
+// 根据门店store_id区域area_id获取机台列表
+function getMachineListByStoreAndAreaApi (data) {
+  return HttpReq.formPost({
+    url: 'Smart_grip/getMachineByArea',
+    data
+  })
+}
+
 export {
   getStoreApi,
-  getChildBrandListApi
+  getChildBrandListApi,
+  getAreaListByStoreApi,
+  getMachineListByStoreAndAreaApi
 }

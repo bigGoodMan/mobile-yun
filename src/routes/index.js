@@ -15,6 +15,11 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
+  let queryToken = to.query.token
+  // console.log(to)
+  if (queryToken) {
+    store.commit('USER_SETTOKEN_MUTATE', queryToken)
+  }
   const token = store.state.user.token
   if (!token && !notLoginPageName.includes(to.name)) {
     // 未登录，跳转的是需要登录页面

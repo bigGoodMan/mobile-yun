@@ -10,7 +10,8 @@
         <div class="flex-row flex-between-center">
           <input
             class="game-prize-winning-number-entry padding-0 margin-0 size-28"
-            v-model="val"
+            :value="profit"
+            @input="handleInput"
             placeholder="请输入毛利率"
           />
           <span class="size-28 color-3 text-left flex-1">%</span>
@@ -51,45 +52,57 @@ export default {
     coinsValue: { // 平台币值
       default: '0',
       type: String
+    },
+    defaultEarnRate: { // 毛利率
+      default: '0',
+      type: String
     }
   },
   data () {
     return {
       awardValue: '', // 获奖局数
       validatorContent: '',
-      val: ''
+      profit: ''
     }
   },
   watch: {
     value (val) {
       this.awardValue = val
     },
-    val: {
+    defaultEarnRate: {
       handler (val) {
-        if (positiveNumberRegularTool(val) && val > 0 && val < 100) {
-          this.awardValue = Math.ceil(this.moneyCost / (this.coinsSell * this.coinsValue * (1 - val / 100)))
-        } else if (!val) {
-          this.awardValue = this.value
-        } else {
-          this.awardValue = 0
-        }
-        if (!positiveIntegerRegularTool(this.awardValue) || this.awardValue <= 0 || this.awardValue > 99) {
-          this.validatorContent = '获奖局数超出限制，请修改毛利率'
-        } else {
-          this.validatorContent = ''
-        }
-      }
+        this.profit = val
+      },
+      immediate: true
     }
   },
   components: {
   },
   methods: {
+    handleInput (event) {
+      const val = event.target.value
+      if (positiveNumberRegularTool(val) && val > 0 && val < 100) {
+        this.awardValue = Math.ceil(this.moneyCost / (this.coinsSell * this.coinsValue * (1 - val / 100)))
+      } else if (!val) {
+        this.awardValue = this.value
+      } else {
+        this.awardValue = 0
+      }
+      if (!positiveIntegerRegularTool(this.awardValue) || this.awardValue <= 0 || this.awardValue > 99) {
+        this.validatorContent = '获奖局数超出限制，请修改毛利率'
+      } else {
+        this.validatorContent = ''
+      }
+      this.profit = val
+    },
     handleConfirm () {
       this.$emit('trigger-confirm', this.awardValue)
+      this.$emit('trigger-change-profit', this.profit)
       this.handleClose()
     },
     handleCancel () {
-      this.val = ''
+      this.profit = this.defaultEarnRate
+      this.awardValue = this.value
       this.handleClose()
     }
   }
