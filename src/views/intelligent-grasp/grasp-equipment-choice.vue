@@ -4,6 +4,7 @@
     <div class="header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
+        :store-id="storeId"
         :default-index="0"
       >
         <div class="flex-row flex-end-center flex-1">
@@ -19,7 +20,17 @@
       <div class="bgcolor-f content">
         <h5 class="margin-0 padding-20-30 size-30">我的机台</h5>
         <div class="border"></div>
-        <LinkageSelection
+        <MyArea
+        :store-id="storeId"
+        v-model="areaId"
+         />
+        <div class="border"></div>
+        <MyMachine
+        :store-id="storeId"
+        :area-id="areaId"
+        v-model="machineId"
+         />
+        <!-- <LinkageSelection
           right-icon
           title="请选择区域"
           :value="areaValue.text"
@@ -33,12 +44,12 @@
           :value="machineValue.text"
           :columns="machineColumns"
           @trigger-confirm="handleChoseMachine"
-        />
+        /> -->
         <div class="border"></div>
       </div>
       <div
         class="bgcolor-f content"
-        v-if="machineValue.id"
+        v-if="machineId"
       >
         <CellList
           right-icon
@@ -92,12 +103,14 @@
 </template>
 
 <script>
-import CellList from '@yun/cell-list'
-import LinkageSelection from '@yun/linkage-selection'
 import MyStore from '@yun/my-store'
+import MyArea from '@yun/my-area'
+import MyMachine from '@yun/my-machine'
 import HhfButton from '@hhf/hhf-button'
+import CellList from '@yun/cell-list'
+// import LinkageSelection from '@yun/linkage-selection'
 import { mapMutations, mapState } from 'vuex'
-import { getAreaListByStoreApi, getMachineListByStoreAndAreaApi, startConfigureGraspApi, getConfigureGraspResultApi } from '@/api'
+import { startConfigureGraspApi, getConfigureGraspResultApi } from '@/api'
 export default {
   name: 'GraspEquipmentChoice',
 
@@ -106,7 +119,9 @@ export default {
       finishShow: false,
       finishLoading: false,
       loading: false,
-      storeId: '',
+      storeId: null,
+      areaId: null,
+      machineId: null,
 
       areaColumns: [], // 区域列表
       areaValue: {}, // 选中的区域
@@ -117,9 +132,11 @@ export default {
 
   components: {
     MyStore,
-    LinkageSelection,
+    // LinkageSelection,
     CellList,
-    HhfButton
+    HhfButton,
+    MyArea,
+    MyMachine
   },
 
   computed: {
@@ -136,7 +153,7 @@ export default {
     // 完成
     handleFinished () {
       this.finishLoading = true
-      getConfigureGraspResultApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineValue.id }).then(res => {
+      getConfigureGraspResultApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineId }).then(res => {
         this.finishLoading = false
         if (res.return_code === '0') {
           this.$Loading.clear()
@@ -154,7 +171,7 @@ export default {
     // 开始配置
     handleStart () {
       this.loading = true
-      startConfigureGraspApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineValue.id }).then(res => {
+      startConfigureGraspApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineId }).then(res => {
         this.loading = false
         if (res.return_code === '0') {
           this.$Loading({
@@ -172,66 +189,66 @@ export default {
     // 选择门店
     handleConfirm (obj) {
       this.storeId = obj.value.store_id
-      this.getAreaListByStore()
+      // this.getAreaListByStore()
       this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
     },
     // 获取区域列表
-    getAreaListByStore () {
-      getAreaListByStoreApi({ store_id: this.storeId }).then(res => {
-        this.areaColumns = []
-        this.areaValue = {}
-        this.machineColumns = []
-        this.machineValue = {}
-        if (res.return_code === '0') {
-          const { data } = res
-          let values = []
-          data.forEach(v => {
-            values.push({
-              text: v.name,
-              id: v.id
-            })
-          })
-          this.areaColumns = [{
-            values
-          }]
-        } else if (res.msg) {
-          this.$Tip.warning(res.msg)
-        }
-      })
-    },
-    // 选择区域
-    handleChoseArea (obj) {
-      this.areaValue = obj.value[0]
-      this.getMachineListByStoreAndArea()
-      this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
-    },
+    // getAreaListByStore () {
+    //   getAreaListByStoreApi({ store_id: this.storeId }).then(res => {
+    //     this.areaColumns = []
+    //     this.areaValue = {}
+    //     this.machineColumns = []
+    //     this.machineValue = {}
+    //     if (res.return_code === '0') {
+    //       const { data } = res
+    //       let values = []
+    //       data.forEach(v => {
+    //         values.push({
+    //           text: v.name,
+    //           id: v.id
+    //         })
+    //       })
+    //       this.areaColumns = [{
+    //         values
+    //       }]
+    //     } else if (res.msg) {
+    //       this.$Tip.warning(res.msg)
+    //     }
+    //   })
+    // },
+    // // 选择区域
+    // handleChoseArea (obj) {
+    //   this.areaValue = obj.value[0]
+    //   this.getMachineListByStoreAndArea()
+    //   this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
+    // },
     // 获取机台
-    getMachineListByStoreAndArea () {
-      getMachineListByStoreAndAreaApi({ store_id: this.storeId, area_id: this.areaValue.id }).then(res => {
-        this.machineColumns = []
-        this.machineValue = {}
-        if (res.return_code === '0') {
-          const { data } = res
-          let values = []
-          data.forEach(v => {
-            values.push({
-              text: `${v.name}-${v.no}`,
-              id: v.id
-            })
-          })
-          this.machineColumns = [{
-            values
-          }]
-        } else if (res.msg) {
-          this.$Tip.warning(res.msg)
-        }
-      })
-    },
-    // 选择机台
-    handleChoseMachine (obj) {
-      this.machineValue = obj.value[0]
-      this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
-    },
+    // getMachineListByStoreAndArea () {
+    //   getMachineListByStoreAndAreaApi({ store_id: this.storeId, area_id: this.areaValue.id }).then(res => {
+    //     this.machineColumns = []
+    //     this.machineValue = {}
+    //     if (res.return_code === '0') {
+    //       const { data } = res
+    //       let values = []
+    //       data.forEach(v => {
+    //         values.push({
+    //           text: `${v.name}-${v.no}`,
+    //           id: v.id
+    //         })
+    //       })
+    //       this.machineColumns = [{
+    //         values
+    //       }]
+    //     } else if (res.msg) {
+    //       this.$Tip.warning(res.msg)
+    //     }
+    //   })
+    // },
+    // // 选择机台
+    // handleChoseMachine (obj) {
+    //   this.machineValue = obj.value[0]
+    //   this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
+    // },
     handleRouter () {
       this.$router.push({
         name: 'Article'
@@ -250,6 +267,20 @@ export default {
 
   mounted () {},
   created () {
+    const {
+      sid,
+      mid,
+      aid
+    } = this.$route.query
+    if (sid) {
+      this.storeId = sid
+    }
+    if (sid && aid) {
+      this.areaId = aid
+    }
+    if (sid && aid && mid) {
+      this.machineId = mid
+    }
     this.APP_ADDCACHEPAGELIST_MUTATE('GraspEquipmentChoice')
   }
 }

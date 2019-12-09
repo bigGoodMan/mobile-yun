@@ -14,6 +14,7 @@
 <script>
 import HhfUploadImg from '@hhf/hhf-upload-img'
 import { mapMutations, mapActions } from 'vuex'
+import { responseParsingXML } from '@/lib/utils'
 import { uploadImgToOssApi } from '@/api'
 import webOssUpload from '@l/webOssUpload'
 export default {
@@ -93,26 +94,48 @@ export default {
         data.append(key, formDt[key])
       }
       data.append('file', blob)
+      this.$Loading({
+        message: '图片加载中...'
+      })
       uploadImgToOssApi({ data, callback }).then(res => {
+        this.$Loading.clear()
         data = null
         if (res && res.return_code === '0') {
           this.$emit('trigger-change', { src: res.data, base64Src: result })
           return
+        } else if (res) {
+          this.$Tip.warning({
+            mask: true,
+            message: '添加失败，请重新添加'
+          })
         }
-        this.$Tip.warning({
-          mask: true,
-          message: '添加失败，请重新添加'
-        })
-      }).catch(() => {
         this.$Tip.error({
           mask: true,
-          message: '添加失败，请重新添加'
+          message: res
+        })
+      }).catch((err) => {
+        this.$Loading.clear()
+        if (err && err.response) {
+          let resXml = responseParsingXML(err.response.data)
+          this.$Tip.error({
+            mask: true,
+            message: `Code:${resXml.Code}Message:${resXml.Message}`
+          })
+          return
+        }
+        this.$Tip.error({
+          mask: true,
+          message: err.toString()
         })
       })
     },
     // 获取oss信息
     getOssImgInfo () {
+      this.$Loading({
+        message: '加载中...'
+      })
       this.APP_SETOSSINFO_ACTION().then(res => {
+        this.$Loading.clear()
         if (res.return_code === '0') {
           const {
             AccessKeyId,

@@ -4,6 +4,7 @@
     <van-popup
       v-model="show"
       position="bottom"
+      :close-on-click-overlay="maskClose"
       :overlay="overlay"
       @click-overlay="handleClose"
     >
@@ -23,6 +24,10 @@
 export default {
   name: 'BottomPopup',
   props: {
+    maskClose: {
+      type: Boolean,
+      default: false
+    },
     columns: {
       default: () => ([]),
       type: Array

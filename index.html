@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input id="input" type="file" />
+  <script>
+  document.getElementById('input').onchange = function (e) {
+    let files = e.target.files
+    let file = files[0]
+    let reader = new FileReader()
+    console.log(file.size)
+  let type = file.type
+ let url = window.URL.createObjectURL(files.item(0))
+ console.log(url)
+  reader.onloadend = function (e) {
+    console.log(e)
+    // e.target.result base64
+    let img = document.createElement('img')
+
+    img.onload = function () {
+      console.log(img.width, img.height)
+      let canvas = document.createElement('canvas')
+     let ctxt = canvas.getContext('2d')
+     canvas.width = img.width
+     canvas.height = img.height
+     ctxt.drawImage(img, 0, 0)
+      canvas.toBlob(function (blob) {
+      console.log(blob)
+    }, type, 10)
+    }
+    img.src = url //e.target.result
+    document.body.appendChild(img)
+  }
+  reader.readAsDataURL(file)
+  }
+  </script>
+</body>
+</html>

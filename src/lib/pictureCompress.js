@@ -29,6 +29,11 @@ methods.imagetoCanvas = function (image, position) {
     case 3:
       cvs.width = w
       cvs.height = h
+      // ctx.fillStyle = '#FFFFFF'
+      // ctx.fillRect(0, 0, w, h)
+
+      // 清除画布
+      ctx.clearRect(0, 0, -w / 2, -h / 2)
       ctx.translate(w / 2, h / 2)
       ctx.rotate(180 * Math.PI / 180)
       ctx.drawImage(image, -w / 2, -h / 2)
@@ -36,6 +41,10 @@ methods.imagetoCanvas = function (image, position) {
     case 6:
       cvs.width = h
       cvs.height = w
+      // ctx.fillStyle = '#FFFFFF'
+      // ctx.fillRect(0, 0, w, h)
+      // 清除画布
+      ctx.clearRect(0, 0, -w / 2, -h / 2)
       ctx.translate(h / 2, w / 2)
       ctx.rotate(90 * Math.PI / 180)
       ctx.drawImage(image, -w / 2, -h / 2)
@@ -43,6 +52,10 @@ methods.imagetoCanvas = function (image, position) {
     case 8:
       cvs.width = h
       cvs.height = w
+      // ctx.fillStyle = '#FFFFFF'
+      // ctx.fillRect(0, 0, w, h)
+      // 清除画布
+      ctx.clearRect(0, 0, -w / 2, -h / 2)
       ctx.translate(h / 2, w / 2)
       ctx.rotate(270 * Math.PI / 180)
       ctx.drawImage(image, -w / 2, -h / 2)
@@ -50,6 +63,10 @@ methods.imagetoCanvas = function (image, position) {
     default:
       cvs.width = w
       cvs.height = h
+      // ctx.fillStyle = '#FFFFFF'
+      // ctx.fillRect(0, 0, w, h)
+      // 清除画布
+      ctx.clearRect(0, 0, 0, 0)
       ctx.drawImage(image, 0, 0)
       break
   }
@@ -63,6 +80,8 @@ methods.imagetoCanvas = function (image, position) {
      */
 methods.canvasResizetoFile = function (canvas, quality = 1, fn, type = 'image/jpeg') {
   // 为了兼容旧版本
+  // type = 'image/jpeg' // png居然会变大
+  // quality = 10e-9
   if (canvas.toBlob) {
     canvas.toBlob(function (blob) {
       fn(blob)
@@ -196,8 +215,8 @@ methods.canvasImageResize = function (img, width, height, position) {
   }
 
   // canvas对图片进行缩放
-  canvas.width = targetWidth
-  canvas.height = targetHeight
+  // canvas.width = targetWidth
+  // canvas.height = targetHeight
   // polyfill 提供了这个方法用来获取设备的 pixel ratio
   // let getPixelRatio = function (ctx) {
   //   let backingStore = ctx.backingStorePixelRatio ||
@@ -221,33 +240,35 @@ methods.canvasImageResize = function (img, width, height, position) {
   // document.body.appendChild(img2)
   // document.body.appendChild(img)
   // 清除画布
-  context.clearRect(0, 0, targetWidth, targetHeight)
+  if (position === 6 || position === 8) {
+    canvas.width = targetHeight
+    canvas.height = targetWidth
+    context.clearRect(0, 0, targetHeight, targetWidth)
+  } else {
+    canvas.width = targetWidth
+    canvas.height = targetHeight
+    context.clearRect(0, 0, targetWidth, targetHeight)
+  }
+  // context.clearRect(0, 0, targetWidth, targetHeight)
   // 图片压缩
   switch (position) {
     case 3:
-      canvas.width = targetWidth
-      canvas.height = targetHeight
       context.translate(targetWidth / 2, targetHeight / 2)
       context.rotate(180 * Math.PI / 180)
       context.drawImage(img, -targetWidth / 2, -targetHeight / 2)
       break
     case 6:
-      canvas.width = targetHeight
-      canvas.height = targetWidth
-      context.translate(targetHeight / 2, targetWidth / 2)
+      console.log(targetHeight)
+      context.translate(targetWidth, 0)
       context.rotate(90 * Math.PI / 180)
-      context.drawImage(img, -targetWidth / 2, -targetHeight / 2)
+      context.drawImage(img, 0, 0, targetWidth, targetHeight)
       break
     case 8:
-      canvas.width = targetHeight
-      canvas.height = targetWidth
       context.translate(targetHeight / 2, targetWidth / 2)
       context.rotate(270 * Math.PI / 180)
       context.drawImage(img, -targetWidth / 2, -targetHeight / 2)
       break
     default:
-      canvas.width = targetWidth
-      canvas.height = targetHeight
       context.drawImage(img, 0, 0)
       break
   }

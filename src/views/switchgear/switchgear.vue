@@ -5,6 +5,7 @@
       <MyStore
         @trigger-click="handleConfirm"
         :default-index="0"
+        :store-id="store_id"
       >
         <div class="flex-row flex-end-center flex-1">
           <van-icon
@@ -62,7 +63,7 @@ export default {
       activeNames: 0,
       columns: [],
       isLoading: false,
-      store_id: ''
+      store_id: null
     }
   },
 
@@ -175,7 +176,14 @@ export default {
       })
     }
   },
-
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.store_id = sid
+    }
+  },
   mounted () {
   }
 }

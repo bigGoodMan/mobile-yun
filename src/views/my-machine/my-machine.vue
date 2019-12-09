@@ -4,6 +4,7 @@
     <div class="my-machine-header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
+        :store-id="store_id"
         :default-index="0"
       />
     </div>
@@ -43,7 +44,7 @@ export default {
       activeNames: [0],
       columns: [],
       isLoading: false,
-      store_id: ''
+      store_id: null
     }
   },
 
@@ -60,13 +61,10 @@ export default {
       this.handleGetMachineList()
     },
     handleGetMachineList (callback = () => {}) {
-      this.$toast.loading({
-        message: '加载中...',
-        duration: 0
-      })
+      this.$Loading('加载中')
       getMachineListApi({ store_id: this.store_id }).then(res => {
         callback()
-        this.$toast.clear()
+        this.$Loading.clear()
         if (res.return_code === '0') {
           this.columns = res.data.machine_list
         } else {
@@ -80,7 +78,14 @@ export default {
       })
     }
   },
-
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.store_id = sid
+    }
+  },
   mounted () {
   }
 }

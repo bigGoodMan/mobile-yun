@@ -8,4 +8,9 @@ const install = (Vue, options = {}) => {
   Vue.prototype.$Confirm = Confirm
   Vue.prototype.$Loading = Loading
 }
-export default install
+export default {
+  install,
+  Tip,
+  Confirm,
+  Loading
+}

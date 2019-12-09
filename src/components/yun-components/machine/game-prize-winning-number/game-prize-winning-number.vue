@@ -55,7 +55,7 @@ export default {
     },
     defaultEarnRate: { // 毛利率
       default: '0',
-      type: String
+      type: [String, Number]
     }
   },
   data () {

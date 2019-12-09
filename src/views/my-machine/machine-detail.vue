@@ -40,7 +40,7 @@
           title="游玩单价"
           :value="machine.coins_sell + '币'"
           is-link
-          :to="{name: 'play_price', query: { id }}"
+          :to="{name: 'play_price', query: { mid }}"
         />
       </van-cell-group>
     </div>
@@ -85,12 +85,12 @@
         <van-cell
           title="运营参数"
           is-link
-          :to="{name: 'operational_parameters', query: { id }}"
+          :to="{name: 'operational_parameters', query: { mid }}"
         />
         <van-cell
           title="预警参数"
           is-link
-          :to="{name: 'early_warning_parameters', query: { id }}"
+          :to="{name: 'early_warning_parameters', query: { mid }}"
         />
       </van-cell-group>
     </div>
@@ -104,7 +104,7 @@ export default {
 
   data () {
     return {
-      id: '',
+      mid: '',
       index: 1,
       show: false,
       images: []
@@ -122,12 +122,12 @@ export default {
     handleChange (e) {
     },
     getMachineDetail () {
-      const { id } = this.$route.query
-      if (id) {
-        this.id = id
-        this.$toast.loading()
-        this.MACHINE_MACHINEDETAIL_ACTION({ id }).then(res => {
-          this.$toast.clear()
+      const { mid } = this.$route.query
+      if (mid) {
+        this.mid = mid
+        this.$Loading()
+        this.MACHINE_MACHINEDETAIL_ACTION({ id: mid }).then(res => {
+          this.$Loading.clear()
           if (res.return_code !== '0') {
             this.$Tip.warning(res.msg)
           }

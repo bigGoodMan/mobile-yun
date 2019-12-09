@@ -5,7 +5,8 @@
       <dt class="size-28 color-3 machine-list-place">{{items.area_name}}（{{items.intro}}）</dt>
       <dd class="machine-list-main bgcolor-f2">
         <ul class="machine-list-content">
-          <li class="machine-list-panel bgcolor-f" v-for="its in items.items" :key="its.machine_id" @click="handleHref({
+          <li class="machine-list-panel" v-for="its in items.items" :key="its.machine_id">
+          <div class="bgcolor-f machine-list-panel-container" @click="handleHref({
             machineId: its.machine_id,
             machineType: its.machine_type,
             parentId: its.parent_id,
@@ -21,6 +22,7 @@
               <p><span class="weight-bold size-28 color-3">{{its.name}}-{{its.no}}</span><span class="size-24 color-9 machine-list-panel-number">({{its.machine_id}})</span></p>
               <p class="flex-row flex-between-center"><span class="size-24 color-9">{{its.type_name}}</span><span class="size-28 color-ff0000 weight-bold">{{its.coins_sell}}</span></p>
             </div>
+          </div>
           </li>
         </ul>
       </dd>
@@ -68,7 +70,7 @@ export default {
         }
         this.$router.push({
           name: 'machine_detail',
-          query: { id: machineId }
+          query: { mid: machineId }
         })
       } else {
         this.$Tip.warning('该机型不可设置参数')
@@ -76,7 +78,8 @@ export default {
     }
   },
 
-  mounted () {}
+  mounted () {
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -87,16 +90,17 @@ export default {
       padding rems(20)
     .machine-list-main
       margin 0
-      padding rems(20) rems(20) 0 rems(20)
       .machine-list-content
         display flex
         flex-flow row wrap
         justify-content space-between
+        padding rems(10)
         .machine-list-panel
-          padding rems(20)
           box-sizing border-box
-          width rems(345)
-          margin-bottom rems(20)
+          width 50%
+          padding rems(10)
+          .machine-list-panel-container
+            padding rems(20)
           .machine-list-img
             position relative
             width 100%

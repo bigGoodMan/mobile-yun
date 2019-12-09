@@ -81,7 +81,7 @@ export default {
         } = this
 
         if (currArr.length > 0) {
-          if (storeId >= 0) {
+          if (storeId && storeId >= 0) {
             const arr = currArr.map((v, i) => {
               return {
                 ...v,

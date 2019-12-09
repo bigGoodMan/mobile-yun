@@ -67,7 +67,7 @@
 import HhfButton from '@hhf/hhf-button'
 import { getInventoryDetailApi, createInventoryOrderApi } from '@/api'
 import { STOCK_TAKING_STATUS } from '@l/judge'
-// import moment from 'moment'
+import moment from 'moment'
 export default {
   name: 'inventory_detail',
 

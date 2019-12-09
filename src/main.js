@@ -1,18 +1,22 @@
 import Vue from 'vue'
+import '@a/css/common.styl'
+import '@a/css/animate.styl'
+import '@/plugins/css/common.styl'
+import '@a/icon/iconfont.css'
 import App from './App.vue'
 import router from './routes'
 import store from './store'
 // import './registerServiceWorker'
-import '@a/css/common.styl'
-import '@a/css/animate.styl'
-import vant from 'vant'
+import vant, { Lazyload } from 'vant'
 import plugins from './plugins'
-import '@/plugins/css/common.styl'
-import '@a/icon/iconfont.css'
-// import 'vant/lib/index.css'
+// require(process.env.NODE_ENV !== 'production' ? 'vant/lib/index.css' : null)
+if (process.env.NODE_ENV !== 'production') {
+  require('vant/lib/index.css')
+}
 
 Vue.config.productionTip = false
 Vue.use(vant)
+Vue.use(Lazyload)
 Vue.use(plugins)
 // Vue.use(Lazyload, {
 //   preLoad: 1.3,

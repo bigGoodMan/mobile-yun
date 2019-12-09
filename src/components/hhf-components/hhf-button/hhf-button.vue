@@ -156,6 +156,7 @@ danger()
   position relative
   display inline-block
   box-sizing border-box
+  user-select none
   &.hhf-button-disabled
     opacity 0.4
   &.hhf-button-loading, &.hhf-button-disabled

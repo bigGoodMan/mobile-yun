@@ -1,7 +1,7 @@
 <!-- 重置局数 -->
 <template>
   <div class="reset-number">
-    <van-checkbox v-model="checked" @change="changeCheckBox">垃圾</van-checkbox>
+    <!-- <HhfCheckBox v-model="checked" @trigger-change="changeCheckBox">这是什么</HhfCheckBox> -->
     <div class="header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
@@ -15,119 +15,129 @@
           />
         </div>
       </MyStore>
+    </div>
       <div class="bgcolor-f content">
         <h5 class="margin-0 padding-20-30 size-30">我的机台</h5>
         <div class="border"></div>
-        <LinkageSelection
-          right-icon
-          title="请选择区域"
-          :value="areaValue.text"
-          :columns="areaColumns"
-          @trigger-confirm="handleChoseArea"
-        />
+        <MyArea
+        :store-id="storeId"
+        v-model="areaId"
+         />
         <div class="border"></div>
-        <LinkageSelection
-          right-icon
-          title="请选择机台编号"
-          :value="machineValue.text"
-          :columns="machineInfoColumns"
-          @trigger-confirm="handleChoseMachine"
-        />
-        <div class="border"></div>
+        <MyMachine
+        :store-id="storeId"
+        :area-id="areaId"
+        v-model="machineId"
+         />
       </div>
-    </div>
+      <!-- 操作内容 -->
+      <div v-if="machineId" class="fixed-max-width bottom-0">
+        <p class="size-28 reset-number-tip">重置局数操作会清除之前累积的游玩统计，即从0开始重新计算中奖局数</p>
+        <div class="text-center"><HhfButton :loading="loading" type="info" size="large" @trigger-click="handleReset">重置</HhfButton></div>
+      </div>
   </div>
 </template>
 
 <script>
-import LinkageSelection from '@yun/linkage-selection'
 import MyStore from '@yun/my-store'
-import { mapMutations } from 'vuex'
-import { getSwitchgearDetailApi } from '@/api'
+import MyArea from '@yun/my-area'
+import MyMachine from '@yun/my-machine'
+import HhfButton from '@hhf/hhf-button'
+// import HhfCheckBox from '@hhf/hhf-checkbox'
+import { resetNumber } from '@/api'
+// import { getSwitchgearDetailApi } from '@/api'
 export default {
   name: 'ResetNumber',
 
   data () {
     return {
+      loading: false,
       checked: true,
       areaColumns: [],
-      storeId: 1,
+      storeId: null,
+      areaId: null,
+      machineId: null,
       result: ['a'],
       machineColumns: []
     }
   },
 
   components: {
-    LinkageSelection,
-    MyStore
+    MyStore,
+    MyArea,
+    MyMachine,
+    HhfButton
   },
-
   computed: {
-    machineInfoColumns () {
-      return this.machineColumns.filter(v => v.area_id === this.areaId)
-    },
-    areaValue () {
-      let arr = this.areaColumns.filter(item => item.id === this.areaId)
-      return arr.length > 0 ? arr[0] : {}
-    },
-    machineValue: {
-      get () {
-        let arr = this.machineInfoColumns.filter(item => item.machine_id === this.machineId)
-        return arr.length > 0 ? arr[0] : {}
-      },
-      set (val) {
-      }
-    }
   },
 
   methods: {
-    ...mapMutations(['SWITCHGEAR_SETSTOREID_MUTATE']),
     handleConfirm (data) {
-      this.$Loading('加载中……')
-      this.SWITCHGEAR_SETSTOREID_MUTATE(data.value.store_id)
-      getSwitchgearDetailApi({ store_id: this.storeId }).then(res => {
-        this.$Loading.clear()
+      this.storeId = data.value.store_id
+    },
+    handleRouter () {},
+    // 重置局数
+    handleReset () {
+      this.loading = true
+      resetNumber({ machine_id: this.machineId, type: 6 }).then(res => {
+        this.loading = false
         if (res.return_code === '0') {
-          this.areaColumns = res.data.area.map((item, index) => {
-            return {
-              text: item.name,
-              ...item
-            }
+          this.$Tip({
+            type: 'success',
+            message: res.msg,
+            mask: true,
+            maskPacity: 0
           })
-          this.machineColumns = res.data.machine_list.map((item, index) => {
-            return {
-              text: item.no,
-              ...item
-            }
+        } else if (res.return_code) {
+          this.$Tip({
+            type: 'warning',
+            message: res.msg,
+            mask: true,
+            maskPacity: 0
+          })
+        } else {
+          this.$Tip({
+            type: 'error',
+            message: res.msg,
+            mask: true,
+            maskPacity: 0
           })
         }
       })
-    },
-    handleRouter () {},
-    handleChoseMachine () {},
-    handleChoseArea () {},
-    changeCheckBox (e) {
-      console.log(e)
-      this.result = []
     }
   },
-
+  created () {
+    const {
+      sid,
+      mid,
+      aid
+    } = this.$route.query
+    if (sid) {
+      this.storeId = sid
+    }
+    if (sid && aid) {
+      this.areaId = aid
+    }
+    if (sid && aid && mid) {
+      this.machineId = mid
+    }
+  },
   mounted () {
-    let that = this
-    let {
-      result
-    } = that
-    this.$Confirm({
-      message: '牛皮',
-      // descrition: <div><van-checkbox ref="checkbox" value={checked} onClick={() => { checked = !checked }}>这是啥</van-checkbox></div>,
-      descrition: '',
-      confirm (v) {
-        console.log(result)
-      },
-      cancel () {}
-    })
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
+.reset-number
+  .content
+    margin-top rems(50)
+  .btn-container
+    position fixed
+    bottom 0
+    left 0
+    width 100%
+    margin-bottom rems(50)
+  .reset-number-tip
+    width rems(600)
+    margin-left auto
+    margin-right auto
 </style>

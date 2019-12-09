@@ -5,7 +5,7 @@
       <div class="padding-20-30 flex-row flex-center">
         <div class="login-logo">
           <img
-            class="max-width-2half"
+            class="width-2half"
             :src="logo"
           />
         </div>
@@ -101,7 +101,7 @@ export default {
             close () {
               if ($this.$route.query.url) {
                 const urlObj = JSON.parse(decodeURIComponent(decodeURIComponent($this.$route.query.url)))
-                let path = urlObj.path.split('/')[1]
+                let path = urlObj.path // .split('/')[1]
                 path = path || '/'
                 $this.$router.push({
                   ...urlObj,

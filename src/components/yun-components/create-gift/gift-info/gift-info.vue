@@ -7,7 +7,7 @@
     <div class="border border-ebedf0"></div>
     <div class="gift-info-img-column flex-row flex-start-center padding-20-30">
       <span class="gift-info-name size-28">图片（必填）</span>
-      <UploadImg class="flex-1" :max-size="5" :max-length="1" :column="column" @trigger-change="handleChange" @trigger-delete="handleDelete" />
+      <UploadImg class="flex-1" :max-size="0.2" :max-length="1" :quality="0.1" :column="column" @trigger-change="handleChange" @trigger-delete="handleDelete" />
     </div>
   </div>
 </template>

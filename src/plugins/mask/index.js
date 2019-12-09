@@ -1,8 +1,9 @@
 
 const Mask = {
   props: {
-    maskPacity: {
-      type: Number
+    maskOpacity: {
+      type: Number,
+      default: 0
     },
     maskColor: {
       type: String
@@ -18,7 +19,7 @@ const Mask = {
   },
   render (h) {
     const styles = {
-      opacity: this.maskPacity,
+      opacity: this.maskOpacity,
       backgroundColor: this.maskColor,
       zIndex: this.maskZIndex
     }

@@ -73,6 +73,7 @@ export default {
       }
     },
     handleChange (e) {
+      this.$Loading('图片压缩中')
       let file = e.target.files[0]
       const _this = this
       const {
@@ -81,8 +82,10 @@ export default {
         maxHeight,
         maxSize
       } = _this
-      if (maxSize && file.size > maxSize * 1024 * 1024) {
+      console.log(file.size)
+      if (maxSize && quality < 1 && file.size > maxSize * 1024 * 1024) {
         pictureCompress.fileResizetoFile(file, function (b) {
+          console.log(b.size)
           // if (Object.prototype.toString.call(b) === '[object Blob]') {
           //   var fileReader = new FileReader()
           //   fileReader.onload = function (ee) {
@@ -91,8 +94,10 @@ export default {
           //   fileReader.readAsDataURL(b)
           // } else {
           _this.handleCallBack(b)
+          _this.$Loading.clear()
           // }
-        }, quality, maxWidth, maxHeight)
+        // }, quality, maxWidth, maxHeight)
+        }, 1, 400, 400)
       } else {
         _this.handleCallBack(file)
       }

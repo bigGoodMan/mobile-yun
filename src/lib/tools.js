@@ -77,11 +77,42 @@ function debounce ({ callback, wait = 200, immediate = false }) {
  */
 function throttle ({ callback, wait = 200, immediate = false }) {
 }
+/**
+ * 解析xml
+ * @param {*} str 字符串xml
+ */
+function parsingXML (str) {
+  const parser = new DOMParser()
+  const xmlDoc = parser.parseFromString(str, 'text/xml')
+  let dom = xmlDoc
+  // let nodes = {}
+  // let obj = {}
+  let stack = []
+  stack.push(dom)
+  while (stack.length) {
+    let item = stack.pop()
+    let children = [...item.childNodes].filter(v => v.nodeType !== 3)
+
+    for (let i = children.length - 1; i >= 0; i--) { // 之所以-- 是因为 先进后出
+      stack.push(children[i])
+    }
+  }
+}
+/**
+ * 省略多余的内容
+ * @param {String} str 文本内容
+ * @param {Number} len 长度
+ */
+function getEllipsisText (str, len, type = '...') {
+  return str.length > len ? `${str.slice(0, len)}...` : str
+}
 export {
   positiveNumberRegularTool, // 正数正则判断
   positiveIntegerRegularTool, // 正整数正则判断
   dataTypeJudgmentTool, // 判断数据类型
   getParentsOffsetTop, // 获取当前dom到祖级的距离
   debounce, // 防抖动
-  throttle // 节流
+  throttle, // 节流
+  parsingXML, // 解析xml
+  getEllipsisText // 省略多余的内容
 }

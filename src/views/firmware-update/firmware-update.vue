@@ -4,6 +4,7 @@
     <div class="header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
+        :store-id="store_id"
         :default-index="0"
       >
         <div class="flex-row flex-end-center flex-1">
@@ -75,7 +76,7 @@ export default {
       activeNames: [0],
       columns: [],
       isLoading: false,
-      store_id: '',
+      store_id: null,
       status: '',
       progressNum: '',
       percentage: 0
@@ -224,7 +225,14 @@ export default {
       })
     }
   },
-
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.store_id = sid
+    }
+  },
   mounted () {
   },
   beforeDestroy () {

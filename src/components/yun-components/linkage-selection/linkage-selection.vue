@@ -13,7 +13,7 @@
     </template>
     </CellList>
 
-    <BottomPopup :columns="columns" :show="show" @trigger-confirm="handleConfirm" @trigger-close="show = false" />
+    <BottomPopup :columns="columns" :default-index="defaultIndex" :show="show" @trigger-confirm="handleConfirm" @trigger-close="show = false" />
   </div>
 </template>
 
@@ -30,6 +30,7 @@ export default {
     value: {
       default: ''
     },
+    defaultIndex: Number,
     disabled: {
       type: Boolean,
       default: false

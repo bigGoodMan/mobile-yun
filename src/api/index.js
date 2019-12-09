@@ -54,6 +54,19 @@ import {
   getSwitchgearDetailApi,
   getSwitchgearTimeApi
 } from './switchgear'
+import {
+  resetNumber,
+  commandStrongGrasp
+} from './machine-operate'
+import {
+  getTrainInfoApi,
+  operetionFavouriteApi,
+  getTrainFavouriteListApi,
+  getTrainSearchListApi,
+  getTrainTypeListApi,
+  getTrainHomeApi,
+  getTrainStudyDetailApi
+} from './training-camp'
 export {
   loginApi, // 登录
 
@@ -99,5 +112,16 @@ export {
   getSwitchgearListApi,
   setSwitchgearOnOffApi,
   getSwitchgearDetailApi,
-  getSwitchgearTimeApi
+  getSwitchgearTimeApi,
+
+  resetNumber, // 重置局数
+  commandStrongGrasp, // 下发强抓
+
+  getTrainInfoApi, // 获取商家训练营信息
+  operetionFavouriteApi, // 商家训练营收藏或取消收藏
+  getTrainFavouriteListApi, // 商家训练营收藏列表
+  getTrainSearchListApi, // 获取商家训练营搜索列表
+  getTrainTypeListApi, // 商家训练营类别列表
+  getTrainHomeApi, // 商家训练营 首页数据
+  getTrainStudyDetailApi // 商家训练营 学习手册详情列表
 }

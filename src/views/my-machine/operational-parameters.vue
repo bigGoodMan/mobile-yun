@@ -522,7 +522,7 @@ export default {
     }
   },
   created () {
-    this.machine_id = this.$route.query.id
+    this.machine_id = this.$route.query.mid
 
     this.getInfo()
   }

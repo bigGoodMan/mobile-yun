@@ -46,10 +46,22 @@ async function errorCaptured (asyncFunc, ...arg) {
     return [err, null]
   }
 }
+function responseParsingXML (str) {
+  const parser = new DOMParser()
+  const xmlDoc = parser.parseFromString(str, 'text/xml')
+  let errDom = xmlDoc.getElementsByTagName('Error')[0]
+  let nodes = [...errDom.childNodes].filter(v => v.nodeType !== 3)
+  let obj = {}
+  nodes.forEach(v => {
+    obj[v.tagName] = v.innerHTML
+  })
+  return obj
+}
 export {
   setToken, // 设置token
   getToken, // 获取token
   removeToken, // 移除token
   setTitle, // 设置title
-  errorCaptured // 异步错误捕获处理
+  errorCaptured, // 异步错误捕获处理
+  responseParsingXML // 返回值解析xml
 }

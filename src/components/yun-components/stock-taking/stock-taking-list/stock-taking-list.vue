@@ -23,7 +23,7 @@
 
 <script>
 import { STOCK_TAKING_STATUS } from '@l/judge'
-// import moment from 'moment'
+import moment from 'moment'
 export default {
   name: 'stock_taking_list',
   props: {

@@ -16,8 +16,22 @@ function addStyleResource (rule) {
       ]
     })
 }
+const isProduction = process.env.NODE_ENV === 'production'
+const externals = isProduction ? {
+  wx: 'wx', // 键名是引入的名字 键值是全局变量名
+  vue: 'Vue',
+  vant: 'vant',
+  jsencrypt: 'JSEncrypt',
+  moment: 'moment'
+} : {
+  wx: 'wx' // 键名是引入的名字 键值是全局变量名
+  // vue: 'Vue',
+  // vant: 'vant',
+  // jsencrypt: 'JSEncrypt',
+  // moment: 'moment'
+}
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? './' : './', // 项目相对路径
+  publicPath: isProduction ? './' : './', // 项目相对路径
   // assetsDir: './',
   chainWebpack: config => {
     config
@@ -41,13 +55,7 @@ module.exports = {
   // 修改webpack的配置
   configureWebpack: {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
-    externals: {
-      wx: 'wx', // 键名是引入的名字 键值是全局变量名
-      // vue: 'Vue',
-      jsencrypt: 'JSEncrypt',
-      // vant: 'vant',
-      moment: 'moment'
-    }
+    externals
   },
   // pluginOptions: {
   //   'style-resources-loader': {

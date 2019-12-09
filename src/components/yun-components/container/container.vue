@@ -34,7 +34,7 @@ export default {
   data () {
     return {
       home: home,
-      goHome: '',
+      goHome: null,
       transitionName: 'slide-left'
     }
   },
@@ -83,7 +83,7 @@ export default {
         if (route.meta && route.meta.goHome) {
           this.goHome = route.meta.goHome
         } else {
-          this.goHome = ''
+          this.goHome = null
         }
       },
       immediate: true

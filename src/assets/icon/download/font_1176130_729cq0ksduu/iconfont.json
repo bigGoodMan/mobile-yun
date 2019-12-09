@@ -1,0 +1,100 @@
+{
+  "id": "1176130",
+  "name": "mobile-yun",
+  "font_family": "hhf-iconfont",
+  "css_prefix_text": "hhf-icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "297789",
+      "name": "加载中",
+      "font_class": "rod-loading",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "316479",
+      "name": "加载中",
+      "font_class": "spinner-loading",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "1630519",
+      "name": "选中",
+      "font_class": "ticket",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "1859564",
+      "name": "加载中",
+      "font_class": "refresh-loading",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "2211801",
+      "name": "spinner",
+      "font_class": "fish-loading",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "2333737",
+      "name": "success",
+      "font_class": "success",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "2950058",
+      "name": "加载中",
+      "font_class": "dot-loading",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "4607938",
+      "name": "add",
+      "font_class": "add",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "4645172",
+      "name": "info",
+      "font_class": "info",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "6242759",
+      "name": "loading",
+      "font_class": "semi-circle-loading",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6406026",
+      "name": "error",
+      "font_class": "error",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "7351923",
+      "name": "reduce",
+      "font_class": "reduce",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "7734947",
+      "name": "warn",
+      "font_class": "warning",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    }
+  ]
+}

@@ -34,6 +34,9 @@
         <span v-show="errObj.lineLength">不在绳长范围10~50</span>
       </div>
     </div>
+       <!-- <BottomPopup :columns="frontBackColumns" :show="frontBackShow" @trigger-confirm="(obj) => handleConfirm('car_speed_front_back', obj)" mask-close />
+       <BottomPopup :columns="leftRightColumns" :show="leftRightShow" @trigger-confirm="(obj) => handleConfirm('car_speed_left_right', obj)" mask-close/>
+       <BottomPopup :columns="upDownColumns" :show="upDownShow" @trigger-confirm="(obj) => handleConfirm('car_speed_up_down', obj)" mask-close/> -->
        <BottomPopup :columns="frontBackColumns" :show="frontBackShow" @trigger-confirm="(obj) => handleConfirm('car_speed_front_back', obj)" @trigger-close="frontBackShow = false" />
        <BottomPopup :columns="leftRightColumns" :show="leftRightShow" @trigger-confirm="(obj) => handleConfirm('car_speed_left_right', obj)" @trigger-close="leftRightShow = false" />
        <BottomPopup :columns="upDownColumns" :show="upDownShow" @trigger-confirm="(obj) => handleConfirm('car_speed_up_down', obj)" @trigger-close="upDownShow = false" />

@@ -4,6 +4,8 @@ import allRouter from './router'
 import { setTitle } from '@/lib/utils'
 import store from '@/store'
 import config from '@/config'
+import 'nprogress/nprogress.css' // progress bar style
+import NProgress from 'nprogress' // progress bar
 const { initialPageName, notLoginPageName } = config
 Vue.use(Router)
 
@@ -14,7 +16,9 @@ const router = new Router({
     ...allRouter
   ]
 })
+NProgress.configure({ showSpinner: false })
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   let queryToken = to.query.token
   // console.log(to)
   if (queryToken) {
@@ -43,6 +47,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 router.afterEach(route => {
+  NProgress.done()
   setTitle(route.meta.title)
   // window.scrollTo(0, 0)
 })
