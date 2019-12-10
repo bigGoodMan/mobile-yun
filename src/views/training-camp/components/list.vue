@@ -50,33 +50,38 @@ export default {
       clearTimeout(this.collectTimer)
       this.collectTimer = null
       this.collectTimer = setTimeout(() => {
-        const {
-          info
-        } = this
-        this.$Loading({ mask: true })
-        operetionFavouriteApi({
-          type: info.type,
-          f_id: info.id,
-          is_favorite: collect ? 1 : 0
-        }).then(res => {
-          this.$Loading.clear()
-          if (res.return_code !== '0') {
-            this.$Tip.warning(res.msg)
-          }
-        })
+        clearTimeout(this.collectTimer)
+        this.handleCollect(collect)
       }, 1000)
+    },
+    handleCollect (collect) {
+      this.$Loading({ mask: true })
+      const {
+        info
+      } = this
+      operetionFavouriteApi({
+        type: info.type,
+        f_id: info.id,
+        is_favorite: collect ? 1 : 0
+      }).then(res => {
+        this.$Loading.clear()
+        if (res.return_code !== '0') {
+          this.$Tip.warning(res.msg)
+        }
+      })
     },
     handleRouter () {
       const {
         info
       } = this
       if (info.link) {
-        this.$router.push({
-          name: 'TrainingCampDetail',
-          query: {
-            url: info.link
-          }
-        })
+        // this.$router.push({
+        //   name: 'TrainingCampDetail',
+        //   query: {
+        //     url: info.link
+        //   }
+        // })
+        window.location.href = info.link
         return
       }
       this.$router.push({

@@ -45,6 +45,7 @@ export default {
     vigorously_voltage: '', // 大力电压C4
     key21: '', // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
     key21_value: '', // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
+    mind_fall_voltage: '', // c2智能抓力
     // 游玩参数
     game_time: '', // 游戏时间
     game_times_shutdown: '', // 投币局数开机恢复 0否 1是
@@ -113,6 +114,7 @@ export default {
       state.vigorously_voltage = data.vigorously_voltage // 大力电压C4
       state.key21 = data.key21 // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
       state.key21_value = PAW_POSITION_C2[data.key21] // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
+      state.mind_fall_voltage = data.mind_fall_voltage // c2智能抓力
       // 游玩参数
       state.game_time = data.game_time // 游戏时间
       state.game_times_shutdown = data.game_times_shutdown // 投币局数开机恢复 0否 1是

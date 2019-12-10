@@ -44,12 +44,13 @@ export default {
   methods: {
     handleRouter (item) {
       if (item.link) {
-        this.$router.push({
-          name: 'TrainingCampDetail',
-          query: {
-            url: item.link
-          }
-        })
+        // this.$router.push({
+        //   name: 'TrainingCampDetail',
+        //   query: {
+        //     url: item.link
+        //   }
+        // })
+        window.location.href = item.link
         return
       }
       this.$router.push({

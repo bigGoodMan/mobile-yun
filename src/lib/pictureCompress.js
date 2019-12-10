@@ -252,24 +252,23 @@ methods.canvasImageResize = function (img, width, height, position) {
   // context.clearRect(0, 0, targetWidth, targetHeight)
   // 图片压缩
   switch (position) {
-    case 3:
-      context.translate(targetWidth / 2, targetHeight / 2)
+    case 3: // 180度
+      context.translate(targetWidth, targetHeight)
       context.rotate(180 * Math.PI / 180)
-      context.drawImage(img, -targetWidth / 2, -targetHeight / 2)
+      context.drawImage(img, 0, 0, targetWidth, targetHeight)
       break
-    case 6:
-      console.log(targetHeight)
-      context.translate(targetWidth, 0)
+    case 6: // 顺时针90度
+      context.translate(targetHeight, 0)
       context.rotate(90 * Math.PI / 180)
       context.drawImage(img, 0, 0, targetWidth, targetHeight)
       break
-    case 8:
-      context.translate(targetHeight / 2, targetWidth / 2)
-      context.rotate(270 * Math.PI / 180)
-      context.drawImage(img, -targetWidth / 2, -targetHeight / 2)
+    case 8: // 逆时针90度
+      context.translate(0, targetWidth)
+      context.rotate(-90 * Math.PI / 180)
+      context.drawImage(img, 0, 0, targetWidth, targetHeight)
       break
     default:
-      context.drawImage(img, 0, 0)
+      context.drawImage(img, 0, 0, targetWidth, targetHeight)
       break
   }
   return canvas

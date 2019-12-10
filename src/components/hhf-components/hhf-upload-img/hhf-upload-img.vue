@@ -82,10 +82,15 @@ export default {
         maxHeight,
         maxSize
       } = _this
-      console.log(file.size)
       if (maxSize && quality < 1 && file.size > maxSize * 1024 * 1024) {
         pictureCompress.fileResizetoFile(file, function (b) {
-          console.log(b.size)
+          if (b.size > maxSize * 1024 * 1024) {
+            pictureCompress.fileResizetoFile(file, function (b2) {
+              _this.handleCallBack(b2)
+              _this.$Loading.clear()
+            }, 1, 400, 400)
+            return
+          }
           // if (Object.prototype.toString.call(b) === '[object Blob]') {
           //   var fileReader = new FileReader()
           //   fileReader.onload = function (ee) {
@@ -97,7 +102,7 @@ export default {
           _this.$Loading.clear()
           // }
         // }, quality, maxWidth, maxHeight)
-        }, 1, 400, 400)
+        }, quality, maxWidth, maxHeight)
       } else {
         _this.handleCallBack(file)
       }
