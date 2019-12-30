@@ -23,7 +23,7 @@ function getFreeInfiniteGraspList (data) { // store_id
 // 设置无限抓
 function setFreeInfiniteGraspApi (data) { // {machine_id action 0关 1开}
   return HttpReq.formPost({
-    url: 'wfree_graps/set_free_grasp',
+    url: 'free_graps/set_free_grasp',
     data
   })
 }

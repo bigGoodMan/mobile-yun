@@ -37,7 +37,7 @@
               :key="items.area_id"
             >
             <div class="bgcolor-f" v-for="item of items.items" :key="item.machine_id">
-              <FreeGraspCell v-model="checked" />
+              <FreeGraspCell :info="item" />
               <div class="border"></div>
             </div>
 
@@ -79,11 +79,20 @@ export default {
     // 根据门店获得信息
     getList () {
       this.$Loading('加载中……')
-      return getFreeInfiniteGraspList(this.store_id).then(res => {
-        this.$Loading.clear()
+      return getFreeInfiniteGraspList({ store_id: this.store_id }).then(res => {
+        this.$Loading.close()
         if (res.return_code !== '0') {
           this.$Tip.warning(res.msg)
         }
+        this.list = res.data.map(items => {
+          items.items = items.items.map(its => ({
+            ...its,
+            checked: !!(its.free_grasp - 0)
+          }))
+          return items
+        })
+
+        console.log(this.list)
       })
     },
     // 选择门店回调
