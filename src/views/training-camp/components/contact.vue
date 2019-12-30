@@ -32,7 +32,14 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+    handlePhone () {
+      window.location.href = `tel:${this.info.mobile}`
+    },
+    handleEmail () {
+      window.location.href = `mailto:${this.info.email}`
+    }
+  },
 
   mounted () {}
 }

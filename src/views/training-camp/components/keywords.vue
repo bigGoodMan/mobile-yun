@@ -2,7 +2,7 @@
 <template>
   <ul class="no-ul keywords">
     <li class="keywords-list" v-for="(item, index) of keywordsList" :key="index" @click="handleClick(item)">
-      <van-tag color="#969799" round>{{item}}</van-tag>
+      <van-tag color="#969799" round size="large">{{item}}</van-tag>
     </li>
   </ul>
 </template>

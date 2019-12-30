@@ -6,22 +6,22 @@
       <ul class="no-ul">
         <li class="training-camp-list">
           <ModeCard title="学习手册" :list="list.manual_list">
-            <template #title-left>
-              <span class="color-info size-24" @click="handleRouter(2)">查看更多<van-icon name="arrow" /></span>
+            <template #title-right>
+              <span class="color-info size-24 flex-row flex-center" @click="handleRouter(2)">查看更多<van-icon name="arrow" /></span>
             </template>
           </ModeCard>
         </li>
         <li class="training-camp-list">
           <ModeCard title="核心教程" :list="list.art_list">
-            <template #title-left>
-              <span class="color-info size-24" @click="handleRouter(1)">查看更多<van-icon name="arrow" /></span>
+            <template #title-right>
+              <span class="color-info size-24 flex-row flex-center" @click="handleRouter(1)">查看更多<van-icon name="arrow" /></span>
             </template>
           </ModeCard>
         </li>
         <li class="training-camp-list">
           <ModeCard title="新特性" :list="list.new_list">
-            <template #title-left>
-              <span class="color-info size-24" @click="handleRouter(3)">查看更多<van-icon name="arrow" /></span>
+            <template #title-right>
+              <span class="color-info size-24 flex-row flex-center" @click="handleRouter(3)">查看更多<van-icon name="arrow" /></span>
             </template>
           </ModeCard>
         </li>
@@ -36,7 +36,7 @@
 import TrainingUserInfo from './components/user-info'
 import ModeCard from './components/mode-card'
 import Contact from './components/contact'
-import { getEllipsisText } from '@l/tools'
+// import { getEllipsisText } from '@l/tools'
 import { getTrainHomeApi } from '@/api'
 import mixin from './mixin'
 export default {
@@ -71,7 +71,7 @@ export default {
           for (let key in data) {
             data[key] = data[key].map(v => ({
               ...v,
-              name: getEllipsisText(v.name, 10)
+              name: v.name
             }))
           }
           this.list = data
@@ -98,7 +98,8 @@ export default {
   created () {
     this.getCardList()
   },
-  mounted () {}
+  mounted () {
+  }
 }
 </script>
 <style lang="stylus" scoped>

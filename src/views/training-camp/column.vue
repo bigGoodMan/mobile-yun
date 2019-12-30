@@ -1,7 +1,7 @@
 <!-- 嗨皮商家训练营栏目页 -->
 <template>
   <div class="training-camp-column">
-    <TrainingUserInfo :info="userInfo" />
+    <TrainingUserInfo :info="userInfo" class="training-camp-column-header" />
     <van-tabs
       v-model="activeName"
       color="#1890fc"
@@ -131,7 +131,7 @@ import TrainingUserInfo from './components/user-info'
 import TrainingList from './components/list'
 import mixin from './mixin'
 import { getTrainTypeListApi } from '@/api'
-import { getEllipsisText } from '@l/tools'
+// import { getEllipsisText } from '@l/tools'
 export default {
   name: 'TrainingCampColumn',
 
@@ -216,7 +216,7 @@ export default {
               ...v,
               type,
               create_time: v.create_time.split(' ')[0],
-              name: getEllipsisText(v.name, 10),
+              name: v.name, // getEllipsisText(v.name, 10),
               is_collect: !!(v.is_collect - 0)
             }
           })
@@ -260,13 +260,21 @@ export default {
 </script>
 <style lang="stylus">
 .training-camp-column
+  .training-camp-column-header
+    position fixed
+    top 0
+    left 0
+    width 100%
+    z-index 12
   .training-camp-tabcontainer
     .van-tabs__wrap
-      position relative
-      z-index 10
+      position fixed
+      top rems(190)
+      left 0
+      width 100%
+      z-index 11
   .training-camp-column-tabcontent
     position relative
     z-index 1
-    height calc(100vh - 136px)
-    overflow-y auto
+    padding-top 'calc(44px + %s)' % rems(190)
 </style>

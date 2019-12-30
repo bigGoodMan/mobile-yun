@@ -1,26 +1,59 @@
 <!-- container -->
 <template>
   <div class="container">
-      <transition :name="transitionName">
-    <keep-alive :include="cachePageList">
-        <router-view class="child-view"></router-view>
-    </keep-alive>
-      </transition>
-    <div
-      v-if="goHome"
-      class="go-home flex-row flex-center"
-      @click="handleGoHome"
-    >
-      <van-icon
-        :name="home"
-        color="#ffffff"
-      />
-    </div>
+        <div :class="tabBar ? 'content-bottom' : null">
+          <transition :name="transitionName">
+            <keep-alive :include="cachePageList">
+              <router-view class="child-view"></router-view>
+            </keep-alive>
+          </transition>
+        </div>
+    <template>
+      <ul
+        class="size-36 bgcolor-f2 no-ul tab-bar flex-row flex-start-stretch"
+        v-if="tabBar"
+      >
+        <li
+          class="tab-bar-route flex-row flex-center"
+          :style="tabBarStly"
+          @click="$router.go(-1)"
+          @touchstart="() => {}"
+        >
+          <van-icon name="arrow-left" />
+        </li>
+        <li
+          class="tab-bar-route flex-row flex-center"
+          v-if="goHome"
+          @click="handleGoHome"
+          @touchstart="() => {}"
+        >
+          <van-icon name="wap-home-o" />
+        </li>
+        <li
+          class="tab-bar-route flex-row flex-center"
+          :style="tabBarStly"
+          @click="$router.go(1)"
+          @touchstart="() => {}"
+        >
+          <van-icon name="arrow" />
+        </li>
+      </ul>
+      <div
+        v-else-if="goHome"
+        class="go-home flex-row flex-center"
+        @click="handleGoHome"
+      >
+        <van-icon
+          :name="home"
+          color="#ffffff"
+        />
+      </div>
+    </template>
     <van-image-preview
-  v-model="show"
-  :images="previewImage"
->
-</van-image-preview>
+      v-model="show"
+      :images="previewImage"
+    >
+    </van-image-preview>
   </div>
 </template>
 
@@ -35,6 +68,7 @@ export default {
     return {
       home: home,
       goHome: null,
+      tabBar: false,
       transitionName: 'slide-left'
     }
   },
@@ -52,6 +86,9 @@ export default {
       set (imagePreviewShow) {
         this.APP_IMAGEPREVIEW_MUTATE({ imagePreviewShow, previewImage: [] })
       }
+    },
+    tabBarStly () {
+      return this.goHome ? { width: 'calc(100% / 3)' } : null
     }
   },
 
@@ -80,11 +117,8 @@ export default {
     },
     '$route': {
       handler (route) {
-        if (route.meta && route.meta.goHome) {
-          this.goHome = route.meta.goHome
-        } else {
-          this.goHome = null
-        }
+        this.goHome = route.meta && route.meta.goHome
+        this.tabBar = route.meta && route.meta.tabBar
       },
       immediate: true
     }
@@ -111,6 +145,9 @@ export default {
   methods: {
     ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
     handleGoHome () {
+      if (this.goHome === this.$route.name) {
+        return
+      }
       this.$router.push({
         name: this.goHome
       })
@@ -130,6 +167,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .container
+  .content-bottom
+    padding-bottom $tabHeight
   .go-home
     position fixed
     bottom rems(30)
@@ -140,4 +179,17 @@ export default {
     height rems(100)
     background-color rgba(0, 0, 0, 0.5)
     z-index 3
+  .tab-bar
+    position fixed
+    left 0
+    bottom 0
+    width 100%
+    height $tabHeight
+    z-index 99
+    border-top 1px solid #d7d7d7
+  .tab-bar-route
+    width calc((100% / 2))
+    &:active
+      background-color #dbdbdb
+      opacity 0.5
 </style>

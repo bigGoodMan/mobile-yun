@@ -121,7 +121,6 @@ export default {
       this.initGiftList = list
     },
     show (val) {
-      console.log(val)
     },
     initGiftList () {
       this.giftList = this.initGiftList

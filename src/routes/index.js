@@ -20,7 +20,6 @@ NProgress.configure({ showSpinner: false })
 router.beforeEach((to, from, next) => {
   NProgress.start()
   let queryToken = to.query.token
-  // console.log(to)
   if (queryToken) {
     store.commit('USER_SETTOKEN_MUTATE', queryToken)
   }

@@ -99,7 +99,7 @@ const PopupMenu = {
       }
       const {
         maskColor,
-        maskPacity,
+        maskOpacity,
         maskZIndex,
         zIndex,
         keyName,
@@ -108,7 +108,7 @@ const PopupMenu = {
       const maskProps = {
         props: {
           maskColor,
-          maskPacity,
+          maskOpacity,
           maskZIndex: maskZIndex || zIndex - 1,
           maskClose // 关闭遮罩层是否去除组件
         },

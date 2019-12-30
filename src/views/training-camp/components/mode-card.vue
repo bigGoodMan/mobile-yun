@@ -3,7 +3,7 @@
   <div class="mode-card bgcolor-f">
     <h5 class="flex-row flex-between-center mode-card-head">
       <span class="size-30 color-3">{{title}}</span>
-      <div class="flex-row flex-end-center"><slot name="title-left"></slot></div>
+      <div class="flex-row flex-end-center"><slot name="title-right"></slot></div>
     </h5>
     <div class="border"></div>
     <div class="mode-card-container">
@@ -13,7 +13,7 @@
             <div class="mode-card-img">
               <LoadingImg class="mode-card-img-content" :img="items.image" />
             </div>
-            <p class="size-24 mode-card-text text-ellipsis">{{items.name}}</p>
+            <p class="size-26 mode-card-text text-ellipsis text-center">{{items.name}}</p>
           </div>
 
         </li>
@@ -85,16 +85,16 @@ export default {
         border-right none
         overflow hidden
         flex-shrink 0
-        flex-basis rems(240)
+        flex-basis rems(300)
         .mode-card-content
           padding rems(10)
           .mode-card-img
             background-color #e3e3e3
-            width rems(240)
+            width 100%
             padding 1px
             border-radius rems(10)
             .mode-card-img-content
-              height rems(160)
+              height rems(190)
           .mode-card-text
             padding rems(10)
             margin 0

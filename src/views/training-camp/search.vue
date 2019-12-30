@@ -15,7 +15,7 @@
       <div class="border"></div>
     </form>
     <div class="search-container">
-      <template v-if="list.length > 0 && value">
+      <template v-if="list.length > 0">
         <van-list
           v-model="loading"
           :finished="finished"
@@ -29,10 +29,11 @@
             <div class="border"></div>
           </li>
         </ul>
-          <!-- <div v-for="(items, index) in inventoryList" :key="index">{{index}}</div> -->
+          <div v-for="(items, index) in inventoryList" :key="index">{{index}}</div>
         </van-list>
       </template>
       <template v-else>
+        <div v-show="nothing" class="size-24 color-9 padding-top-20 text-center">哎呀，未搜索到相关内容</div>
         <div class="search-keywords">
         <TrainingCampKeywords @trigger-click="handleClick"/>
         </div>
@@ -51,6 +52,7 @@ export default {
 
   data () {
     return {
+      nothing: false, // 搜索有无内容
       value: '', // 输入关键字
       loading: false, // 上拉加载
       list: [],
@@ -71,6 +73,7 @@ export default {
     onSearch () {
       this.finished = true
       this.page = 1
+      this.list = []
       this.getTrainSearchList()
     },
     handleClick (val) {
@@ -100,6 +103,11 @@ export default {
             this.finished = true
           }
           this.list = [...this.list, ...list]
+          if (!this.list.length) {
+            this.nothing = true
+            return
+          }
+          this.nothing = false
         }
       })
     },

@@ -6,6 +6,7 @@
         class="training-camp-list-img-content"
         :img="info.image"
       />
+      <img v-if="!info.link" class="training-camp-list-img-tag" src="../img/list.png">
     </div>
     <div class="flex-column flex-between-start training-camp-list-container flex-1">
       <h5 class="training-camp-list-title">{{info.name}}</h5>
@@ -50,9 +51,8 @@ export default {
       clearTimeout(this.collectTimer)
       this.collectTimer = null
       this.collectTimer = setTimeout(() => {
-        clearTimeout(this.collectTimer)
         this.handleCollect(collect)
-      }, 1000)
+      }, 500)
     },
     handleCollect (collect) {
       this.$Loading({ mask: true })
@@ -104,10 +104,21 @@ export default {
     color #202020
     margin 0
   .training-camp-list-img
+    position relative
+    display flex
+    flex-flow row nowrap
+    align-items center
+    justify-content center
     width rems(240)
     border-radius rems(10)
     background-color #e3e3e3
     padding 1px
+    .training-camp-list-img-tag
+      position absolute
+      top 0
+      right 0
+      width rems(50)
+      height rems(50)
     .training-camp-list-img-content
       height rems(160)
   .training-camp-list-container

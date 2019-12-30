@@ -6,6 +6,7 @@ const CommandStrongGrasp = {
   meta: {
   }
 }
+// 重置局数
 const ResetNumber = {
   path: '/machine-operate/reset-number',
   name: 'ResetNumber',
@@ -13,4 +14,12 @@ const ResetNumber = {
   meta: {
   }
 }
-export default [CommandStrongGrasp, ResetNumber]
+// 免费无限抓
+const FreeInfiniteGrasp = {
+  path: '/machine-operate/free-infinite-grasp',
+  name: 'FreeInfiniteGrasp',
+  component: () => import(/* webpackChunkName: "FreeInfiniteGrasp" */ '@v/machine-operate/free-infinite-grasp.vue'),
+  meta: {
+  }
+}
+export default [CommandStrongGrasp, ResetNumber, FreeInfiniteGrasp]

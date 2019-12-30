@@ -101,5 +101,5 @@ export default {
     width 100%
     z-index 10
   .training-camp-collect-container
-    padding-top 92px
+    padding-top rems(190)
 </style>

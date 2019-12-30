@@ -29,7 +29,7 @@ import TrainingUserInfo from './components/user-info'
 import StepBar from '@yun/step-bar/step-bar'
 import TrainingList from './components/list'
 import { getTrainStudyDetailApi } from '@/api'
-import { getEllipsisText } from '@l/tools'
+// import { getEllipsisText } from '@l/tools'
 import mixin from './mixin'
 export default {
   name: 'LearningManual',
@@ -67,7 +67,7 @@ export default {
             create_time: v.create_time.split(' ')[0],
             manual_sort: v.manual_sort - 0,
             is_collect: !!(v.is_collect - 0),
-            name: getEllipsisText(v.name, 10)
+            name: v.name // getEllipsisText(v.name, 10)
           })).sort((a, b) => a.manual_sort - b.manual_sort)
           data.manual_info.create_time = data.manual_info.create_time.split(' ')[0]
           this.info = data.manual_info
@@ -94,6 +94,7 @@ export default {
     top 0
     left 0
     width 100%
+    z-index 9
   .learning-manual-container
     padding-top 92px
     margin-top rems(20)

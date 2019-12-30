@@ -56,7 +56,9 @@ import {
 } from './switchgear'
 import {
   resetNumber,
-  commandStrongGrasp
+  commandStrongGrasp,
+  getFreeInfiniteGraspList,
+  setFreeInfiniteGraspApi
 } from './machine-operate'
 import {
   getTrainInfoApi,
@@ -123,5 +125,7 @@ export {
   getTrainSearchListApi, // 获取商家训练营搜索列表
   getTrainTypeListApi, // 商家训练营类别列表
   getTrainHomeApi, // 商家训练营 首页数据
-  getTrainStudyDetailApi // 商家训练营 学习手册详情列表
+  getTrainStudyDetailApi, // 商家训练营 学习手册详情列表
+  getFreeInfiniteGraspList, // 免费无限抓列表
+  setFreeInfiniteGraspApi // 设置无限抓
 }
