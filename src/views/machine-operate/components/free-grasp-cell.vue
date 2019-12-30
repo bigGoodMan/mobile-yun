@@ -16,11 +16,15 @@
 
 <script>
 import WatchImg from '@yun/watch-img/watch-img'
+import { setFreeInfiniteGraspApi } from '@/api'
 export default {
   name: 'FreeGraspCell',
   model: {
     prop: 'checked',
     event: 'trigger-change'
+  },
+  props: {
+    info: []
   },
   data () {
     return {
@@ -37,6 +41,10 @@ export default {
   methods: {
     handleChange (checked) {
       this.$emit('trigger-change', checked)
+      setFreeInfiniteGraspApi({
+        machine_id: this.info.machine_id,
+        action: checked - 0
+      })
     }
   },
 
