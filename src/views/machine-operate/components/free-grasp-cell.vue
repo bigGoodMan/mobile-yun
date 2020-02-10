@@ -42,7 +42,8 @@ export default {
       handler (currVal) {
         this.checked = currVal.checked
         this.switchName = currVal.checked ? '开' : '关'
-      }
+      },
+      immediate: true
     }
   },
   computed: {},

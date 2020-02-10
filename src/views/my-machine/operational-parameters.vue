@@ -20,19 +20,19 @@
       </van-cell-group>
     </div>
     <GamePatternSet
-      :show="gamePatternShow"
-      v-model="gameType"
-      @trigger-close="handlePopup('gamePatternShow', false)"
+      :value="gameType"
+      v-model="gamePatternShow"
+      @trigger-confirm="val => this.gameType = val"
     />
     <GamePrizeWinningNumber
-      :show="gameWinningNumberShow"
-      v-model="gameWinningNumberValue"
+      v-model="gameWinningNumberShow"
+      :award-count="gameWinningNumberValue"
       :coinsSell="machine.coins_sell"
       :moneyCost="machine.money_cost"
       :coinsValue="machine.coins_value"
       :defaultEarnRate="defaultEarnRate"
-      @trigger-change-profit="(val) => this.defaultEarnRate = val"
-      @trigger-close="handlePopup('gameWinningNumberShow', false)"
+      @trigger-confirm="val => this.gameWinningNumberValue= val"
+      @trigger-change-profit="val => this.defaultEarnRate = val"
     />
     <!-- 天车参数 -->
     <div class="operational-parameters-car-parameter">
@@ -113,7 +113,7 @@
         :value="fallVoltage"
       />
       <div class="border border-ebedf0"></div>
-      <van-cell title="C2智能抓力">
+      <van-cell title="智能调抓力">
           <template>
             <span class="color-error" v-if="machine.mind_fall_voltage >= 0">{{machine.mind_fall_voltage}}</span>
             <span class="color-success" v-else>未生效</span>
@@ -449,15 +449,19 @@ export default {
     handleSet () {
       if (this.gameType !== '0' && this.gameType !== '1') {
         this.$Tip.warning('没有选择游戏模式')
+        return
       }
       if (!positiveIntegerRegularTool(this.gameWinningNumberValue) || this.gameWinningNumberValue > 99 || this.gameWinningNumberValue <= 0) {
         this.$Tip.warning('获奖局数需在1~99区间内')
+        return
       }
       if (!/^([1-4][0-9]|50)$/.test(this.lineLength)) {
         this.$Tip.warning('绳长需在10~50区间内')
+        return
       }
       if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.grabVoltage)) {
         this.$Tip.warning('C1抓力需在0~48区间内')
+        return
       }
       if (!/^([0-9]|[1-3][0-9]|4[0-8])$/.test(this.fallVoltage)) {
         this.$Tip.warning('C2抓力需在0~48区间内')

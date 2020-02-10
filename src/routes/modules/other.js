@@ -5,4 +5,11 @@ const Article = {
   meta: {
   }
 }
-export default [Article]
+const Page = {
+  path: '/page',
+  name: 'Page',
+  component: () => import(/* webpackChunkName: "Page" */ '@v/other/page.vue'),
+  meta: {
+  }
+}
+export default [Article, Page]

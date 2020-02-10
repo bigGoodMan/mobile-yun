@@ -83,6 +83,7 @@ export default {
         this.$Loading.close()
         if (res.return_code !== '0') {
           this.$Tip.warning(res.msg)
+          return
         }
         this.list = res.data.map(items => {
           items.items = items.items.map(its => ({
@@ -91,8 +92,6 @@ export default {
           }))
           return items
         })
-
-        console.log(this.list)
       })
     },
     // 选择门店回调

@@ -66,7 +66,7 @@ export default {
     handleChange (blob) {
       var fileReader = new FileReader()
       fileReader.onload = (ee) => {
-        this.uploadImg(blob, ee.target.result)
+        this.getOssReadFileUpdate(blob, ee.target.result)
       }
       fileReader.readAsDataURL(blob)
       // this.list.push({
@@ -77,29 +77,12 @@ export default {
       //   this.show = false
       // }
     },
-    uploadImg (blob, result) {
-      const {
-        accessKeyID,
-        policy,
-        signature,
-        securityToken,
-        callback
-      } = this
-      let formDt = webOssUpload({
-        filename: `${new Date() - 1}.png`, policy, accessid: accessKeyID, signature, securityToken
-      })
-      let data = new FormData()
-      data.append('callback', callback)
-      for (let key in formDt) {
-        data.append(key, formDt[key])
-      }
-      data.append('file', blob)
+    getOssReadFileUpdate (blob, result) {
       this.$Loading({
         message: '图片加载中...'
       })
-      uploadImgToOssApi({ data, callback }).then(res => {
+      this.getOssImgInfo().then(res => this.uploadImg(blob, result)).then(res => {
         this.$Loading.clear()
-        data = null
         if (res && res.return_code === '0') {
           this.$emit('trigger-change', { src: res.data, base64Src: result })
           return
@@ -129,12 +112,28 @@ export default {
         })
       })
     },
+    uploadImg (blob, result) {
+      const {
+        accessKeyID,
+        policy,
+        signature,
+        securityToken,
+        callback
+      } = this
+      let formDt = webOssUpload({
+        filename: `${new Date() - 1}.png`, policy, accessid: accessKeyID, signature, securityToken
+      })
+      let data = new FormData()
+      data.append('callback', callback)
+      for (let key in formDt) {
+        data.append(key, formDt[key])
+      }
+      data.append('file', blob)
+      return uploadImgToOssApi({ data, callback })
+    },
     // 获取oss信息
     getOssImgInfo () {
-      this.$Loading({
-        message: '加载中...'
-      })
-      this.APP_SETOSSINFO_ACTION().then(res => {
+      return this.APP_SETOSSINFO_ACTION().then(res => {
         this.$Loading.clear()
         if (res.return_code === '0') {
           const {
@@ -166,7 +165,7 @@ export default {
     }
   },
   created () {
-    this.getOssImgInfo()
+    // this.getOssImgInfo()
   },
   mounted () {
 

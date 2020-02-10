@@ -108,6 +108,10 @@ export default {
 .hhf-input-left-title
   padding-right rems(10)
 .hhf-input-right
+  display flex
+  flex-flow row nowrap
+  justify-content flex-start
+  align-items center
   flex 1
   font-size 0
 .hhf-input-content

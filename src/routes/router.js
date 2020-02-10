@@ -9,6 +9,7 @@ import Switchgear from './modules/switchgear' // 开关机设置
 import MachineOperate from './modules/machine-operate' // 机台操作
 import TrainingCamp from './modules/training-camp' // 商家训练营
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
+export let childrenRoutes = [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp]
 export default [
   {
     path: '/my-machine',
@@ -18,7 +19,7 @@ export default [
     meta: {
       title: '洞见云'
     },
-    children: [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp]
+    children: childrenRoutes
   },
   Error404
 ]

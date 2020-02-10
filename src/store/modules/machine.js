@@ -14,7 +14,8 @@ export default {
     machine_id: '', // 资产id
     type_name: '', // 机型
     claw_type: '', // 爪型
-    coins_sell: '', // 游玩单价
+    coins_sell: '', // 游玩单价(非会员)
+    coins_sell_vip: '', // 游玩单价(会员)
     is_online: '', // 1在线 0不在线
     gift_info: [], // 在售礼品
     can_claw_num: '', // 可抓取量
@@ -45,7 +46,7 @@ export default {
     vigorously_voltage: '', // 大力电压C4
     key21: '', // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
     key21_value: '', // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
-    mind_fall_voltage: '', // c2智能抓力
+    mind_fall_voltage: '', // 智能调抓力
     // 游玩参数
     game_time: '', // 游戏时间
     game_times_shutdown: '', // 投币局数开机恢复 0否 1是
@@ -72,6 +73,7 @@ export default {
       state.area_name = machineInfo.area_name
       state.claw_type = machineInfo.claw_type
       state.coins_sell = machineInfo.coins_sell
+      state.coins_sell_vip = machineInfo.coins_sell_vip
       state.can_claw_num = machineInfo.can_claw_num
       state.can_claw_safe_num = machineInfo.can_claw_safe_num
       state.gift_info = giftInfo
@@ -83,8 +85,9 @@ export default {
       state.can_claw_safe_num = canClawSafeNum
     },
     // 保存游玩单价
-    MACHINE_SAVEPLAYPRICE_MUTATE (state, { coinsSell }) {
+    MACHINE_SAVEPLAYPRICE_MUTATE (state, { coinsSell, coinSellVip }) {
       state.coins_sell = coinsSell
+      state.coins_sell_vip = coinSellVip
     },
     // 获取运营参数
     MACHINE_GETOPERATEPARAM_MUTATE (state, data) {
@@ -94,6 +97,7 @@ export default {
       state.key32 = data.key32 // 获奖局数（花花世界主板）
       state.award_count = data.award_count // 获奖局数（武马行主板）
       state.coins_sell = data.coins_sell // 游玩单价
+      // state.coins_sell_vip = data.coins_sell_vip // 游玩单价
       state.money_cost = data.money_cost // 礼品成本
       state.coins_value = data.coins_value // 平台币值
       state.default_earn_rate = data.default_earn_rate // 毛利率
@@ -114,7 +118,7 @@ export default {
       state.vigorously_voltage = data.vigorously_voltage // 大力电压C4
       state.key21 = data.key21 // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
       state.key21_value = PAW_POSITION_C2[data.key21] // 变c2点 0 上停 1 6/10 2 7/10 3 8/10 4 9/10
-      state.mind_fall_voltage = data.mind_fall_voltage // c2智能抓力
+      state.mind_fall_voltage = data.mind_fall_voltage // 智能调抓力
       // 游玩参数
       state.game_time = data.game_time // 游戏时间
       state.game_times_shutdown = data.game_times_shutdown // 投币局数开机恢复 0否 1是
@@ -172,13 +176,14 @@ export default {
       return res
     },
     // 保存游玩单价
-    async MACHINE_SAVEPLAYPRICE_ACTION ({ commit }, { machineId, coinsSell }) {
+    async MACHINE_SAVEPLAYPRICE_ACTION ({ commit }, { machineId, coinsSell, coinSellVip }) {
       const res = await savePlayPriceApi({
         machine_id: machineId,
-        coins_sell: coinsSell
+        coins_sell: coinsSell,
+        coins_sell_vip: coinSellVip
       })
       if (res.return_code === '0') {
-        commit('MACHINE_SAVEPLAYPRICE_MUTATE', { coinsSell })
+        commit('MACHINE_SAVEPLAYPRICE_MUTATE', { coinsSell, coinSellVip })
       }
       return res
     },

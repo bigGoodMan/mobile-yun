@@ -3,27 +3,44 @@
   <div class="play-price">
     <div class="padding-20-30">
       <div class="bgcolor-f radius-10">
-        <van-cell-group>
-          <van-field
+        <div class="padding-20-30">
+          <HhfInput
+            title="游玩单价（币）："
+            type="tel"
+            class="color-input"
             v-model="coinsSell"
-            placeholder="请输入"
-            class="play-price-entry"
+            position="left"
+            placeholder="会员价（默认）"
           >
-          <template v-slot:label>
-            <div>游玩单价（币）</div>
+          <template #end>
+            <span class="size-28 color-7">会员价（默认）</span>
           </template>
-          </van-field>
-          <!-- <HhfInput type="number" title="游玩单价（币）" v-model="coinsSell" placeholder="请输入"/> -->
-        </van-cell-group>
+          </HhfInput>
+        </div>
+        <div class="border border-ebedf0"></div>
+        <div class="padding-20-30">
+          <HhfInput
+            title="游玩单价（币）："
+            type="tel"
+            v-model="coinSellVip"
+            class="color-input"
+            position="left"
+            placeholder="非会员价"
+          >
+          <template #end>
+            <span class="size-28 color-7">非会员价</span>
+          </template>
+          </HhfInput>
+        </div>
       </div>
+      <ul class="no-ul size-22 color-7">
+        <li class="padding-10-0">会员/非会员：嗨皮主板</li>
+        <li class="padding-10-0">正常充值嗨币、购买小票的默认设置会员价（不使用神采消费卡）</li>
+        <li class="padding-10-0">使用神采消费卡区分：会员/非会员价格</li>
+      </ul>
     </div>
     <div class="size-0 padding-20-30">
-      <van-button
-        size="large"
-        :loading="loading"
-        type="info"
-        @click="handleSaveClick"
-      >保存</van-button>
+      <van-button size="large" :loading="loading" type="info" @click="handleSaveClick">保存</van-button>
     </div>
   </div>
 </template>
@@ -31,6 +48,7 @@
 <script>
 // import HhfInput from '@hhf/hhf-input'
 import { mapState, mapActions } from 'vuex'
+import HhfInput from '@hhf/hhf-input'
 import { positiveIntegerRegularTool } from '@l/tools'
 export default {
   name: 'play_price',
@@ -38,13 +56,15 @@ export default {
   data () {
     return {
       coinsSell: '',
+      coinSellVip: '',
       loading: false
     }
   },
   computed: {
     ...mapState({
       coins_sell: state => state.machine.coins_sell,
-      machine_id: state => state.machine.machine_id
+      machine_id: state => state.machine.machine_id,
+      coins_sell_vip: state => state.machine.coins_sell_vip
     })
   },
   watch: {
@@ -53,10 +73,16 @@ export default {
         this.coinsSell = val
       },
       immediate: true
+    },
+    coins_sell_vip: {
+      handler (val) {
+        this.coinSellVip = val
+      },
+      immediate: true
     }
   },
   components: {
-    // HhfInput
+    HhfInput
   },
   methods: {
     ...mapActions(['MACHINE_SAVEPLAYPRICE_ACTION']),
@@ -69,7 +95,8 @@ export default {
       const $this = this
       this.MACHINE_SAVEPLAYPRICE_ACTION({
         machineId: this.machine_id,
-        coinsSell: this.coinsSell
+        coinsSell: this.coinsSell,
+        coinSellVip: this.coinSellVip
       }).then(res => {
         $this.loading = false
         if (res.return_code === '0') {
@@ -79,7 +106,7 @@ export default {
             $this.$router.push({
               name: 'machine_detail',
               query: {
-                id: $this.$route.query.id
+                mid: $this.$route.query.mid
               }
             })
           })
@@ -93,21 +120,25 @@ export default {
   },
   created () {
     if (!this.machine_id) {
-      const { id } = this.$route.query
+      const { mid } = this.$route.query
       this.$router.push({
         name: 'machine_detail',
-        query: { id }
+        query: { mid }
       })
     }
   }
 }
 </script>
 <style lang="stylus">
-.play-price
-  margin-top rems(20)
-  .play-price-entry
-    .van-field__label
-      max-width none
-      white-space nowrap
-      flex none
+.play-price {
+  margin-top: rems(20);
+
+  .play-price-entry {
+    .van-field__label {
+      max-width: none;
+      white-space: nowrap;
+      flex: none;
+    }
+  }
+}
 </style>
