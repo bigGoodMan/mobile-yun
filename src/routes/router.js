@@ -8,8 +8,9 @@ import IntelligentGrasp from './modules/intelligent-grasp' // 智能抓感
 import Switchgear from './modules/switchgear' // 开关机设置
 import MachineOperate from './modules/machine-operate' // 机台操作
 import TrainingCamp from './modules/training-camp' // 商家训练营
+import SetMeal from './modules/set-meal' // 套餐设置
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
-export let childrenRoutes = [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp]
+export let childrenRoutes = [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp, ...SetMeal]
 export default [
   {
     path: '/my-machine',
