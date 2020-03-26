@@ -6,8 +6,9 @@
   >
     <van-image
       v-if="img"
-      :src="img"
+      :src="thumb || img"
       lazy-load
+      :fit="fit"
       @click="handleClick($event, img)"
     >
       <template #loading>
@@ -36,6 +37,12 @@ export default {
   name: 'LoadingImg',
   props: {
     img: {
+      type: String
+    },
+    thumb: {
+      type: String
+    },
+    fit: {
       type: String
     },
     width: Number || String,

@@ -69,6 +69,9 @@ import {
   getTrainHomeApi,
   getTrainStudyDetailApi
 } from './training-camp'
+import {
+  getSalesSuggestionList
+} from './business-data' // 营业数据
 export {
   loginApi, // 登录
 
@@ -127,5 +130,7 @@ export {
   getTrainHomeApi, // 商家训练营 首页数据
   getTrainStudyDetailApi, // 商家训练营 学习手册详情列表
   getFreeInfiniteGraspList, // 免费无限抓列表
-  setFreeInfiniteGraspApi // 设置无限抓
+  setFreeInfiniteGraspApi, // 设置无限抓
+
+  getSalesSuggestionList // 销售提升建议列表
 }

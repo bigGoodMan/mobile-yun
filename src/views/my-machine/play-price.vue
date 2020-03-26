@@ -12,7 +12,7 @@
             position="left"
             placeholder="会员价（默认）"
           >
-          <template #end>
+          <template #suffix>
             <span class="size-28 color-7">会员价（默认）</span>
           </template>
           </HhfInput>
@@ -27,7 +27,7 @@
             position="left"
             placeholder="非会员价"
           >
-          <template #end>
+          <template #suffix>
             <span class="size-28 color-7">非会员价</span>
           </template>
           </HhfInput>

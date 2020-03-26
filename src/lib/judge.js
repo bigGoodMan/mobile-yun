@@ -68,6 +68,26 @@ const EQUIPMENT_UPDATE_STATUS = {
   '0': '无需更新',
   '1': '正在更新'
 }
+const IS_ON_SALE_STATUS = {
+  '1': { text: '待定', color: '#666666' },
+  '2': { text: '爆款', color: '#e53333' },
+  '3': { text: '热销', color: '#ff9900' },
+  '4': { text: '平销', color: '#337fe5' },
+  '5': { text: '预滞销', color: '#b8d100' },
+  '6': { text: '滞销', color: '#009900' }
+}
+const SALE_SUGGESTION = {
+  '1': '1、及时补充库存，建议新增20个；<br>2、可适当调高预设毛利率；',
+  '2': '1、及时补充库存，建议新增18个；<br>2、可略微调高预设毛利率；',
+  '3': '及时补充库存，建议新增16个;',
+  '4': '加快出货，建议小幅下调预设毛利率；',
+  '5': '立即下架，建议先换未上架的新礼品；',
+  '6': '最快出货，建议下调预设毛利率至成本价',
+  '7': '建议待定中；',
+  '8': '维持正常节奏出货',
+  '9': '尽快出货，建议大幅下调预设毛利率',
+  '10': '建议较大幅下调预设毛利率，加快出货'
+}
 export {
   MACHINE_STATUS, // 缺货类型
   MACHINE_STATUS_TYPE, // 礼品机状态
@@ -80,5 +100,7 @@ export {
   STOCK_TAKING_STATUS, // 库存盘点状态
   GIFT_MACHINE_TYPE, // 礼品机类型
   CLAW_TYPE, // 爪型
-  EQUIPMENT_UPDATE_STATUS // 机台更新状态
+  EQUIPMENT_UPDATE_STATUS, // 机台更新状态
+  IS_ON_SALE_STATUS, // 礼品销售状态
+  SALE_SUGGESTION // 运营建议
 }

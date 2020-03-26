@@ -9,8 +9,9 @@ import Switchgear from './modules/switchgear' // 开关机设置
 import MachineOperate from './modules/machine-operate' // 机台操作
 import TrainingCamp from './modules/training-camp' // 商家训练营
 import SetMeal from './modules/set-meal' // 套餐设置
+import BusinessData from './modules/business-data' // 营业数据
 const Container = () => import(/* webpackChunkName: "container" */'@yun/container')
-export let childrenRoutes = [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp, ...SetMeal]
+export let childrenRoutes = [Login, ...Machine, ...Inventory, ...Gift, ...Other, ...IntelligentGrasp, ...FirmwareUpdate, ...Switchgear, ...MachineOperate, ...TrainingCamp, ...SetMeal, ...BusinessData]
 export default [
   {
     path: '/my-machine',

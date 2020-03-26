@@ -1,22 +1,20 @@
 <!-- 按钮 -->
 <template>
-  <div
-    :class="wrapClasses"
-    :style="wrapStyles"
-    @click="handleClick"
-  >
-    <div class="hhf-button-container flex-row flex-center">
-      <template v-if="!$slots.loading && loading">
-        <div class="hhf-button-loading-container">
-          <div class="hhf-button-loading-content">
-            <HhfIcon name="spinner-loading" />
+  <div :class="getBottomZIndexCls">
+    <div :class="wrapClasses" :style="wrapStyles" @click="handleClick">
+      <div class="hhf-button-container flex-row flex-center">
+        <template v-if="!$slots.loading && loading">
+          <div class="hhf-button-loading-container">
+            <div class="hhf-button-loading-content">
+              <HhfIcon name="spinner-loading" />
+            </div>
           </div>
-        </div>
-      </template>
-      <template v-else-if="loading">
-        <slot name="loading"></slot>
-      </template>
-      <slot></slot>
+        </template>
+        <template v-else-if="loading">
+          <slot name="loading"></slot>
+        </template>
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -26,33 +24,49 @@ import HhfIcon from '../hhf-icon'
 export default {
   name: '',
   props: {
-    disabled: { // 禁用
+    disabled: {
+      // 禁用
       type: Boolean,
       default: false
     },
-    loading: { // 加载
+    loading: {
+      // 加载
       type: Boolean,
       default: false
     },
-    loadingText: { // 加载文字
+    loadingText: {
+      // 加载文字
       type: String,
       default: '加载中…'
     },
-    text: { // 按钮文字
+    text: {
+      // 按钮文字
       type: String,
       default: '确定'
+    },
+    bottomZIndex: {
+      type: Number
     },
     radius: String,
     activeColor: Object,
     plain: Boolean,
-    type: { // 按钮类型
+    type: {
+      // 按钮类型
       type: String,
       default: 'default',
       validator (val) {
-        return ['default', 'primary', 'success', 'info', 'warning', 'danger'].includes(val)
+        return [
+          'default',
+          'primary',
+          'success',
+          'info',
+          'warning',
+          'danger'
+        ].includes(val)
       }
     },
-    size: { // 按钮尺寸
+    size: {
+      // 按钮尺寸
       type: String,
       default: 'normal',
       validator (val) {
@@ -63,8 +77,7 @@ export default {
     styles: Object
   },
   data () {
-    return {
-    }
+    return {}
   },
 
   components: {
@@ -72,6 +85,9 @@ export default {
   },
 
   computed: {
+    getBottomZIndexCls () {
+      return this.bottomZIndex ? `hhf-button-${this.size}-height` : null
+    },
     wrapClasses () {
       const {
         classes,
@@ -79,9 +95,15 @@ export default {
         type,
         plain,
         loading,
-        disabled
+        disabled,
+        bottomZIndex
       } = this
-      let cls = ['hhf-button', `hhf-button-${type}`, `hhf-button-${size}`]
+      let cls = [
+        'hhf-button',
+        `hhf-button-${type}`,
+        `hhf-button-${size}`,
+        bottomZIndex ? `hhf-button-${size}-fixed` : null
+      ]
       if (Object.prototype.toString.call(classes) === '[object Array]') {
         cls = cls.concat(classes)
       } else if (typeof classes === 'string') {
@@ -100,23 +122,18 @@ export default {
       return cls
     },
     wrapStyles () {
-      const {
-        styles,
-        radius
-      } = this
+      const { styles, radius, bottomZIndex } = this
       let stl = {
+        ...styles,
         borderRadius: radius,
-        ...styles
+        zIndex: bottomZIndex
       }
       return stl
     }
   },
   methods: {
     handleClick () {
-      const {
-        loading,
-        disabled
-      } = this
+      const { loading, disabled } = this
       if (!loading && !disabled) {
         this.$emit('trigger-click')
       }
@@ -127,6 +144,13 @@ export default {
 }
 </script>
 <style lang="stylus">
+fixed()
+  position fixed
+  bottom 0
+  left 50%
+  transform translateX(-50%)
+cHeight(h)
+  height rems(h)
 default()
   &.hhf-button-plain
     color #323233
@@ -181,17 +205,29 @@ danger()
   height 100%
   width 100%
   line-height 1
+.hhf-button-large-fixed
+  fixed()
+.hhf-button-large-height
+  cHeight(100)
 .hhf-button-large
   width 100%
-  height rems(100)
+  cHeight(100)
   font-size rems(32)
+.hhf-button-normal-fixed
+  fixed()
+.hhf-button-normal-height
+  cHeight(88)
 .hhf-button-normal
-  height rems(88)
+  cHeight(88)
   min-width rems(176)
   padding 0 rems(30)
   font-size rems(28)
+.hhf-button-small-fixed
+  fixed()
+.hhf-button-small-height
+  cHeight(60)
 .hhf-button-small
-  height rems(60)
+  cHeight(60)
   min-width rems(132)
   padding 0 rems(16)
   font-size rems(24)

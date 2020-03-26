@@ -11,19 +11,17 @@
     <div class="main">
       <dl class="container margin-0">
         <dt class="size-26 title">当前消费套餐</dt>
-        <dd class="content" v-for="value of 10" :key="value"><ConsumptionPackageItem/></dd>
+        <dd class="content" v-for="value of 10" :key="value"><ConsumptionPackageItem @trigger-delete="handleDelete" @trigger-edit="handleEdit"/></dd>
       </dl>
     </div>
-    <div class="height-100">
-      <div class="fixed-max-width bottom-0 zindex-2">
-        <HhfButton type="info" size="large">新增消费套餐</HhfButton>
-      </div>
-    </div>
+        <HhfButton type="info" :bottom-z-index="3" size="large" @trigger-click="handleAdd">新增消费套餐</HhfButton>
+    <ConsumptionPackagePopup v-model="show"/>
   </div>
 </template>
 
 <script>
 import HhfButton from '@hhf/hhf-button'
+import ConsumptionPackagePopup from './components/consumption-package-popup'
 import MyStore from '@yun/my-store'
 import ConsumptionPackageItem from './components/consumption-package-item'
 export default {
@@ -31,14 +29,16 @@ export default {
 
   data () {
     return {
-      store_id: null
+      store_id: null,
+      show: false
     }
   },
 
   components: {
     MyStore,
     HhfButton,
-    ConsumptionPackageItem
+    ConsumptionPackageItem,
+    ConsumptionPackagePopup
   },
 
   computed: {
@@ -55,6 +55,15 @@ export default {
       this.$router.push({
         name: 'Article'
       })
+    },
+    handleDelete () {
+
+    },
+    handleEdit () {
+
+    },
+    handleAdd () {
+      this.show = true
     }
   },
   mounted () {

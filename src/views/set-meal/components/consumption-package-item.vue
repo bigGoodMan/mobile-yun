@@ -20,7 +20,14 @@ export default {
   data () {
     return {}
   },
-
+  props: {
+    packageItem: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
   components: {
     HhfButton
   },
@@ -28,8 +35,12 @@ export default {
   computed: {},
 
   methods: {
-    handleDelete () {},
-    handleEdit () {}
+    handleDelete (items) {
+      this.$emit('trigger-delete', this.packageItem)
+    },
+    handleEdit () {
+      this.$emit('trigger-edit', this.packageItem)
+    }
   },
 
   mounted () {}

@@ -1,34 +1,49 @@
 <!-- 输入框 -->
 <template>
-  <div class="hhf-input flex-row flex-between-center">
-    <div class="hhf-input-left">
-      <slot name="start"></slot>
-      <div class="size-28 color-3 hhf-input-left-title">
-        {{$slots['title'] ? null : title}}
-        <slot name="title"></slot>
+  <div class="hhf-input">
+    <div class="flex-row flex-between-center">
+      <div class="hhf-input-left">
+        <slot name="start"></slot>
+        <div class="size-28 color-3 hhf-input-left-title">
+          {{ $slots["title"] ? null : title }}
+          <slot name="title"></slot>
+        </div>
+      </div>
+      <div class="hhf-input-right">
+        <div
+          :class="[
+            'hhf-input-content size-28',
+            width ? null : 'flex-1',
+            border ? 'border' : null
+          ]"
+          :style="getInputStyle"
+        >
+          <slot v-if="$slots['content']" name="content"></slot>
+          <input
+            v-else
+            :maxlength="maxlength"
+            :type="type"
+            :style="{ 'text-align': position }"
+            :value="value"
+            :class="['hhf-input-entry', inputClass]"
+            @input="$emit('trigger-input', $event.target.value)"
+            :placeholder="placeholder"
+            @focus="handleFocus"
+            @blur="$emit('trigger-blur', $event.target.value)"
+          />
+        </div>
+        <template>
+          <span v-if="suffix" class="size-28 color-3 padding-left-10">{{
+            suffix
+          }}</span>
+          <slot name="suffix"></slot>
+        </template>
       </div>
     </div>
-    <div class="hhf-input-right">
-      <div class="hhf-input-content size-28">
-        <slot
-          v-if="$slots['content']"
-          name="content"
-        ></slot>
-        <input
-          v-else
-          :maxlength="maxlength"
-          :type="type"
-          :style="{'text-align': position}"
-          :value="value"
-          :class="['hhf-input-entry', inputClass]"
-          @input="$emit('trigger-input', $event.target.value)"
-          :placeholder="placeholder"
-          @focus="handleFocus"
-          @blur="$emit('trigger-blur', $event.target.value)"
-        />
-      </div>
+    <template>
+      <div class="color-error size-20 height-err" :style="errorStyle" v-if="errorText !== void 0">{{errorText}}</div>
       <slot name="end"></slot>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -56,8 +71,30 @@ export default {
       default: '',
       type: String
     },
+    suffix: {
+      type: String,
+      default: ''
+    },
     title: {
       default: '',
+      type: String
+    },
+    width: {
+      type: String
+    },
+    border: {
+      type: Boolean,
+      default: false
+    },
+    inputStyle: {
+      type: String || Object,
+      default: ''
+    },
+    errorStyle: {
+      type: String || Object,
+      default: ''
+    },
+    errorText: {
       type: String
     },
     inputClass: [String, Array],
@@ -72,23 +109,42 @@ export default {
     }
   },
   data () {
-    return {
-    }
+    return {}
   },
   components: {},
 
-  computed: {},
+  computed: {
+    getInputStyle () {
+      if (typeof this.inputStyle === 'string') {
+        let width = this.width ? `width:${this.width};` : ''
+        return `${this.inputStyle}${width}`
+      } else if (typeof this.inputStyle === 'object') {
+        return {
+          ...this.inputStyle,
+          width: this.width
+        }
+      }
+      return {
+        width: this.width
+      }
+    }
+  },
 
   methods: {
     handleFocus (e) {
       // if (this.type === 'number') {
       //   return
       // }
-      if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent) && !/(Win32)/i.test(navigator.platform)) { // 移动端
+      if (
+        /(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent) &&
+        !/(Win32)/i.test(navigator.platform)
+      ) {
+        // 移动端
         let target = e.target
-        if (target.setSelectionRange) { // 火狐
+        if (target.setSelectionRange) {
+          // 火狐
           target.setSelectionRange(target.value.length, target.value.length) // 将光标定位在textarea的开头，需要定位到其他位置的请自行修改
-        // target.focus()
+          // target.focus()
         }
       }
       //  else if (target.createTextRange) { // ie
@@ -114,8 +170,6 @@ export default {
   align-items center
   flex 1
   font-size 0
-.hhf-input-content
-  flex 1
 .hhf-input-entry
   border 0
   padding 0
