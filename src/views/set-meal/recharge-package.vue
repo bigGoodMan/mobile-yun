@@ -20,20 +20,17 @@
 </template>
 
 <script>
-import RechargePackageDetail from './components/recharge-package-detail'
 import Vue from 'vue'
-import RechargePackageConfiguration from './components/recharge-package-configuration'
 import MyStore from '@yun/my-store'
+import RechargePackageDetail from './components/recharge-package-detail'
+import RechargePackageConfiguration from './components/recharge-package-configuration'
+import { mapActions } from 'vuex'
 export default {
   name: 'ConsumptionPackage',
 
   data () {
-    const packageData = Array(4)
-      .fill({ checked: false, text: '10' })
-      .map(v => ({ ...v }))
     return {
-      store_id: null,
-      packageData
+      store_id: null
     }
   },
   provide () {
@@ -41,8 +38,7 @@ export default {
       type: 1
     })
     return {
-      tab: this.tab,
-      packageData: this.packageData
+      tab: this.tab
     }
   },
   components: {
@@ -54,9 +50,11 @@ export default {
   computed: {},
 
   methods: {
+    ...mapActions(['SET_MEAL_GETRECHARGEPACKAGELIST_ACTION']),
     // 选择门店回调
     handleConfirm (data) {
       this.store_id = data.value.store_id
+      this.SET_MEAL_GETRECHARGEPACKAGELIST_ACTION(this.store_id)
     },
     // 查看版本更新说明
     handleRouter () {

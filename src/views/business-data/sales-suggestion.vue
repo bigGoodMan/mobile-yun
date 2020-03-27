@@ -40,7 +40,7 @@
                 </li>
                 <li class="size-24 content-second">{{items.area_name}}-{{items.no}}</li>
                 <li class="size-24 content-third">{{items.profit_rate}}%</li>
-                <li class="size-24">{{saleSuggestion[items.suggestion]}}</li>
+                <li class="size-24">{{items.suggestion_msg}}</li>
               </ul>
               <div class="border"></div>
             </div>
@@ -107,7 +107,6 @@ export default {
     handleConfirm (data) {
       this.store_id = data.value.store_id
       this.handleSort({})
-      this.handleRefresh()
     },
     // 查看版本更新说明
     handleRouter () {

@@ -4,17 +4,17 @@
     <div class="title flex-row flex-left-center">
       <span class="size-26">请选择充值折扣</span>
     </div>
-    <dl class="container bgcolor-f" v-for="value of 10" :key="value">
+    <dl class="container bgcolor-f" v-for="value of list" :key="value.id">
       <dt class="size-30 price border flex-row flex-between-center">
-        <span>10元</span
-        ><van-checkbox v-model="checked" shape="square">推荐</van-checkbox>
+        <span>{{value.money}}元</span>
+        <van-checkbox :value="value.checked" label-position="left" :disabled="value.disabled" @click="handleChecked(value)">推荐</van-checkbox>
       </dt>
       <dd class="content">
         <van-grid :gutter="10">
-          <van-grid-item v-for="(items, index) of packageData" :key="index">
-            <RechargePackageItem v-model="items.checked" text="牛皮">
+          <van-grid-item v-for="(items, index) of value.package" :key="index">
+            <RechargePackageItem :checked="items.checked" :disabled="items.disabled" :text="items.coin">
               <template #left-top>
-                <span class="size-24 weight-bold color-ff5722">7折</span>
+                <span class="size-24 weight-bold color-ff5722">{{items.discount}}折</span>
               </template>
             </RechargePackageItem>
           </van-grid-item>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import HhfButton from '@hhf/hhf-button'
 import RechargePackageItem from './recharge-package-item'
 export default {
@@ -37,19 +38,64 @@ export default {
 
   data () {
     return {
-      checked: false
+      checked: false,
+      list: [],
+      checkedData: {}
     }
   },
-  inject: ['packageData'],
   components: {
     RechargePackageItem,
     HhfButton
   },
 
-  computed: {},
-
-  methods: {},
-
+  computed: {
+    ...mapState({
+      rechargePackageList: state => state.setMeal.rechargePackageList
+    })
+  },
+  watch: {
+    rechargePackageList (currList) {
+      this.getInit(currList)
+    }
+  },
+  methods: {
+    getInit (list) {
+      list.forEach((value, index) => {
+        value.package.forEach((its, inx) => {
+          if (its.checked) {
+            this.checkedData[index] = inx
+          }
+        })
+      })
+      this.list = list.map((value, x) => {
+        let packages = value.package.map((its, y) => {
+          return {
+            ...its,
+            disabled: this.getDisabled(x, y)
+          }
+        })
+        return {
+          ...value,
+          package: packages,
+          disabled: this.checkedData[x] === void 0 && Object.keys(this.checkedData).length >= 6
+        }
+      })
+    },
+    getDisabled (x, y) {
+      if (this.checkedData[x]) {
+        return false
+      } else if (Object.keys(this.checkedData).length < 6) {
+        return false
+      }
+      return true
+    },
+    handleChecked (val) {
+      console.log(val)
+    }
+  },
+  created () {
+    this.getInit(this.rechargePackageList)
+  },
   mounted () {}
 }
 </script>

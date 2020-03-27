@@ -72,6 +72,10 @@ import {
 import {
   getSalesSuggestionList
 } from './business-data' // 营业数据
+import {
+  getRechargePackageList,
+  setRechargePackage
+} from './set-meal' // 套餐设置
 export {
   loginApi, // 登录
 
@@ -131,6 +135,9 @@ export {
   getTrainStudyDetailApi, // 商家训练营 学习手册详情列表
   getFreeInfiniteGraspList, // 免费无限抓列表
   setFreeInfiniteGraspApi, // 设置无限抓
+
+  getRechargePackageList, // 获取充值套餐列表
+  setRechargePackage, // 设置充值套餐
 
   getSalesSuggestionList // 销售提升建议列表
 }

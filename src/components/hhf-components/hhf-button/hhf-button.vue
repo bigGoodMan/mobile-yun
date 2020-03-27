@@ -1,6 +1,6 @@
 <!-- 按钮 -->
 <template>
-  <div :class="getBottomZIndexCls">
+  <div :class="['size-0', getBottomZIndexCls]">
     <div :class="wrapClasses" :style="wrapStyles" @click="handleClick">
       <div class="hhf-button-container flex-row flex-center">
         <template v-if="!$slots.loading && loading">

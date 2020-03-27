@@ -5,14 +5,17 @@
       <span class="size-26">当前套餐折扣</span>
         <van-button type="info" size="small" @click="handleConfigure">重新配置</van-button>
     </div>
-    <dl class="container bgcolor-f" v-for="value of 10" :key="value">
-      <dt class="size-30 price border">10元</dt>
+    <dl class="container bgcolor-f" v-for="value of newRechargePackageList" :key="value.id">
+      <dt class="size-30 price border flex-row flex-between-center">
+        <span>{{value.money}}元</span>
+        <van-checkbox v-model="value.checked" label-position="left" disabled>推荐</van-checkbox>
+      </dt>
       <dd class="content">
         <van-grid :gutter="10">
-          <van-grid-item v-for="(items, index) of packageData" :key="index">
-            <RechargePackageItem :checked="items.checked" text="牛皮">
+          <van-grid-item v-for="(items, index) of value.package" :key="index">
+            <RechargePackageItem :checked="items.checked" :text="items.coin">
               <template #left-top>
-                <span class="size-24 weight-bold color-ff5722">7折</span>
+                <span class="size-24 weight-bold color-ff5722">{{items.discount}}折</span>
               </template>
             </RechargePackageItem>
           </van-grid-item>
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import RechargePackageItem from './recharge-package-item'
 export default {
   name: 'RechargePackageDetail',
@@ -30,12 +34,22 @@ export default {
   data () {
     return {}
   },
-  inject: ['packageData', 'tab'],
+  inject: ['tab'],
   components: {
     RechargePackageItem
   },
 
-  computed: {},
+  computed: {
+    ...mapState({
+      rechargePackageList: state => state.setMeal.rechargePackageList
+    }),
+    newRechargePackageList () {
+      const rechargePackageList = this.rechargePackageList.filter(v => {
+        return v.package.some(its => !!its.check)
+      })
+      return rechargePackageList
+    }
+  },
 
   methods: {
     handleConfigure () {

@@ -5,7 +5,7 @@
       {{$slots['title'] ? null : title}}
       <slot name="title"></slot>
     </div>
-    <div class="size-28 flex-row flex-start-stretch">
+    <div class="size-28 flex-row flex-start-center">
       <span class="cell-list-placeholder" v-if="placeholder && !value">{{placeholder}}</span>
       <span v-else>{{value}}</span>
       <van-icon v-if="rightIcon" color="#969799" name="arrow" class="flex-row flex-center margin-left-10 size-32" />
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'CellList',
   props: {
     title: String,
     value: String,
