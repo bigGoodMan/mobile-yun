@@ -1,10 +1,10 @@
 <!-- 套餐项目 -->
 <template>
-  <div :class="['package-item flex-column flex-center', active, 'package-item-border']" @click="handleClick">
+  <div :class="['package-item flex-column flex-center', active, 'package-item-border', disabledCls]" @click="handleClick">
     <div class="left-top">
       <slot name="left-top"></slot>
     </div>
-    <span :class="['size-26', 'weight-bold', checked ? 'color-f' : null]">{{ text }}</span>
+    <span :class="['size-26', 'weight-bold', checked ? 'color-f' : null, disabled ? 'color-9' : null]">{{ text }}</span>
   </div>
 </template>
 
@@ -26,18 +26,28 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   components: {},
 
   computed: {
     active () {
-      return this.checked ? 'active' : null
+      return this.checked ? 'package-item-active' : null
+    },
+    disabledCls () {
+      return this.disabled ? 'package-item-disabled' : null
     }
   },
 
   methods: {
     handleClick () {
+      this.$emit('trigger-click')
+    },
+    handleChange () {
       this.$emit('trigger-change', !this.checked)
     }
   },
@@ -51,9 +61,11 @@ export default {
   padding rems(32) rems(16)
   min-height rems(140)
   box-sizing border-box
-  &.active
+  &.package-item-active
     background-color $primary
     color #ffffff
+  &.package-item-disabled
+    background-color $disabled
   .left-top
     position absolute
     top rems(10)
