@@ -4,24 +4,24 @@
     <div class="consumption-package-popup">
       <dl class="list-first">
         <dt class="title size-28 weight-bold">套餐名称</dt>
-        <dd class="content"><HhfInput placeholder="请输入套餐名称" position="left"/></dd>
+        <dd class="content"><HhfInput placeholder="请输入套餐名称" v-model="packageData.title" position="left"/></dd>
         <dd class="content border"></dd>
       </dl>
       <dl class="list-second">
         <dt class="title size-28 weight-bold">规则</dt>
         <dd class="margin-0 content">
-          <HhfInput title="每满" type="tel" placeholder="1~20" position="center" width="2rem" border suffix="局"/>
+          <HhfInput title="每满" type="tel" placeholder="1~20" position="center" v-model="packageData.limit" :error-text="limitError" @trigger-blur="handleBlur('limitError', packageData.limit)" width="2rem" border suffix="局"/>
         </dd>
         <dd class="margin-0 content">
           <!-- eslint-disable-next-line no-irregular-whitespace -->
-          <HhfInput title="送　" type="tel" placeholder="1~20" position="center" width="2rem" border suffix="局"/>
+          <HhfInput title="送　" type="tel" placeholder="1~20" position="center" v-model="packageData.discount" :error-text="discountError" @trigger-blur="handleBlur('discountError', packageData.discount)" width="2rem" border suffix="局"/>
         </dd>
       </dl>
        <div class="cross" @click="handleClose">
       <van-icon name="cross" color="#ee0a24" size="20px" class="weight-bold" />
     </div>
       <div class="text-center">
-      <HhfButton type="info" size="normal" radius="0.1rem">保存</HhfButton>
+      <HhfButton type="info" size="normal" radius="0.1rem" @trigger-click="handleSave">保存</HhfButton>
       </div>
     </div>
   </van-popup>
@@ -34,6 +34,9 @@ export default {
   name: 'ConsumptionPackagePopup',
   data () {
     return {
+      limitError: '',
+      discountError: '',
+      packageData: {}
     }
   },
   model: {
@@ -44,6 +47,9 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    itemData: {
+      type: Object
     }
   },
   components: {
@@ -52,10 +58,54 @@ export default {
   },
 
   computed: {},
-
+  watch: {
+    itemData (currVal) {
+      if (!currVal) {
+        return
+      }
+      this.packageData = {
+        title: currVal.title,
+        id: currVal.id,
+        store_id: currVal.store_id,
+        limit: currVal.limit,
+        discount: currVal.discount
+      }
+    }
+  },
   methods: {
+    handleBlur (key, val) {
+      if (!/^[0-9]*$/.test(val)) {
+        this[key] = '格式不正确'
+        return
+      }
+      if (val - 0 > 0 && val - 0 <= 20) {
+        this[key] = ''
+        return
+      }
+      this[key] = '0~20局数'
+    },
     handleClose () {
       this.$emit('trigger-change', false)
+    },
+    handleSave () {
+      const {
+        title,
+        discount,
+        limit
+      } = this.packageData
+      if (!title) {
+        this.$Tip.warning('名称不能为空')
+        return
+      }
+      if (!/^[0-9]*$/.test(discount) && (discount - 0 <= 0 || discount - 0 > 20)) {
+        this.$Tip.warning('请填入正确的格式')
+        return
+      }
+      if (!/^[0-9]*$/.test(limit) && (limit - 0 <= 0 || limit - 0 > 20)) {
+        this.$Tip.warning('请填入正确的格式')
+        return
+      }
+      this.$emit('trigger-save', this.packageData)
     }
   },
 

@@ -1,22 +1,25 @@
 <!-- 体验券弹窗 -->
 <template>
-  <van-popup :value="show" :close-on-click-overlay="false">
+  <van-popup :value="show" :close-on-click-overlay="false" @click-overlay="handleClickOverlay">
     <div class="experience-ticket-popup">
       <div class="experience-ticket-popup-header">
-        <h6 class="margin-0 size-30 padding-20-30">印象城10周年庆包</h6>
+        <!-- <h6 class="margin-0 size-30 padding-20-30">印象城10周年庆包</h6> -->
         <ul class="no-ul">
-          <li><CellList title="开始时间" value="" rightIcon @trigger-click="handleOpenDate" /></li>
+          <li class="padding-20-30">
+            <HhfInput title="券包名字" type="text" v-model="experienceTicketItem.name" placeholder="券包名字"/>
+          </li>
+          <li><CellList title="开始时间" :value="getDate(experienceTicketItem.start_time)" rightIcon @trigger-click="handleOpenPackageDate('start_time', experienceTicketItem.start_time)" /></li>
           <li class="padding-0-30">
             <div class="border"></div>
           </li>
-          <li><CellList title="开始时间" value="" rightIcon @trigger-click="handleOpenDate" /></li>
+          <li><CellList title="结束时间" :value="getDate(experienceTicketItem.end_time)" rightIcon @trigger-click="handleOpenPackageDate('end_time', experienceTicketItem.end_time)" /></li>
           <li class="padding-0-30">
             <div class="border"></div>
           </li>
           <li class="padding-20-30">
             <HhfInput
               title="发放数量"
-              value=""
+              v-model="experienceTicketItem.num"
               type="tel"
               placeholder="可填入发放数量"
             />
@@ -29,20 +32,31 @@
           <van-swipe
             class="experience-ticket-popup-content"
             vertical
+            :loop="false"
+            ref="swipeRef"
             @change="handleSwipe"
           >
-            <van-swipe-item v-for="(items, index) of childrenData" :key="index">
+            <van-swipe-item v-for="(items, index) of experienceTicketItem.card_info" :key="index">
               <div class="size-28 text-center">礼包{{ current + 1 }}</div>
               <ul class="no-ul">
-                <li><CellList title="开始时间" value="" rightIcon  @trigger-click="handleOpenDate" /></li>
+                <li><CellList title="开始时间" :value="getDate(items.start)" rightIcon  @trigger-click="handleOpenCouponDate('start', items.start, index)" /></li>
                 <li class="border"></li>
-                <li><CellList title="开始时间" value="" rightIcon  @trigger-click="handleOpenDate" /></li>
+                <li><CellList title="结束时间" :value="getDate(items.end)" rightIcon  @trigger-click="handleOpenCouponDate('end', items.end, index)" /></li>
+                <li class="border"></li>
+                <li class="padding-20-30">
+                  <HhfInput
+                    title="面值"
+                    type="tel"
+                    v-model="items.coin"
+                    placeholder="可填入面值"
+                  />
+                </li>
                 <li class="border"></li>
                 <li class="padding-20-30">
                   <HhfInput
                     title="发放数量"
                     type="tel"
-                    value=""
+                    v-model="items.num"
                     placeholder="可填入发放数量"
                   />
                 </li>
@@ -51,12 +65,12 @@
             </van-swipe-item>
             <template #indicator>
               <div class="experience-ticket-popup-custom-indicator">
-                {{ current + 1 }}/{{ childrenData.length }}
+                {{ current + 1 }}/{{ experienceTicketItem.card_info.length }}
               </div>
             </template>
           </van-swipe>
           <div class="text-center">
-            <HhfButton type="info" radius="0.1rem">添加卡券</HhfButton>
+            <HhfButton type="info" radius="0.1rem" @trigger-click="handleAdd">添加卡券</HhfButton>
           </div>
           <div class="text-center margin-top-20">
             <HhfButton type="info" size="large" radius="0.1rem" @trigger-click="handleSave">保存</HhfButton>
@@ -70,7 +84,7 @@
           @click-overlay="handleDateClose"
         >
           <van-datetime-picker
-            :value="currentDate"
+            v-model="currentDate"
             type="date"
             @confirm="handleConfirm"
             @cancel="handleCancel"
@@ -87,7 +101,7 @@
 import CellList from '@yun/cell-list'
 import HhfButton from '@hhf/hhf-button'
 import HhfInput from '@hhf/hhf-input'
-import { mapMutations, mapState } from 'vuex'
+import moment from 'moment'
 export default {
   name: 'ExperienceTicketPopup',
   model: {
@@ -101,8 +115,10 @@ export default {
       minDate: new Date(),
       maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
-      childrenData: Array(20).fill(1),
-      experienceTicketItem: {}
+      dateNameObj: {},
+      experienceTicketItem: {
+        card_info: [{}]
+      }
     }
   },
   props: {
@@ -121,30 +137,83 @@ export default {
     HhfButton
   },
 
-  computed: {
-    ...mapState({
-      experienceTicketList: state => state.setMeal.experienceTicketList
-    })
-  },
   watch: {
     ticketData (currVal) {
-      this.experienceTicketItem = { ...currVal }
+      if (!currVal || !currVal.length) {
+        this.experienceTicketItem = {
+          card_info: [{}]
+        }
+      }
+      const card = currVal.card_info.map(item => ({ ...item }))
+      this.experienceTicketItem = {
+        ...currVal,
+        card_info: card
+      }
     }
   },
   methods: {
-    ...mapMutations({
-      setTicket: 'experienceTicketList'
-    }),
+    getDate (dt) {
+      if (!dt) {
+        return ''
+      }
+      return moment(dt * 1000).format('YYYY-MM-DD')
+    },
     handleSwipe (index) {
       this.current = index
     },
-    handleOpenDate () {
+    handleOpenPackageDate (key, dt) {
+      this.dateNameObj = {
+        type: 'package',
+        name: key
+      }
+      if (dt) {
+        this.currentDate = new Date(dt * 1000)
+      } else {
+        this.currentDate = new Date()
+      }
+      this.dateShow = true
+    },
+    handleOpenCouponDate (key, dt, index) {
+      this.dateNameObj = {
+        type: 'coupon',
+        name: key,
+        index
+      }
+      if (dt) {
+        this.currentDate = new Date(dt * 1000)
+      } else {
+        this.currentDate = new Date()
+      }
       this.dateShow = true
     },
     handleConfirm (value) {
-      this.currentDate = value
-      console.log(value)
+      const {
+        type,
+        name,
+        index
+      } = this.dateNameObj
+      const val = Date.parse(value) / 1000
+      if (type === 'package') {
+        this.experienceTicketItem = {
+          ...this.experienceTicketItem,
+          [name]: val
+        }
+      } else if (type === 'coupon') {
+        const card = this.experienceTicketItem.card_info.map((v, i) => {
+          if (index === i) {
+            v[name] = val
+          }
+          return v
+        })
+        this.experienceTicketItem = {
+          ...this.experienceTicketItem,
+          card_info: card
+        }
+      }
       this.handleDateClose()
+    },
+    handleClickOverlay () {
+      this.$emit('trigger-change', false)
     },
     handleCancel () {
       this.handleDateClose()
@@ -152,7 +221,19 @@ export default {
     handleDateClose () {
       this.dateShow = false
     },
-    handleSave () {}
+    handleAdd () {
+      const card = this.experienceTicketItem.card_info
+      card.push({})
+      const index = card.length - 1
+      this.experienceTicketItem = {
+        ...this.experienceTicketItem,
+        card_info: card
+      }
+      this.$refs.swipeRef.swipeTo(index)
+    },
+    handleSave () {
+      this.$emit('trigger-save', this.experienceTicketItem)
+    }
   },
 
   mounted () {}
@@ -166,7 +247,7 @@ export default {
   .experience-ticket-popup-main
     .experience-ticket-popup-container
       .experience-ticket-popup-content
-        height rems(350)
+        height rems(430)
       .experience-ticket-popup-custom-indicator
         position absolute
         right 5px

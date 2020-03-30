@@ -23,14 +23,14 @@
     </dl>
     <div class="height-100">
       <div class="fixed-max-width bottom-0 zindex-2">
-        <HhfButton type="info" size="large" @click="handleSave">保存配置</HhfButton>
+        <HhfButton type="info" size="large" @trigger-click="handleSave">保存配置</HhfButton>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import HhfButton from '@hhf/hhf-button'
 import RechargePackageItem from './recharge-package-item'
 export default {
@@ -43,6 +43,7 @@ export default {
       checkedData: {}
     }
   },
+  inject: ['params'],
   components: {
     RechargePackageItem,
     HhfButton
@@ -59,27 +60,35 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['SET_MEAL_SAVERECHARGEPACKAGELIST_ACTION']),
     getInit (list) {
       this.checkedData = {}
+      this.checkedList = []
       list.forEach((value, index) => {
         value.package.forEach((its, inx) => {
           if (its.checked) {
             this.checkedData[index] = inx
+            this.checkedList.push({ id: value.id, rec: value.checked ? 1 : 0, pos: inx + 1 })
           }
         })
       })
       this.list = list.map((value, x) => {
+        let disabledCount = 0
         let packages = value.package.map((its, y) => {
+          let disabled = this.getDisabled(x, y) || !its.coin || its.coin - 0 === 0
+          if (disabled) {
+            ++disabledCount
+          }
           return {
             ...its,
-            disabled: this.getDisabled(x, y)
+            disabled
           }
         })
         return {
           ...value,
           package: packages,
           checked: this.checkedData[x] !== void 0 && value.checked,
-          disabled: this.checkedData[x] === void 0
+          disabled: this.checkedData[x] === void 0 || disabledCount === value.package
         }
       })
     },
@@ -109,6 +118,38 @@ export default {
         return
       }
       value.checked = !value.checked
+    },
+    handleSave () {
+      this.$Loading('加载中……')
+      const {
+        params,
+        params: {
+          storeId
+        },
+        list
+      } = this
+      const checkedList = []
+      list.forEach((value, index) => {
+        value.package.forEach((its, inx) => {
+          if (its.checked) {
+            checkedList.push({ id: value.id, rec: value.checked ? 1 : 0, pos: inx + 1 })
+          }
+        })
+      })
+      if (checkedList.length === 0) {
+        this.$Loading.clear()
+        this.$Tip.warning('请选择套餐')
+        return
+      }
+      this.SET_MEAL_SAVERECHARGEPACKAGELIST_ACTION({ list, storeId, data: checkedList }).then(res => {
+        this.$Loading.clear()
+        if (res.return_code === '0') {
+          params.tab = 1
+          this.$Tip.success(res.msg)
+          return
+        }
+        this.$Tip.warning(res.msg)
+      })
     }
   },
   created () {

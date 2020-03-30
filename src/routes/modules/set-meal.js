@@ -22,7 +22,7 @@ const ExperienceTicket = {
   name: 'ExperienceTicket',
   component: () => import(/* webpackChunkName: "ExperienceTicket" */ '@v/set-meal/experience-ticket.vue'),
   meta: {
-    title: '充值套餐'
+    title: '体验券'
   }
 }
 export default [ConsumptionPackage, RechargePackage, ExperienceTicket]

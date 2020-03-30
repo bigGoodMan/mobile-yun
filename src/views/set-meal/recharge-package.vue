@@ -4,7 +4,7 @@
     <div class="header bgcolor-f">
       <MyStore
         @trigger-click="handleConfirm"
-        :store-id="store_id"
+        :store-id="storeId"
         :default-index="0"
       >
         <div class="flex-row flex-end-center flex-1">
@@ -13,14 +13,13 @@
       </MyStore>
     </div>
     <div class="main">
-      <RechargePackageDetail v-if="tab.type === 1" />
+      <RechargePackageDetail v-if="tab === 1" />
       <RechargePackageConfiguration v-else/>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import MyStore from '@yun/my-store'
 import RechargePackageDetail from './components/recharge-package-detail'
 import RechargePackageConfiguration from './components/recharge-package-configuration'
@@ -30,15 +29,16 @@ export default {
 
   data () {
     return {
-      store_id: null
+      storeId: null,
+      tab: 1
     }
   },
   provide () {
-    this.tab = Vue.observable({
-      type: 1
-    })
+    // let tab = Vue.observable({
+    //   type: 1
+    // })
     return {
-      tab: this.tab
+      params: this.$data
     }
   },
   components: {
@@ -53,8 +53,8 @@ export default {
     ...mapActions(['SET_MEAL_GETRECHARGEPACKAGELIST_ACTION']),
     // 选择门店回调
     handleConfirm (data) {
-      this.store_id = data.value.store_id
-      this.SET_MEAL_GETRECHARGEPACKAGELIST_ACTION(this.store_id)
+      this.storeId = data.value.store_id
+      this.SET_MEAL_GETRECHARGEPACKAGELIST_ACTION(this.storeId)
     },
     // 查看版本更新说明
     handleRouter () {

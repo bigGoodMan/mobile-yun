@@ -5,6 +5,7 @@
       <span class="size-26">当前套餐折扣</span>
         <van-button type="info" size="small" @click="handleConfigure">重新配置</van-button>
     </div>
+    <template v-if="newRechargePackageList.length">
     <dl class="container bgcolor-f" v-for="value of newRechargePackageList" :key="value.id">
       <dt class="size-30 price border flex-row flex-between-center">
         <span>{{value.money}}元</span>
@@ -22,6 +23,8 @@
         </van-grid>
       </dd>
     </dl>
+    </template>
+    <div v-else class="text-center size-24">没有套餐折扣，请配置套餐……</div>
   </div>
 </template>
 
@@ -34,7 +37,7 @@ export default {
   data () {
     return {}
   },
-  inject: ['tab'],
+  inject: ['params'],
   components: {
     RechargePackageItem
   },
@@ -45,7 +48,7 @@ export default {
     }),
     newRechargePackageList () {
       const rechargePackageList = this.rechargePackageList.filter(v => {
-        return v.package.some(its => !!its.check)
+        return v.package.some(its => its.checked)
       })
       return rechargePackageList
     }
@@ -53,7 +56,7 @@ export default {
 
   methods: {
     handleConfigure () {
-      this.tab.type = 2
+      this.params.tab = 2
     }
   },
 

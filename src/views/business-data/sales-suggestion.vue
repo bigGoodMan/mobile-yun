@@ -90,6 +90,7 @@ export default {
       loading: false,
       finished: true, // 是否加载完成
       list: [],
+      limit: 20,
       page: 1
     }
   },
@@ -146,6 +147,7 @@ export default {
       this.page = 1
       this.getDataList(dt => {
         this.list = dt
+        this.finished = dt.length < this.limit || dt.length === 0
         this.freshLoading = false
       })
     },
@@ -153,7 +155,7 @@ export default {
     handleLoading () {
       this.getDataList((dt) => {
         this.list = this.list.concat(dt)
-        this.finished = dt.length === 0
+        this.finished = dt.length < this.limit || dt.length === 0
         this.loading = false
       })
     },

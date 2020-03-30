@@ -2,8 +2,8 @@
 <template>
   <div class="consumption-package-item flex-row flex-between-center bgcolor-f">
     <div class="info flex-column flex-start">
-      <span class="color-ff5722 size-24 padding-bottom-30">满2局送1局</span>
-      <span class="size-26">测试套餐</span>
+      <span class="color-ff5722 size-24 padding-bottom-30">{{rulesTitle}}</span>
+      <span class="size-26">{{packageItem.title}}</span>
     </div>
     <HhfButton type="info" size="small" class="size-26" @trigger-click="handleEdit">编辑</HhfButton>
     <div class="cross" @click="handleDelete">
@@ -32,7 +32,12 @@ export default {
     HhfButton
   },
 
-  computed: {},
+  computed: {
+    rulesTitle () {
+      const { limit, discount } = this.packageItem
+      return `满${limit}局送${discount}局`
+    }
+  },
 
   methods: {
     handleDelete (items) {

@@ -74,7 +74,15 @@ import {
 } from './business-data' // 营业数据
 import {
   getRechargePackageList,
-  setRechargePackage
+  setRechargePackage,
+  getConsumptionPackageList,
+  editConsumptionPackage,
+  addConsumptionPackage,
+  deleteConsumptionPackage,
+  getExperienceTicketList,
+  takeEffectExperienceTicket,
+  discontinueExperienceTicket,
+  saveExperienceTicket
 } from './set-meal' // 套餐设置
 export {
   loginApi, // 登录
@@ -138,6 +146,14 @@ export {
 
   getRechargePackageList, // 获取充值套餐列表
   setRechargePackage, // 设置充值套餐
+  getConsumptionPackageList, // 获取消费套餐列表
+  editConsumptionPackage, // 编辑消费套餐
+  addConsumptionPackage, // 新增消费套餐
+  deleteConsumptionPackage, // 删除消费套餐
+  getExperienceTicketList, // 获取体验券列表
+  takeEffectExperienceTicket, // 体验券生效
+  discontinueExperienceTicket, // 禁用体验券
+  saveExperienceTicket, // 保存体验券
 
   getSalesSuggestionList // 销售提升建议列表
 }

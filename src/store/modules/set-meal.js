@@ -1,5 +1,5 @@
 
-import { getRechargePackageList } from '@/api'
+import { getRechargePackageList, setRechargePackage } from '@/api'
 export default {
   state: {
     rechargePackageId: '', // 当前充值套餐id
@@ -7,8 +7,8 @@ export default {
     experienceTicketList: [] // 体验券列表
   },
   mutations: {
-    // 获取体验券列表
-    SET_MEAL_GETEXPERIENCETICKETLIST_MUTATION (state, { list, id }) {
+    // 获取充值套餐列表
+    SET_MEAL_GETRECHARGEPACKAGELIST_MUTATION (state, { list, id }) {
       state.rechargePackageList = list.map(v => {
         let packages = v.package.map((its, inx) => {
           const coin = its['coins' + (inx + 1)]
@@ -26,6 +26,11 @@ export default {
       })
       state.rechargePackageId = id
     },
+    // 保存体验券
+    SET_MEAL_SAVERECHARGEPACKAGELIST_MUTATION (state, { list, id }) {
+      state.rechargePackageList = list
+      state.rechargePackageId = id
+    },
     // 设置一条体验券
     SET_MEAL_SETEXPERIENCETICKETITEM_MUTATION (state, item) {
 
@@ -36,7 +41,19 @@ export default {
     async SET_MEAL_GETRECHARGEPACKAGELIST_ACTION ({ commit }, storeId) {
       const res = await getRechargePackageList({ store_id: storeId })
       if (res.return_code === '0') {
-        commit('SET_MEAL_GETEXPERIENCETICKETLIST_MUTATION', { list: res.data.list, id: res.data.id })
+        commit('SET_MEAL_GETRECHARGEPACKAGELIST_MUTATION', { list: res.data.list, id: res.data.id })
+      }
+      return res
+    },
+    // 保存充值套餐
+    async SET_MEAL_SAVERECHARGEPACKAGELIST_ACTION ({ commit, state }, { storeId, list, data }) {
+      let id
+      if (state.id - 0 > 0) {
+        id = state.id
+      }
+      const res = await setRechargePackage({ store_id: storeId, id, data })
+      if (res.return_code === '0') {
+        commit('SET_MEAL_SAVERECHARGEPACKAGELIST_MUTATION', { list, id: res.data.id })
       }
       return res
     },

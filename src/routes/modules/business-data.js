@@ -1,4 +1,4 @@
-/** 消费套餐 */
+/** 销售提升建议 */
 const SalesSuggestion = {
   path: '/sales-suggestion',
   name: 'SalesSuggestion',
