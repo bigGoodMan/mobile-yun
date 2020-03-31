@@ -60,6 +60,8 @@ export default {
   computed: {},
   watch: {
     itemData (currVal) {
+      this.limitError = ''
+      this.discountError = ''
       if (!currVal) {
         return
       }
@@ -78,7 +80,7 @@ export default {
         this[key] = '格式不正确'
         return
       }
-      if (val - 0 > 0 && val - 0 <= 20) {
+      if (val - 0 >= 0 && val - 0 <= 20) {
         this[key] = ''
         return
       }
@@ -97,11 +99,13 @@ export default {
         this.$Tip.warning('名称不能为空')
         return
       }
-      if (!/^[0-9]*$/.test(discount) && (discount - 0 <= 0 || discount - 0 > 20)) {
+      if (!/^[0-9]*$/.test(discount) || discount - 0 < 0 || discount - 0 > 20) {
+        this.discountError = '0~20局数'
         this.$Tip.warning('请填入正确的格式')
         return
       }
-      if (!/^[0-9]*$/.test(limit) && (limit - 0 <= 0 || limit - 0 > 20)) {
+      if (!/^[0-9]*$/.test(limit) || limit - 0 < 0 || limit - 0 > 20) {
+        this.limitError = '0~20局数'
         this.$Tip.warning('请填入正确的格式')
         return
       }

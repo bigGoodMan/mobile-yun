@@ -2,7 +2,7 @@
 <template>
   <div class="experience-ticket">
     <div class="header bgcolor-f">
-      <div class="fixed top-0 left-0 width-2half bgcolor-f" style="z-index: 10">
+      <div class="fixed top-0 left-0 width-2half bgcolor-f" style="z-index: 99">
         <MyStore
           @trigger-click="handleConfirm"
           :store-id="storeId"
@@ -224,13 +224,15 @@ export default {
           if (id) {
             this.list = this.list.map(v => {
               if (v.id === id) {
-                return { ...items }
+                return { ...items, total_coin: totalCoin }
               }
+              return v
             })
           } else {
             this.list.push({
               ...items,
               id: res.data,
+              total_coin: totalCoin,
               status: '0'
             })
           }

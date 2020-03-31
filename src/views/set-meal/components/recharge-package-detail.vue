@@ -9,12 +9,12 @@
     <dl class="container bgcolor-f" v-for="value of newRechargePackageList" :key="value.id">
       <dt class="size-30 price border flex-row flex-between-center">
         <span>{{value.money}}元</span>
-        <van-checkbox v-model="value.checked" label-position="left" disabled>推荐</van-checkbox>
+        <van-checkbox :value="value.checked" label-position="left" :disabled="!value.checked">推荐</van-checkbox>
       </dt>
       <dd class="content">
         <van-grid :gutter="10">
           <van-grid-item v-for="(items, index) of value.package" :key="index">
-            <RechargePackageItem :checked="items.checked" :text="items.coin">
+            <RechargePackageItem :checked="items.checked" :text="items.coin" :disabled="!items.checked">
               <template #left-top>
                 <span class="size-24 weight-bold color-ff5722">{{items.discount}}折</span>
               </template>

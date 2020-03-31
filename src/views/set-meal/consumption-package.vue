@@ -2,11 +2,13 @@
 <template>
   <div class="consumption-package">
     <div class="header bgcolor-f">
+      <div class="fixed top-0 left-0 width-2half bgcolor-f" style="z-index: 10">
       <MyStore @trigger-click="handleConfirm" :store-id="storeId" :default-index="0">
         <div class="flex-row flex-end-center flex-1">
           <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
         </div>
       </MyStore>
+      </div>
     </div>
     <div class="main">
       <dl class="container margin-0">
@@ -185,6 +187,8 @@ export default {
             this.list = this.list.map(v => {
               if (v.id === id) {
                 v.title = title
+                v.discount = discount
+                v.limit = limit
                 v.rules = [{
                   discount,
                   limit
@@ -223,6 +227,8 @@ export default {
 </script>
 <style lang="stylus">
 .consumption-package
+  .header
+    height rems(106)
   .main
     .container
       .title
