@@ -7,7 +7,7 @@
         :value="giftMachineType[result.machine_type]"
         @trigger-click="typeShow = true"
         placeholder="请选择"
-        right-icon
+        right-icon="arrow"
       />
     </div>
     <div class="border border-ebedf0"></div>

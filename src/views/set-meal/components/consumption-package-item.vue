@@ -2,13 +2,31 @@
 <template>
   <div class="consumption-package-item flex-row flex-between-center bgcolor-f">
     <div class="info flex-column flex-start">
-      <span class="color-ff5722 size-24 padding-bottom-30">{{rulesTitle}}</span>
-      <span class="size-26">{{packageItem.title}}</span>
+      <span class="color-ff5722 size-24 padding-bottom-30">{{
+        rulesTitle
+      }}</span>
+      <span class="size-26">{{ packageItem.title }}</span>
     </div>
-    <HhfButton type="info" size="small" class="size-26" @trigger-click="handleEdit">编辑</HhfButton>
-    <div class="cross" @click="handleDelete">
-      <van-icon name="cross" color="#ee0a24" size="16px" class="weight-bold" />
-    </div>
+    <template v-if="typeof packageItem.checked === 'boolean'">
+      <van-checkbox :value="packageItem.checked" @click="handleChecked"></van-checkbox>
+    </template>
+    <template v-else>
+      <HhfButton
+        type="info"
+        size="small"
+        class="size-26"
+        @trigger-click="handleEdit"
+        >编辑</HhfButton
+      >
+      <div class="cross" @click="handleDelete">
+        <van-icon
+          name="cross"
+          color="#ee0a24"
+          size="16px"
+          class="weight-bold"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -45,6 +63,9 @@ export default {
     },
     handleEdit () {
       this.$emit('trigger-edit', this.packageItem)
+    },
+    handleChecked () {
+      this.$emit('trigger-checked', this.packageItem)
     }
   },
 

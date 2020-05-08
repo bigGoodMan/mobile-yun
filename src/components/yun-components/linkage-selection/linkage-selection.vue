@@ -8,8 +8,11 @@
       :placeholder="placeholder"
       @trigger-click="show = true"
     >
-    <template v-if="$slots.title" v-slot:title>
+    <template v-if="$slots.title" #title>
       <slot name="title"></slot>
+    </template>
+    <template v-if="$slots['right-icon']" #right-icon>
+      <slot name="right-icon"></slot>
     </template>
     </CellList>
 
@@ -39,8 +42,7 @@ export default {
     placeholder: String,
     columns: Array,
     rightIcon: {
-      type: Boolean,
-      default: false
+      type: String
     }
   },
   data () {

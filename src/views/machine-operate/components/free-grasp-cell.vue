@@ -5,7 +5,7 @@
       <LoadingImg :img="info.img" class="free-grasp-cell-img"/>
     </div>
     <div class="flex-column flex-between-start">
-      <h5 class="size-26">{{info.area_id}}区-{{info.no}}</h5>
+      <h5 class="size-26">{{info.name}}-{{info.no}}</h5>
       <div class="flex-row flex-between-center">
           <van-switch v-model="checked" @change="handleChange"
           :loading="loading" />

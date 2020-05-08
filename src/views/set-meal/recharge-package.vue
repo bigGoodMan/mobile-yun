@@ -8,7 +8,7 @@
         :default-index="0"
       >
         <div class="flex-row flex-end-center flex-1">
-          <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
+          <TipIcon/>
         </div>
       </MyStore>
     </div>
@@ -23,6 +23,7 @@
 import MyStore from '@yun/my-store'
 import RechargePackageDetail from './components/recharge-package-detail'
 import RechargePackageConfiguration from './components/recharge-package-configuration'
+import TipIcon from '@yun/icon-components/tip-icon'
 import { mapActions } from 'vuex'
 export default {
   name: 'ConsumptionPackage',
@@ -44,7 +45,8 @@ export default {
   components: {
     MyStore,
     RechargePackageDetail,
-    RechargePackageConfiguration
+    RechargePackageConfiguration,
+    TipIcon
   },
 
   computed: {},
@@ -61,6 +63,14 @@ export default {
       this.$router.push({
         name: 'Article'
       })
+    }
+  },
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.storeId = sid
     }
   },
   mounted () {}

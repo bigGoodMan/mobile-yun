@@ -7,8 +7,8 @@
         @click="handleReduce"
       >
         <HhfButton
-          class="hhf-stepper-btn"
-          size="large"
+          class="hhf-stepper-btn width-full height-full"
+          size="custom"
           :disabled="leftDisabled"
         >
           <HhfIcon
@@ -33,7 +33,7 @@
       >
         <HhfButton
           class="hhf-stepper-btn"
-          size="large"
+          size="custom"
           :disabled="rightDisabled"
         >
           <HhfIcon

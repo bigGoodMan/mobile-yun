@@ -86,7 +86,7 @@ export default {
     return {
       initGiftList: [],
       giftList: [],
-
+      value: '',
       images: [],
       showPreview: false
     }

@@ -2,17 +2,9 @@
 <template>
   <div class="grasp-equipment-choice">
     <div class="header bgcolor-f">
-      <MyStore
-        @trigger-click="handleConfirm"
-        :store-id="storeId"
-        :default-index="0"
-      >
+      <MyStore @trigger-click="handleConfirm" :store-id="storeId" :default-index="0">
         <div class="flex-row flex-end-center flex-1">
-          <van-icon
-            @click="handleRouter"
-            name="question-o"
-            size="0.4rem"
-          />
+          <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
         </div>
       </MyStore>
     </div>
@@ -20,16 +12,9 @@
       <div class="bgcolor-f content">
         <h5 class="margin-0 padding-20-30 size-30">我的机台</h5>
         <div class="border"></div>
-        <MyArea
-        :store-id="storeId"
-        v-model="areaId"
-         />
+        <MyArea :store-id="storeId" v-model="area" />
         <div class="border"></div>
-        <MyMachine
-        :store-id="storeId"
-        :area-id="areaId"
-        v-model="machineId"
-         />
+        <MyMachine :store-id="storeId" :area-id="area.id" v-model="machine" />
         <!-- <LinkageSelection
           right-icon
           title="请选择区域"
@@ -44,42 +29,26 @@
           :value="machineValue.text"
           :columns="machineColumns"
           @trigger-confirm="handleChoseMachine"
-        /> -->
+        />-->
         <div class="border"></div>
       </div>
-      <div
-        class="bgcolor-f content"
-        v-if="machineId"
-      >
-        <CellList
-          right-icon
-          placeholder="请选择礼品"
-          @trigger-click="handleRouterGift"
-        >
+      <div class="bgcolor-f content" v-if="machine.id">
+        <CellList right-icon="arrow" placeholder="请选择礼品" @trigger-click="handleRouterGift">
           <template v-slot:title>
             <h5 class="margin-0 size-30">我的礼品</h5>
           </template>
         </CellList>
         <div class="border"></div>
         <div>
-          <van-cell
-            title="礼品名称"
-            :value="giftInfoSelected.name"
-          />
+          <van-cell title="礼品名称" :value="giftInfoSelected.name" />
         </div>
         <div class="border"></div>
         <div>
-          <van-cell
-            title="礼品编号"
-            :value="giftInfoSelected.id"
-          />
+          <van-cell title="礼品编号" :value="giftInfoSelected.id" />
         </div>
       </div>
     </div>
-    <div
-      class="finish-btn-content"
-      v-if="finishShow"
-    >
+    <div class="finish-btn-content" v-if="finishShow">
       <HhfButton
         type="info"
         :loading="finishLoading"
@@ -87,10 +56,7 @@
         radius="0.05rem"
       >完成</HhfButton>
     </div>
-    <div
-      class="fixed-max-width bottom-0 size-0 zindex-2"
-      v-if="giftInfoSelected.id"
-    >
+    <div class="fixed-max-width bottom-0 size-0 zindex-2" v-if="giftInfoSelected.id">
       <HhfButton
         size="large"
         type="info"
@@ -120,8 +86,8 @@ export default {
       finishLoading: false,
       loading: false,
       storeId: null,
-      areaId: null,
-      machineId: null,
+      area: {},
+      machine: {},
 
       areaColumns: [], // 区域列表
       areaValue: {}, // 选中的区域
@@ -153,7 +119,7 @@ export default {
     // 完成
     handleFinished () {
       this.finishLoading = true
-      getConfigureGraspResultApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineId }).then(res => {
+      getConfigureGraspResultApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machine.id }).then(res => {
         this.finishLoading = false
         if (res.return_code === '0') {
           this.$Loading.clear()
@@ -171,7 +137,7 @@ export default {
     // 开始配置
     handleStart () {
       this.loading = true
-      startConfigureGraspApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machineId }).then(res => {
+      startConfigureGraspApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machine.id }).then(res => {
         this.loading = false
         if (res.return_code === '0') {
           this.$Loading({
@@ -276,33 +242,41 @@ export default {
       this.storeId = sid
     }
     if (sid && aid) {
-      this.areaId = aid
+      this.area.id = aid
     }
     if (sid && aid && mid) {
-      this.machineId = mid
+      this.machine.id = mid
     }
     this.APP_ADDCACHEPAGELIST_MUTATE('GraspEquipmentChoice')
   }
 }
 </script>
 <style lang="stylus" scoped>
-.grasp-equipment-choice
-  .header
-    position absolute
-    top 0
-    left 0
-    width 100%
-    z-index 10
-  .container
-    padding-top rems(106)
-    height 100vh
-    box-sizing border-box
-    .content
-      margin-top rems(100)
-  .finish-btn-content
-    position fixed
-    bottom rems(200)
-    left 50%
-    transform translate(-50%, 0)
-    z-index 12
+.grasp-equipment-choice {
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .container {
+    padding-top: rems(106);
+    height: 100vh;
+    box-sizing: border-box;
+
+    .content {
+      margin-top: rems(100);
+    }
+  }
+
+  .finish-btn-content {
+    position: fixed;
+    bottom: rems(200);
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 12;
+  }
+}
 </style>

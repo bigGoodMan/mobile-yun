@@ -1,9 +1,9 @@
 <!-- 根据门店和区域查询机台 -->
 <script>
 import LinkageSelection from '@yun/linkage-selection'
-import { mapActions, mapState, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
-  name: 'MyArea',
+  name: 'MyMachine',
   model: {
     prop: 'value',
     event: 'trigger-change'
@@ -12,16 +12,28 @@ export default {
     storeId: [String, Number],
     areaId: [String, Number],
     value: {
-      default: ''
+      default: () => ({})
     },
     title: {
       type: String,
       default: '请选择机台'
     },
+    type: {
+      type: String,
+      default: 'MACHINE',
+      validator (val) {
+        return ['MACHINE', 'MACHINE_TYPE'].includes(val)
+      }
+    },
+    rightIcon: {
+      type: String,
+      default: 'arrow'
+    },
     columns: Array
   },
   data () {
     return {
+      list: []
     }
   },
   components: {
@@ -30,41 +42,34 @@ export default {
   watch: {
     areaId: {
       handler (val) {
-        if (this.storeId && val) {
-          this.COMMON_GETMACHINE_ACTION({ storeId: this.storeId, areaId: val }).then(res => {
-            if (res.return_code === '0') {
-              let hasMachine = this.machineList.some(v => v.id === this.value)
-              if (!hasMachine) {
-                this.$emit('trigger-change', null)
-              }
-            }
-          })
+        const { storeId, type } = this
+        if (storeId && val) {
+          let jsons = { storeId, areaId: val }
+          if (type === 'MACHINE_TYPE') {
+            this.COMMON_GETMACHINETYPE_ACTION(jsons).then(this.handleReturnDeal)
+            return
+          }
+          this.COMMON_GETMACHINE_ACTION(jsons).then(this.handleReturnDeal)
         } else {
-          this.COMMON_GETMACHINE_MUTATE([])
-          this.$emit('trigger-change', null)
+          this.list = []
+          this.$emit('trigger-change', {})
         }
       },
       immediate: true
     }
   },
-  computed: {
-    ...mapState({
-      machineList: state => state.common.machineList,
-      areaList: state => state.common.areaList
-    }),
-    paramId () {
-      return {
-        storeId: this.storeId,
-        areaId: this.areaId
-      }
-    }
-  },
 
   methods: {
-    ...mapMutations(['COMMON_GETMACHINE_MUTATE']),
-    ...mapActions(['COMMON_GETMACHINE_ACTION']),
+    ...mapActions(['COMMON_GETMACHINE_ACTION', 'COMMON_GETMACHINETYPE_ACTION']),
     handleChoseArea (obj) {
-      this.$emit('trigger-change', obj.value.id)
+      this.$emit('trigger-change', obj.value)
+    },
+    handleReturnDeal (res) {
+      if (res.return_code === '0') {
+        const { data } = res
+        this.list = data
+        this.$emit('trigger-change', {})
+      }
     }
   },
 
@@ -72,25 +77,26 @@ export default {
   render (h) {
     const {
       value,
-      machineList,
+      list,
       handleChoseArea,
-      title
+      title,
+      rightIcon
     } = this
     let val
     let defaultIndex = 0
-    for (let i = 0; i < machineList.length; ++i) {
-      if (machineList[i].id === value) {
-        val = machineList[i].no
+    for (let i = 0; i < list.length; ++i) {
+      if (list[i].id === value.id) {
+        val = list[i].name
         defaultIndex = i
         break
       }
     }
     return (
       <LinkageSelection
-        right-icon
+        right-icon={rightIcon}
         title={title}
         value={val}
-        columns={machineList}
+        columns={list}
         default-index={defaultIndex}
         on-trigger-confirm={handleChoseArea}
       />

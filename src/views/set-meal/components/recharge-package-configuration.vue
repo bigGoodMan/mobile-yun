@@ -2,7 +2,7 @@
 <template>
   <div class="recharge-package-configuration">
     <div class="title flex-row flex-left-center">
-      <span class="size-26">请选择充值折扣</span>
+      <span class="size-30">请选择充值折扣</span>
     </div>
     <dl class="container bgcolor-f" v-for="value of list" :key="value.id">
       <dt class="size-30 price border flex-row flex-between-center">
@@ -14,7 +14,7 @@
           <van-grid-item v-for="(items, index) of value.package" :key="index">
             <RechargePackageItem :checked="items.checked" :disabled="items.disabled" :text="items.coin" @trigger-click="handleChecked(value, items, index)">
               <template #left-top>
-                <span :class="['size-24 weight-bold', items.disabled ? 'color-ff9999' : 'color-ff5722']">{{items.discount}}折</span>
+                <span :class="['size-24 weight-bold', items.checked ? 'color-f' : 'color-ff5722']">{{items.discount}}</span>
               </template>
             </RechargePackageItem>
           </van-grid-item>
@@ -75,7 +75,7 @@ export default {
       this.list = list.map((value, x) => {
         let disabledCount = 0
         let packages = value.package.map((its, y) => {
-          let disabled = this.getDisabled(x, y) || !its.coin || its.coin - 0 === 0
+          let disabled = this.getDisabled(x, y) || !its.coin
           if (disabled) {
             ++disabledCount
           }

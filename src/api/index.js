@@ -7,11 +7,13 @@ import {
   getStoreApi,
   getChildBrandListApi,
   getAreaListByStoreApi,
-  getMachineListByStoreAndAreaApi
+  getMachineListByStoreAndAreaApi,
+  getMachineTypeByStoreAndAreaApi
 } from './common'
 import {
   uploadImgToOssApi,
-  getOssInfoApi
+  getOssInfoApi,
+  testApi
 } from './app'
 import {
   getMachineDetailApi,
@@ -82,7 +84,9 @@ import {
   getExperienceTicketList,
   takeEffectExperienceTicket,
   discontinueExperienceTicket,
-  saveExperienceTicket
+  saveExperienceTicket,
+  getMachineConsumptionPackage,
+  saveMachineConsumptionPackage
 } from './set-meal' // 套餐设置
 export {
   loginApi, // 登录
@@ -91,9 +95,11 @@ export {
   getChildBrandListApi, // 获取子品牌列表
   getAreaListByStoreApi, // 根据门店获取区域列表
   getMachineListByStoreAndAreaApi, // 根据门店区域获取机台列表
+  getMachineTypeByStoreAndAreaApi, // 根据门店区域获取机型
 
   uploadImgToOssApi, // 上传图片到oss
   getOssInfoApi, // 获取oss签名等相关信息
+  testApi,
 
   getMachineListApi, // 机台列表
   getMachineDetailApi, // 机台详情
@@ -150,6 +156,8 @@ export {
   editConsumptionPackage, // 编辑消费套餐
   addConsumptionPackage, // 新增消费套餐
   deleteConsumptionPackage, // 删除消费套餐
+  getMachineConsumptionPackage, // 获取机台消费套餐
+  saveMachineConsumptionPackage, // 保存机台套餐
   getExperienceTicketList, // 获取体验券列表
   takeEffectExperienceTicket, // 体验券生效
   discontinueExperienceTicket, // 禁用体验券

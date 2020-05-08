@@ -4,20 +4,16 @@
     <!-- 所属商家 -->
     <div class="add-edit-gift-margin">
       <template v-if="$route.query.id || $route.query.bid">
-        <CellList
-         title="所属商家"
-         class="bgcolor-f"
-          :value="brandInfo.brand_name"
-          />
+        <CellList title="所属商家" class="bgcolor-f" :value="brandInfo.brand_name" />
       </template>
       <template v-else>
         <CellList
           title="所属商家"
-         class="bgcolor-f"
-         placeholder="请选择"
+          class="bgcolor-f"
+          placeholder="请选择"
           :value="brandInfo.brand_name"
           @trigger-click="brandShow = true"
-          right-icon
+          right-icon="arrow"
         />
       </template>
     </div>
@@ -29,37 +25,25 @@
     <div class="add-edit-gift-margin bgcolor-f">
       <h5 class="add-edit-gift-title size-30 padding-20-30">基础参数</h5>
       <div class="border border-ebedf0"></div>
-      <GiftBasicParameters
-        :result="basicParam"
-        @trigger-change="(obj) => basicParam = obj"
-      />
+      <GiftBasicParameters :result="basicParam" @trigger-change="(obj) => basicParam = obj" />
     </div>
     <!-- 天车参数 -->
     <div class="add-edit-gift-margin bgcolor-f">
       <h5 class="add-edit-gift-title size-30 padding-20-30">天车参数</h5>
       <div class="border border-ebedf0"></div>
-      <GiftCrownBlockParameters
-        :result="carParam"
-        @trigger-change="(obj) => carParam = obj"
-      />
+      <GiftCrownBlockParameters :result="carParam" @trigger-change="(obj) => carParam = obj" />
     </div>
     <!-- 抓力参数 -->
     <div class="add-edit-gift-margin bgcolor-f">
       <h5 class="add-edit-gift-title size-30 padding-20-30">抓力参数</h5>
       <div class="border border-ebedf0"></div>
-      <GraspingPowerParameters
-        :result="grabParam"
-        @trigger-change="(obj) => grabParam = obj"
-      />
+      <GraspingPowerParameters :result="grabParam" @trigger-change="(obj) => grabParam = obj" />
     </div>
     <!-- 预警参数 -->
     <div class="add-edit-gift-margin bgcolor-f">
       <h5 class="add-edit-gift-title size-30 padding-20-30">预警参数</h5>
       <div class="border border-ebedf0"></div>
-      <GiftEarlyWarningParameters
-        :result="warnParam"
-        @trigger-change="(obj) => warnParam = obj"
-      />
+      <GiftEarlyWarningParameters :result="warnParam" @trigger-change="(obj) => warnParam = obj" />
     </div>
     <div class="padding-20-30 size-0">
       <HhfButton
@@ -456,9 +440,13 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.add-edit-gift
-  .add-edit-gift-margin
-    margin-top rems(20)
-  .add-edit-gift-title
-    margin 0
+.add-edit-gift {
+  .add-edit-gift-margin {
+    margin-top: rems(20);
+  }
+
+  .add-edit-gift-title {
+    margin: 0;
+  }
+}
 </style>

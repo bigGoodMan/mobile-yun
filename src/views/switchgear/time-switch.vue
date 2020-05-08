@@ -20,7 +20,7 @@
         <h5 class="margin-0 padding-20-30 size-30">我的机台</h5>
         <div class="border"></div>
         <LinkageSelection
-          right-icon
+          right-icon="arrow"
           title="请选择区域"
           :value="areaValue.text"
           :columns="areaColumns"

@@ -1,7 +1,7 @@
 <!-- 我的区域 -->
 <script>
 import LinkageSelection from '@yun/linkage-selection'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'MyArea',
   model: {
@@ -11,16 +11,21 @@ export default {
   props: {
     storeId: String,
     value: {
-      default: ''
+      default: () => ({})
     },
     title: {
       type: String,
       default: '请选择区域'
     },
+    rightIcon: {
+      type: String,
+      default: 'arrow'
+    },
     columns: Array
   },
   data () {
     return {
+      list: []
     }
   },
   components: {
@@ -30,28 +35,22 @@ export default {
     storeId: {
       handler (val) {
         if (val) {
-          this.COMMON_GETAREA_ACTION({ storeId: val })
+          this.COMMON_GETAREA_ACTION({ storeId: val }).then(res => {
+            if (res.return_code === '0') {
+              this.list = res.data
+              this.$emit('trigger-change', {})
+            }
+          })
         }
       },
       immediate: true
-    },
-    areaList (list) {
-      let hasArea = list.some(v => this.value === v.id)
-      if (!hasArea) {
-        this.$emit('trigger-change', null)
-      }
     }
-  },
-  computed: {
-    ...mapState({
-      areaList: state => state.common.areaList
-    })
   },
 
   methods: {
     ...mapActions(['COMMON_GETAREA_ACTION']),
     handleChoseArea (obj) {
-      this.$emit('trigger-change', obj.value.id)
+      this.$emit('trigger-change', obj.value)
     }
   },
 
@@ -59,25 +58,26 @@ export default {
   render (h) {
     const {
       value,
-      areaList,
+      list,
       handleChoseArea,
-      title
+      title,
+      rightIcon
     } = this
     let val
     let defaultIndex = 0
-    for (let i = 0; i < areaList.length; ++i) {
-      if (areaList[i].id === value) {
-        val = areaList[i].name
+    for (let i = 0; i < list.length; ++i) {
+      if (list[i].id === value.id) {
+        val = list[i].name
         defaultIndex = i
         break
       }
     }
     return (
       <LinkageSelection
-        right-icon
+        right-icon={rightIcon}
         title={title}
         value={val}
-        columns={areaList}
+        columns={list}
         default-index={defaultIndex}
         on-trigger-confirm={handleChoseArea}
       />

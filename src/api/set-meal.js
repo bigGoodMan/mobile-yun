@@ -66,6 +66,28 @@ function deleteConsumptionPackage (data) {
   })
 }
 /**
+ * 获取机台消费套餐包
+ * @param {{mid: number; store_id: number;}} data 数据对象
+ * @returns {Promise}
+ */
+function getMachineConsumptionPackage (data) {
+  return HttpReq.formPost({
+    url: 'consum_combo/get_combo_list',
+    data
+  })
+}
+/**
+ * 保存机台消费套餐
+ * @param {{mid: number;combo_id: number; start_time: number; end_time: number; exchange: 0 | 1}} data 数据对象
+ * @returns {Promise}
+ */
+function saveMachineConsumptionPackage (data) {
+  return HttpReq.formPost({
+    url: 'consum_combo/set_combo',
+    data
+  })
+}
+/**
  * 获取体验券列表
  * @param {{store_id: number; limit: number; page: number}} data 数据对象
  * @returns {Promise}
@@ -119,5 +141,7 @@ export {
   saveExperienceTicket,
   editConsumptionPackage,
   addConsumptionPackage,
-  deleteConsumptionPackage
+  deleteConsumptionPackage,
+  getMachineConsumptionPackage,
+  saveMachineConsumptionPackage
 }

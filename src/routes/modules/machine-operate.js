@@ -20,6 +20,8 @@ const FreeInfiniteGrasp = {
   name: 'FreeInfiniteGrasp',
   component: () => import(/* webpackChunkName: "FreeInfiniteGrasp" */ '@v/machine-operate/free-infinite-grasp.vue'),
   meta: {
+    title: '免费无限抓',
+    tip: 'https://mp.weixin.qq.com/s/J2fX6i8P8do_sR7EAUoBZA'
   }
 }
 export default [CommandStrongGrasp, ResetNumber, FreeInfiniteGrasp]

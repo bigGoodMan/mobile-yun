@@ -9,7 +9,7 @@
           :default-index="0"
         >
           <div class="flex-row flex-end-center flex-1">
-            <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
+            <TipIcon/>
           </div>
         </MyStore>
       </div>
@@ -50,6 +50,7 @@ import ExperienceTicketPopup from './components/experience-ticket-popup'
 import MyStore from '@yun/my-store'
 import HhfButton from '@hhf/hhf-button'
 import ExperienceTicketItem from './components/experience-ticket-item.vue'
+import TipIcon from '@yun/icon-components/tip-icon'
 import { getExperienceTicketList, saveExperienceTicket } from '@/api'
 export default {
   name: 'ExperienceTicket',
@@ -72,7 +73,8 @@ export default {
     MyStore,
     HhfButton,
     ExperienceTicketItem,
-    ExperienceTicketPopup
+    ExperienceTicketPopup,
+    TipIcon
   },
 
   computed: {},
@@ -132,6 +134,7 @@ export default {
       this.show = true
     },
     handleOperation (item) {
+      console.log(item)
       this.list = this.list.map(v => {
         if (item.id === v.id) {
           return { ...item }
@@ -146,22 +149,21 @@ export default {
       this.handleOperation(item)
     },
     handleAdd () {
-      this.ticketData = {
-        store_id: this.storeId,
-        card_info: [{}]
-      }
+      this.ticketData = null
       this.show = true
     },
     handleSave (items) {
       const {
         id,
-        store_id: storeId,
         name,
         start_time: startTime,
         end_time: endTime,
         num,
         card_info: card
       } = items
+      const {
+        storeId
+      } = this
       if (!name) {
         this.$Tip.warning('券包名字不能为空')
         return
@@ -188,19 +190,19 @@ export default {
           num: couponNum
         } = item
         if (!start) {
-          this.$Tip.warning(`请选择礼包${i + 1}开始时间`)
+          this.$Tip.warning(`请选择卡券${i + 1}开始时间`)
           return
         }
         if (!end) {
-          this.$Tip.warning(`请选择礼包${i + 1}结束时间`)
+          this.$Tip.warning(`请选择卡券${i + 1}结束时间`)
           return
         }
         if (!/^[1-9]+[0-9]*$/.test(coin)) {
-          this.$Tip.warning(`请输入正确的礼包${i + 1}面值`)
+          this.$Tip.warning(`请输入正确的卡券${i + 1}面值`)
           return
         }
         if (!/^[1-9]+[0-9]*$/.test(couponNum)) {
-          this.$Tip.warning(`请输入正确的礼包${i + 1}发放数量`)
+          this.$Tip.warning(`请输入正确的卡券${i + 1}发放数量`)
           return
         }
         totalCoin += couponNum * coin
@@ -242,6 +244,14 @@ export default {
         }
         this.$Tip.warning(res.msg)
       })
+    }
+  },
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.storeId = sid
     }
   },
 

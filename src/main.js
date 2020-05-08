@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'vant/lib/index.less'
 import '@a/css/common.styl'
 import '@a/css/animate.styl'
 import '@/plugins/css/common.styl'
@@ -9,10 +10,11 @@ import store from './store'
 // import './registerServiceWorker'
 import vant, { Lazyload } from 'vant'
 import plugins from './plugins'
+// import 'vant/lib/index.less'
 // require(process.env.NODE_ENV !== 'production' ? 'vant/lib/index.css' : null)
-if (process.env.NODE_ENV !== 'production') {
-  require('vant/lib/index.css')
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   require('vant/lib/index.css')
+// }
 
 Vue.config.productionTip = false
 Vue.use(vant)

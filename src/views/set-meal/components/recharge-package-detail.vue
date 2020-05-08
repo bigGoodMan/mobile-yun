@@ -2,7 +2,7 @@
 <template>
   <div class="recharge-package-detail">
     <div class="title flex-row flex-between-center">
-      <span class="size-26">当前套餐折扣</span>
+      <span class="size-30">当前套餐折扣</span>
         <van-button type="info" size="small" @click="handleConfigure">重新配置</van-button>
     </div>
     <template v-if="newRechargePackageList.length">
@@ -16,7 +16,7 @@
           <van-grid-item v-for="(items, index) of value.package" :key="index">
             <RechargePackageItem :checked="items.checked" :text="items.coin" :disabled="!items.checked">
               <template #left-top>
-                <span class="size-24 weight-bold color-ff5722">{{items.discount}}折</span>
+                <span :class="['size-24 weight-bold', items.checked ? 'color-f' : 'color-ff5722']">{{items.discount}}</span>
               </template>
             </RechargePackageItem>
           </van-grid-item>

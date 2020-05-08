@@ -21,17 +21,17 @@
         <div class="border"></div>
         <MyArea
         :store-id="storeId"
-        v-model="areaId"
+        v-model="area"
          />
         <div class="border"></div>
         <MyMachine
         :store-id="storeId"
-        :area-id="areaId"
-        v-model="machineId"
+        :area-id="area.id"
+        v-model="machine"
          />
       </div>
       <!-- 操作内容 -->
-      <div v-if="machineId" class="fixed-max-width bottom-0">
+      <div v-if="machine.id" class="fixed-max-width bottom-0">
         <p class="size-28 command-strong-grasp-tip">下发强抓不可撤销，点击【确认下发】立即下发强抓，若需要保持强抓至出货，请勾选【保持强抓】。</p>
         <div class="size-28 text-center weight-bold flex-row flex-center margin-bottom-20">
           <van-checkbox v-model="checked">保持强抓至出货</van-checkbox>
@@ -58,8 +58,8 @@ export default {
       checked: false,
       areaColumns: [],
       storeId: null,
-      areaId: null,
-      machineId: null,
+      area: {},
+      machine: {},
       result: ['a'],
       machineColumns: []
     }
@@ -104,7 +104,7 @@ export default {
     handleSure (confirmId) {
       this.loading = true
       this.$Loading('下发抢抓中')
-      commandStrongGrasp({ machine_id: this.machineId, type: this.checked ? 5 : 7 }).then(res => {
+      commandStrongGrasp({ machine_id: this.machine.id, type: this.checked ? 5 : 7 }).then(res => {
         this.$Loading.clear()
         this.loading = false
         if (res.return_code === '0') {
@@ -140,10 +140,10 @@ export default {
       this.storeId = sid
     }
     if (sid && aid) {
-      this.areaId = aid
+      this.area.id = aid
     }
     if (sid && aid && mid) {
-      this.machineId = mid
+      this.machine.id = mid
     }
   },
   mounted () {

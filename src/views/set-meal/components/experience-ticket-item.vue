@@ -99,7 +99,7 @@ export default {
         this.$Loading.clear()
         if (res.return_code === '0') {
           this.$Tip.success(res.msg)
-          this.$emit('trigger-take-effect', { ...this.itemData, status: '1' })
+          this.$emit('trigger-take-effect', { ...this.itemData, url: res.data, status: '1' })
           return
         }
         this.$Tip.warning(res.msg)

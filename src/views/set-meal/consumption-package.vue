@@ -5,7 +5,7 @@
       <div class="fixed top-0 left-0 width-2half bgcolor-f" style="z-index: 10">
       <MyStore @trigger-click="handleConfirm" :store-id="storeId" :default-index="0">
         <div class="flex-row flex-end-center flex-1">
-          <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
+          <TipIcon/>
         </div>
       </MyStore>
       </div>
@@ -24,7 +24,7 @@
             @load="handleLoading"
             :offset="10"
           >
-        <dt class="size-26 title">当前消费套餐</dt>
+        <dt class="size-30 title flex-row flex-between-center"><span>当前消费套餐</span><van-button type="info" size="small" @click="handleGoMachine">机台套餐配置</van-button></dt>
         <dd class="content" v-for="(value, index) of list" :key="value.id"><ConsumptionPackageItem :packageItem="value" @trigger-delete="handleDelete(value.id, index)" @trigger-edit="handleEdit"/></dd>
           </van-list>
         </van-pull-refresh>
@@ -39,6 +39,7 @@
 import HhfButton from '@hhf/hhf-button'
 import ConsumptionPackagePopup from './components/consumption-package-popup'
 import MyStore from '@yun/my-store'
+import TipIcon from '@yun/icon-components/tip-icon'
 import ConsumptionPackageItem from './components/consumption-package-item'
 import { getConsumptionPackageList, deleteConsumptionPackage, addConsumptionPackage, editConsumptionPackage } from '@/api'
 export default {
@@ -62,7 +63,8 @@ export default {
     MyStore,
     HhfButton,
     ConsumptionPackageItem,
-    ConsumptionPackagePopup
+    ConsumptionPackagePopup,
+    TipIcon
   },
 
   computed: {
@@ -162,6 +164,13 @@ export default {
       }
       this.show = true
     },
+    // 去机台配置套餐
+    handleGoMachine () {
+      this.$router.push({ name: 'MachineConsumptionMeal',
+        query: {
+          sid: this.storeId
+        } })
+    },
     handleSave (item) {
       const {
         title,
@@ -219,6 +228,14 @@ export default {
         }
         this.$Tip.warning(res.msg)
       })
+    }
+  },
+  created () {
+    const {
+      sid
+    } = this.$route.query
+    if (sid) {
+      this.storeId = sid
     }
   },
   mounted () {

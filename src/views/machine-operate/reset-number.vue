@@ -21,17 +21,17 @@
         <div class="border"></div>
         <MyArea
         :store-id="storeId"
-        v-model="areaId"
+        v-model="area"
          />
         <div class="border"></div>
         <MyMachine
         :store-id="storeId"
-        :area-id="areaId"
-        v-model="machineId"
+        :area-id="area.id"
+        v-model="machine"
          />
       </div>
       <!-- 操作内容 -->
-      <div v-if="machineId" class="fixed-max-width bottom-0">
+      <div v-if="machine.id" class="fixed-max-width bottom-0">
         <p class="size-28 reset-number-tip">重置局数操作会清除之前累积的游玩统计，即从0开始重新计算中奖局数</p>
         <div class="text-center"><HhfButton :loading="loading" type="info" size="large" @trigger-click="handleReset">重置</HhfButton></div>
       </div>
@@ -55,8 +55,8 @@ export default {
       checked: true,
       areaColumns: [],
       storeId: null,
-      areaId: null,
-      machineId: null,
+      area: {},
+      machine: {},
       result: ['a'],
       machineColumns: []
     }
@@ -79,7 +79,7 @@ export default {
     // 重置局数
     handleReset () {
       this.loading = true
-      resetNumber({ machine_id: this.machineId, type: 6 }).then(res => {
+      resetNumber({ machine_id: this.machine.id, type: 6 }).then(res => {
         this.loading = false
         if (res.return_code === '0') {
           this.$Tip({
@@ -116,10 +116,10 @@ export default {
       this.storeId = sid
     }
     if (sid && aid) {
-      this.areaId = aid
+      this.area.id = aid
     }
     if (sid && aid && mid) {
-      this.machineId = mid
+      this.machine.id = mid
     }
   },
   mounted () {

@@ -70,7 +70,7 @@ export default {
       type: String,
       default: 'normal',
       validator (val) {
-        return ['normal', 'large', 'small', 'mini'].includes(val)
+        return ['normal', 'large', 'small', 'mini', 'custom'].includes(val)
       }
     },
     classes: [String, Array],
@@ -158,24 +158,24 @@ default()
     border 1px solid #323233
 success()
   &.hhf-button-plain
-    color #52c427
+    color $success
     background-color #ffffff
-    border 1px solid #52c427
+    border 1px solid $success
 info()
   &.hhf-button-plain
-    color #1890fc
+    color $primary
     background-color #ffffff
-    border 1px solid #1890fc
+    border 1px solid $primary
 warning()
   &.hhf-button-plain
-    color #e6a23c
+    color $warning
     background-color #ffffff
-    border 1px solid #e6a23c
+    border 1px solid $warning
 danger()
   &.hhf-button-plain
-    color #f5222d
+    color $danger
     background-color #ffffff
-    border 1px solid #f5222d
+    border 1px solid $danger
 .hhf-button
   position relative
   display inline-block
@@ -233,30 +233,33 @@ danger()
   font-size rems(24)
 .hhf-button-mini
   font-size rems(20)
+.hhf-button-custom
+  height 100%
+  width 100%
 .hhf-button-default
   color #323233
   background-color #fff
   border 1px solid #ebedf0
   default()
 .hhf-button-success
-  background-color #52c427
+  background-color $success
   color #ffffff
-  border 1px solid #52c427
+  border 1px solid $success
   success()
 .hhf-button-info
-  background-color #1890fc
+  background-color $primary
   color #ffffff
-  border 1px solid #1890fc
+  border 1px solid $primary
   info()
 .hhf-button-warning
-  background-color #e6a23c
+  background-color $warning
   color #ffffff
-  border 1px solid #e6a23c
+  border 1px solid $warning
   warning()
 .hhf-button-danger
-  background-color #f5222d
+  background-color $danger
   color #ffffff
-  border 1px solid #f5222d
+  border 1px solid $danger
   danger()
 .hhf-button-loading-container
   margin-right rems(10)

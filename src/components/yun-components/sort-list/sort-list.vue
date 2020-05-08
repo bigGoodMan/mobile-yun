@@ -1,6 +1,6 @@
 <!-- 排序列表 -->
 <template>
-  <ul class="sort-list flex-row flex-start-center bgcolor-f padding-20-0">
+  <ul class="sort-list flex-row flex-start-center bgcolor-f padding-20">
     <li v-for="items of sortData" class="flex-1 flex-row flex-center" :key="items.key" @click="handleClick(items)">
       <span :class="['text-nowrap size-28', items.sort ? 'active' : null]">{{items.name}}</span>
       <div class="padding-left-10 flex-column flex-center" v-if="items.sort !== void 0">
@@ -30,8 +30,9 @@ export default {
 
   methods: {
     handleClick (items) {
-      console.log(items)
-      this.$emit('trigger-click', items)
+      if (items.sort !== void 0) {
+        this.$emit('trigger-click', items)
+      }
     }
   },
 

@@ -5,7 +5,7 @@
     <CellList
       title="天车前后速度F"
       :value="craneSpeed[result.car_speed_front_back]"
-      right-icon
+      right-icon="arrow"
       @trigger-click="frontBackShow = true"
     />
   </div>
@@ -14,7 +14,7 @@
     <CellList
       title="天车左右速度L"
       :value="craneSpeed[result.car_speed_left_right]"
-      right-icon
+      right-icon="arrow"
       @trigger-click="leftRightShow = true"
     />
   </div>
@@ -23,7 +23,7 @@
     <CellList
       title="天车上下速度U"
       :value="craneSpeed[result.car_speed_up_down]"
-      right-icon
+      right-icon="arrow"
       @trigger-click="upDownShow = true"
     />
   </div>

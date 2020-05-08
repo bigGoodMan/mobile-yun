@@ -11,8 +11,9 @@ export default {
     SET_MEAL_GETRECHARGEPACKAGELIST_MUTATION (state, { list, id }) {
       state.rechargePackageList = list.map(v => {
         let packages = v.package.map((its, inx) => {
-          const coin = its['coins' + (inx + 1)]
-          const discount = ((v.money / coin * 10) | 0) / 10
+          let coins = its['coins' + (inx + 1)] - 0
+          const coin = coins ? coins + '币' : ''
+          const discount = coins ? ((v.money / coins * 100) | 0) / 10 + '折' : ''
           const checked = !!its.check
           const items = {
             ...its,
@@ -21,7 +22,7 @@ export default {
             checked
           }
           return items
-        })
+        }).filter(v => v.coin)
         return { ...v, package: packages, checked: !!v.rec }
       })
       state.rechargePackageId = id

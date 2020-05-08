@@ -27,10 +27,18 @@ function getMachineListByStoreAndAreaApi (data) {
     data
   })
 }
+// 根据门店store_id区域area_id获取机型
+function getMachineTypeByStoreAndAreaApi (data) {
+  return HttpReq.formPost({
+    url: 'gift_sell_advise/get_machine_type',
+    data
+  })
+}
 
 export {
   getStoreApi,
   getChildBrandListApi,
   getAreaListByStoreApi,
-  getMachineListByStoreAndAreaApi
+  getMachineListByStoreAndAreaApi,
+  getMachineTypeByStoreAndAreaApi
 }

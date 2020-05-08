@@ -1,9 +1,6 @@
 <!--  -->
 <template>
-  <div
-    class="loading-img flex-row flex-center"
-    :style="wrapStyl"
-  >
+  <div class="loading-img flex-row flex-center" :style="wrapStyl">
     <van-image
       v-if="img"
       :src="thumb || img"
@@ -12,10 +9,7 @@
       @click="handleClick($event, img)"
     >
       <template #loading>
-        <van-loading
-          type="spinner"
-          size="20"
-        />
+        <van-loading type="spinner" size="20" />
       </template>
       <!-- <template #error><div class="text-nowrap">加载失败</div></template> -->
     </van-image>
@@ -62,11 +56,7 @@ export default {
   components: {},
   computed: {
     wrapStyl () {
-      let {
-        width,
-        height,
-        radius
-      } = this
+      let { width, height, radius } = this
       width = typeof width === 'number' ? `${width}px` : width
       height = typeof height === 'number' ? `${height}px` : height
       radius = typeof radius === 'number' ? `${radius}px` : radius
@@ -82,16 +72,15 @@ export default {
     ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
     handleClick (e, img) {
       if (this.magnify) {
-        this.APP_IMAGEPREVIEW_MUTATE({ previewImage: [img], imagePreviewShow: true })
+        this.APP_IMAGEPREVIEW_MUTATE({
+          previewImage: [img],
+          imagePreviewShow: true
+        })
       }
-    },
-    handleError (err) {
-      console.log(err)
     }
   },
 
-  mounted () {
-  }
+  mounted () {}
 }
 </script>
 <style lang="stylus">

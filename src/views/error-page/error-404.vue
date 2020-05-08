@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import { testApi } from '@/api'
 export default {
   name: 'error_404',
 
@@ -18,7 +19,9 @@ export default {
 
   methods: {},
 
-  mounted () {}
+  mounted () {
+    testApi().then(r => console.log('r:', r)).catch(err => console.log(err))
+  }
 }
 </script>
 <style lang="stylus" scoped>

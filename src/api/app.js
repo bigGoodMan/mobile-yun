@@ -15,7 +15,16 @@ function getOssInfoApi () {
 
   })
 }
+// 测试接口
+function testApi () {
+  return HttpReq.formPost({
+    baseURL: 'http://fkdjfashdoihe.com',
+    url: 'Gift_storage/getUploadParameter'
+
+  })
+}
 export {
   uploadImgToOssApi, // 上传图片到oss
-  getOssInfoApi // 获取oss签名等相关信息
+  getOssInfoApi, // 获取oss签名等相关信息
+  testApi
 }

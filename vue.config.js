@@ -57,6 +57,20 @@ module.exports = {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
     externals
   },
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          // 直接覆盖变量
+          'blue': '#58abff',
+          'button-info-background-color': '#58abff',
+          'button-info-border-color': '#58abff'
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          // hack: `true; @import "your-less-file-path.less";`
+        }
+      }
+    }
+  },
   // pluginOptions: {
   //   'style-resources-loader': {
   //     preProcessor: 'stylus',
