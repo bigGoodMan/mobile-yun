@@ -50,7 +50,7 @@ import HhfCheckBox from '@hhf/hhf-checkbox'
 import { commandStrongGrasp } from '@/api'
 // import { getSwitchgearDetailApi } from '@/api'
 export default {
-  name: 'ResetNumber',
+  name: 'CommandStrongGrasp',
 
   data () {
     return {

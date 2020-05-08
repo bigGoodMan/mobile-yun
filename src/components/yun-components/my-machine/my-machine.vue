@@ -61,7 +61,7 @@ export default {
 
   methods: {
     ...mapActions(['COMMON_GETMACHINE_ACTION', 'COMMON_GETMACHINETYPE_ACTION']),
-    handleChoseArea (obj) {
+    handleChoseMachine (obj) {
       this.$emit('trigger-change', obj.value)
     },
     handleReturnDeal (res) {
@@ -78,7 +78,7 @@ export default {
     const {
       value,
       list,
-      handleChoseArea,
+      handleChoseMachine,
       title,
       rightIcon
     } = this
@@ -86,7 +86,7 @@ export default {
     let defaultIndex = 0
     for (let i = 0; i < list.length; ++i) {
       if (list[i].id === value.id) {
-        val = list[i].name
+        val = list[i].no
         defaultIndex = i
         break
       }
@@ -98,7 +98,7 @@ export default {
         value={val}
         columns={list}
         default-index={defaultIndex}
-        on-trigger-confirm={handleChoseArea}
+        on-trigger-confirm={handleChoseMachine}
       />
     )
   }
