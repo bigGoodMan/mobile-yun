@@ -2,49 +2,48 @@
 <template>
   <div class="step-bar flex-column flex-center">
     <span class="step-bar-line" :style="upStyl"></span>
-    <span class="step-bar-num" :style="radiusStyl">{{num}}</span>
+    <span class="step-bar-num" :style="radiusStyl">{{ num }}</span>
     <span class="step-bar-line" :style="downStyl"></span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'StepBar',
+  name: "StepBar",
+
+  components: {},
   props: {
     num: Number,
     radiusColor: String,
     upColor: String,
     downColor: String
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {
-    downStyl () {
+    downStyl() {
       return {
-        'background-color': this.downColor
-      }
+        "background-color": this.downColor
+      };
     },
-    upStyl () {
+    upStyl() {
       return {
-        'background-color': this.upColor
-      }
+        "background-color": this.upColor
+      };
     },
-    radiusStyl () {
+    radiusStyl() {
       return {
-        'background-color': this.radiusColor
-      }
+        "background-color": this.radiusColor
+      };
     }
   },
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
 <style lang="stylus" scoped>
 $width = rems(45)

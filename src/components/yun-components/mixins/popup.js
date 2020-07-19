@@ -1,8 +1,8 @@
-import CancelConfirmBtn from '@yun/cancel-confirm-btn'
-let myMixin = {
+import CancelConfirmBtn from "@yun/cancel-confirm-btn";
+const myMixin = {
   model: {
-    event: 'trigger-close',
-    prop: 'show'
+    event: "trigger-close",
+    prop: "show"
   },
   props: {
     show: {
@@ -10,41 +10,41 @@ let myMixin = {
       default: false
     },
     value: {
-      default: '',
+      default: "",
       type: String
     }
   },
-  data () {
+  data() {
     return {
-      val: '',
+      val: "",
       loading: false
-    }
+    };
   },
   components: {
     CancelConfirmBtn
   },
   watch: {
     value: {
-      handler (val, oldVal) {
-        this.val = val
+      handler(val) {
+        this.val = val;
       }
     }
   },
   computed: {},
 
   methods: {
-    handleConfirm () {
-      this.$emit('trigger-confirm', this.val)
-      this.handleClose()
+    handleConfirm() {
+      this.$emit("trigger-confirm", this.val);
+      this.handleClose();
     },
-    handleCancel () {
-      this.$emit('trigger-cancel', this.val)
-      this.handleClose()
+    handleCancel() {
+      this.$emit("trigger-cancel", this.val);
+      this.handleClose();
     },
     // 关闭
-    handleClose () {
-      this.$emit('trigger-close', false)
+    handleClose() {
+      this.$emit("trigger-close", false);
     }
   }
-}
-export default myMixin
+};
+export default myMixin;

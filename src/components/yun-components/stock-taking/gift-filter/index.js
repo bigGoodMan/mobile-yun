@@ -1,2 +1,2 @@
-import GiftFilter from './gift-filter.vue'
-export default GiftFilter
+import GiftFilter from "./gift-filter.vue";
+export default GiftFilter;

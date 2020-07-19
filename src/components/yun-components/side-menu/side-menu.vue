@@ -1,23 +1,29 @@
 <!-- 菜单栏 -->
 <template>
   <div class="side-menu">
-    <div :class="['side-menu-collapsed', collapsed ? 'side-menu-collapsed-active' : null]"><van-icon name="wap-nav" @click="handleClick"/></div>
+    <div
+      :class="[
+        'side-menu-collapsed',
+        collapsed ? 'side-menu-collapsed-active' : null
+      ]"
+    >
+      <van-icon name="wap-nav" @click="handleClick" />
+    </div>
     <van-popup v-model="collapsed">内容</van-popup>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from "vuex";
 export default {
-  name: '',
+  name: "",
 
-  data () {
+  components: {},
+
+  data() {
     return {
       show: false
-    }
-  },
-
-  components: {
+    };
   },
 
   computed: {
@@ -27,15 +33,13 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['APP_SHOWCOLLAPSED_MUTATE']),
+    ...mapMutations(["APP_SHOWCOLLAPSED_MUTATE"]),
     // 点击展示隐藏popup菜单栏
-    handleClick () {
-      this.APP_SHOWCOLLAPSED_MUTATE(!this.collapsed)
+    handleClick() {
+      this.APP_SHOWCOLLAPSED_MUTATE(!this.collapsed);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .side-menu

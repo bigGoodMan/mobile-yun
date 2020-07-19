@@ -1,10 +1,7 @@
 <!-- 嗨皮商家搜索页 -->
 <template>
   <div class="search">
-    <form
-      action="/"
-      class="search-form"
-    >
+    <form action="/" class="search-form">
       <van-search
         v-model="value"
         placeholder="请输入搜索关键词"
@@ -20,22 +17,29 @@
           v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
-          @load="handleLoading"
           :offset="10"
+          @load="handleLoading"
         >
-        <ul class="no-ul">
-          <li v-for="(items, index) of list" :key="index">
-            <TrainingList :info="items" />
-            <div class="border"></div>
-          </li>
-        </ul>
-          <div v-for="(items, index) in inventoryList" :key="index">{{index}}</div>
+          <ul class="no-ul">
+            <li v-for="(items, index) of list" :key="index">
+              <TrainingList :info="items" />
+              <div class="border"></div>
+            </li>
+          </ul>
+          <div v-for="(items, index) in inventoryList" :key="index">
+            {{ index }}
+          </div>
         </van-list>
       </template>
       <template v-else>
-        <div v-show="nothing" class="size-24 color-9 padding-top-20 text-center">哎呀，未搜索到相关内容</div>
+        <div
+          v-show="nothing"
+          class="size-24 color-9 padding-top-20 text-center"
+        >
+          哎呀，未搜索到相关内容
+        </div>
         <div class="search-keywords">
-        <TrainingCampKeywords @trigger-click="handleClick"/>
+          <TrainingCampKeywords @trigger-click="handleClick" />
         </div>
       </template>
     </div>
@@ -43,85 +47,78 @@
 </template>
 
 <script>
-import { getTrainSearchListApi } from '@/api'
-import TrainingList from './components/list'
-import TrainingCampKeywords from './components/keywords'
-import mixin from './mixin'
+import { getTrainSearchListApi } from "@/api";
+import TrainingList from "./components/list";
+import TrainingCampKeywords from "./components/keywords";
+import mixin from "./mixin";
 export default {
-  name: 'TrainingCampSearch',
+  name: "TrainingCampSearch",
+  components: {
+    TrainingCampKeywords,
+    TrainingList
+  },
+  mixins: [mixin],
 
-  data () {
+  data() {
     return {
       nothing: false, // 搜索有无内容
-      value: '', // 输入关键字
+      value: "", // 输入关键字
       loading: false, // 上拉加载
       list: [],
       page: 1,
       limit: 20,
       finished: true // 完成
-    }
-  },
-  mixins: [mixin],
-  components: {
-    TrainingCampKeywords,
-    TrainingList
+    };
   },
 
   computed: {},
 
+  mounted() {},
+
   methods: {
-    onSearch () {
-      this.finished = true
-      this.page = 1
-      this.list = []
-      this.getTrainSearchList()
+    onSearch() {
+      this.finished = true;
+      this.page = 1;
+      this.list = [];
+      this.getTrainSearchList();
     },
-    handleClick (val) {
-      this.value = val
-      this.onSearch()
+    handleClick(val) {
+      this.value = val;
+      this.onSearch();
     },
-    onCancel () {
-      this.$router.back()
+    onCancel() {
+      this.$router.back();
     },
-    getTrainSearchList () {
-      this.$Loading()
-      const {
-        page,
-        limit,
-        value
-      } = this
+    getTrainSearchList() {
+      this.$Loading();
+      const { page, limit, value } = this;
       getTrainSearchListApi({
         page,
         limit,
         word: value
       }).then(res => {
-        this.loading = false
-        this.$Loading.clear()
-        if (res.return_code === '0') {
-          let list = res.data
+        this.loading = false;
+        this.$Loading.clear();
+        if (res.return_code === "0") {
+          const list = res.data;
           if (list.length < limit) {
-            this.finished = true
+            this.finished = true;
           }
-          this.list = [...this.list, ...list]
+          this.list = [...this.list, ...list];
           if (!this.list.length) {
-            this.nothing = true
-            return
+            this.nothing = true;
+            return;
           }
-          this.nothing = false
+          this.nothing = false;
         }
-      })
+      });
     },
-    handleLoading () {
-      this.getTrainSearchList()
+    handleLoading() {
+      this.getTrainSearchList();
     },
-    onInput () {
-
-    }
-  },
-
-  mounted () {
+    onInput() {}
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .search

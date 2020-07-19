@@ -1,2 +1,2 @@
-import MyStore from './my-store.vue'
-export default MyStore
+import MyStore from "./my-store.vue";
+export default MyStore;

@@ -1,2 +1,2 @@
-import HhfButton from './hhf-button.vue'
-export default HhfButton
+import HhfButton from "./hhf-button.vue";
+export default HhfButton;

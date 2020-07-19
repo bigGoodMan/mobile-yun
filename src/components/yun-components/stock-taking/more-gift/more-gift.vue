@@ -1,11 +1,7 @@
 <!--盘点单添加更多礼品 -->
 <template>
   <div>
-    <van-popup
-      v-model="show"
-      position="bottom"
-      class="more-gift bgcolor-f2"
-    >
+    <van-popup v-model="show" position="bottom" class="more-gift bgcolor-f2">
       <div class="more-gift-main">
         <!-- 头部搜索 -->
         <div>
@@ -17,32 +13,38 @@
         </div>
         <!-- 礼品内容 -->
         <div>
-          <div class="color-393d49 size-28 more-gift-title">该门店库存为0的礼品</div>
+          <div class="color-393d49 size-28 more-gift-title">
+            该门店库存为0的礼品
+          </div>
           <div class="border"></div>
           <ul>
-            <li
-              v-for="items in giftList"
-              :key="items.gift_id"
-            >
+            <li v-for="items in giftList" :key="items.gift_id">
               <div
                 class="flex-row flex-between-center size-28 color-393d49 more-gift-describe bgcolor-f"
                 @click="handleCheck(items)"
               >
                 <van-checkbox
-                  :name="items.gift_id"
                   v-model="items.checked"
+                  :name="items.gift_id"
                 ></van-checkbox>
                 <div class="flex-1 flex-row flex-start">
-                  <div class="more-gift-describe-img bgcolor-f2 flex-row flex-center">
+                  <div
+                    class="more-gift-describe-img bgcolor-f2 flex-row flex-center"
+                  >
                     <img
-                      class="more-gift-describe-img-content"
                       v-lazy="items.thumb"
+                      class="more-gift-describe-img-content"
                       @click.stop="handlePreview(items.img)"
-                    >
+                    />
                   </div>
                   <div class="flex-column flex-start">
-                    <span class="color-393d49 size-32 weight-bold padding-bottom-20">{{items.name}}</span>
-                    <span class="size-28 color-454545">编号{{items.gift_id}}</span>
+                    <span
+                      class="color-393d49 size-32 weight-bold padding-bottom-20"
+                      >{{ items.name }}</span
+                    >
+                    <span class="size-28 color-454545"
+                      >编号{{ items.gift_id }}</span
+                    >
                   </div>
                 </div>
               </div>
@@ -50,51 +52,45 @@
             </li>
           </ul>
         </div>
-        <div class="height-100">
-        </div>
+        <div class="height-100"></div>
       </div>
-        <!-- 添加礼品按钮 -->
-          <div class="more-gift-btn-container fixed-max-width bottom-0">
-            <HhfButton
-              type="info"
-              size="large"
-              @trigger-click="handleAdd"
-            >添加列表</HhfButton>
-          </div>
+      <!-- 添加礼品按钮 -->
+      <div class="more-gift-btn-container fixed-max-width bottom-0">
+        <HhfButton type="info" size="large" @trigger-click="handleAdd"
+          >添加列表</HhfButton
+        >
+      </div>
     </van-popup>
-    <van-image-preview
-      v-model="showPreview"
-      :images="images"
-    >
+    <van-image-preview v-model="showPreview" :images="images">
     </van-image-preview>
   </div>
 </template>
 
 <script>
-import HeaderSearch from '@yun/header-search'
-import HhfButton from '@hhf/hhf-button'
-import { mapState } from 'vuex'
+import HeaderSearch from "@yun/header-search";
+import HhfButton from "@hhf/hhf-button";
+import { mapState } from "vuex";
 export default {
-  name: 'more_gift',
+  name: "MoreGift",
+
+  components: {
+    HeaderSearch,
+    HhfButton
+  },
   props: {
     show: {
       type: Boolean,
       default: false
     }
   },
-  data () {
+  data() {
     return {
       initGiftList: [],
       giftList: [],
-      value: '',
+      value: "",
       images: [],
       showPreview: false
-    }
-  },
-
-  components: {
-    HeaderSearch,
-    HhfButton
+    };
   },
 
   computed: {
@@ -104,66 +100,67 @@ export default {
     })
   },
   watch: {
-    inventoryGiftList (currVal) {
-      const {
-        inventoryMoreGiftList
-      } = this
-      let list = []
-      list = inventoryMoreGiftList.map(v => ({ ...v, checked: false }))
+    inventoryGiftList(currVal) {
+      const { inventoryMoreGiftList } = this;
+      let list = [];
+      list = inventoryMoreGiftList.map(v => ({ ...v, checked: false }));
       list = list.filter(v => {
-        for (let items of currVal) {
+        for (const items of currVal) {
           if (items.gift_id === v.gift_id) {
-            return false
+            return false;
           }
         }
-        return true
-      })
-      this.initGiftList = list
+        return true;
+      });
+      this.initGiftList = list;
     },
-    show (val) {
-    },
-    initGiftList () {
-      this.giftList = this.initGiftList
+    show() {},
+    initGiftList() {
+      this.giftList = this.initGiftList;
     }
+  },
+  created() {},
+  mounted() {},
+  beforeDestroy() {
+    this.handleClearTimer();
   },
   methods: {
     // 预览图片
-    handlePreview (img) {
-      this.images = [img]
-      this.showPreview = true
+    handlePreview(img) {
+      this.images = [img];
+      this.showPreview = true;
     },
-    handleClearTimer () {
-      clearTimeout(this.timer)
-      this.timer = null
+    handleClearTimer() {
+      clearTimeout(this.timer);
+      this.timer = null;
     },
     // 搜索监听
-    handleSearchInput (val) {
-      this.handleClearTimer()
+    handleSearchInput(val) {
+      this.handleClearTimer();
       this.timer = setTimeout(() => {
-        if (val === '') {
-          this.giftList = this.initGiftList
+        if (val === "") {
+          this.giftList = this.initGiftList;
         } else {
-          this.giftList = this.initGiftList.filter(v => v.gift_id === val || v.name.indexOf(val) > -1)
+          this.giftList = this.initGiftList.filter(
+            v => v.gift_id === val || v.name.indexOf(val) > -1
+          );
         }
-      }, 300)
+      }, 300);
     },
-    handleCheck (items) {
+    handleCheck(items) {
       this.initGiftList = this.initGiftList.map(v => ({
         ...v,
         checked: v.gift_id === items.gift_id ? !v.checked : v.checked
-      }))
+      }));
     },
-    handleAdd () {
-      this.$emit('trigger-close', this.initGiftList.filter(v => v.checked))
+    handleAdd() {
+      this.$emit(
+        "trigger-close",
+        this.initGiftList.filter(v => v.checked)
+      );
     }
-  },
-  created () {
-  },
-  mounted () {},
-  beforeDestroy () {
-    this.handleClearTimer()
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .more-gift

@@ -8,30 +8,41 @@
       :placeholder="placeholder"
       @trigger-click="show = true"
     >
-    <template v-if="$slots.title" #title>
-      <slot name="title"></slot>
-    </template>
-    <template v-if="$slots['right-icon']" #right-icon>
-      <slot name="right-icon"></slot>
-    </template>
+      <template v-if="$slots.title" #title>
+        <slot name="title"></slot>
+      </template>
+      <template v-if="$slots['right-icon']" #right-icon>
+        <slot name="right-icon"></slot>
+      </template>
     </CellList>
 
-    <BottomPopup :columns="columns" :default-index="defaultIndex" :show="show" @trigger-confirm="handleConfirm" @trigger-close="show = false" />
+    <BottomPopup
+      :columns="columns"
+      :default-index="defaultIndex"
+      :show="show"
+      @trigger-confirm="handleConfirm"
+      @trigger-close="show = false"
+    />
   </div>
 </template>
 
 <script>
-import CellList from '@yun/cell-list'
-import BottomPopup from '@yun/bottom-popup'
+import CellList from "@yun/cell-list";
+import BottomPopup from "@yun/bottom-popup";
 export default {
-  name: 'LinkageSelection',
+  name: "LinkageSelection",
+
+  components: {
+    CellList,
+    BottomPopup
+  },
   model: {
-    prop: 'value',
-    event: 'trigger-confirm'
+    prop: "value",
+    event: "trigger-confirm"
   },
   props: {
     value: {
-      default: ''
+      default: ""
     },
     defaultIndex: Number,
     disabled: {
@@ -45,28 +56,23 @@ export default {
       type: String
     }
   },
-  data () {
+  data() {
     return {
       show: false
-    }
-  },
-
-  components: {
-    CellList,
-    BottomPopup
+    };
   },
 
   computed: {},
 
+  mounted() {},
+
   methods: {
-    handleConfirm (obj) {
+    handleConfirm(obj) {
       if (!this.disabled) {
-        this.$emit('trigger-confirm', obj)
+        this.$emit("trigger-confirm", obj);
       }
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped></style>

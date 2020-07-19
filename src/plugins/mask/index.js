@@ -1,4 +1,3 @@
-
 const Mask = {
   props: {
     maskOpacity: {
@@ -13,22 +12,18 @@ const Mask = {
     }
   },
   methods: {
-    remove () {
-      this.$emit('trigger-remove')
+    remove() {
+      this.$emit("trigger-remove");
     }
   },
-  render (h) {
+  render() {
     const styles = {
       opacity: this.maskOpacity,
       backgroundColor: this.maskColor,
       zIndex: this.maskZIndex
-    }
-    const {
-      remove
-    } = this
-    return (
-      <div class="hhf-plugins-mask" style={styles} onClick={remove}></div>
-    )
+    };
+    const { remove } = this;
+    return <div class="hhf-plugins-mask" style={styles} onClick={remove}></div>;
   }
-}
-export default Mask
+};
+export default Mask;

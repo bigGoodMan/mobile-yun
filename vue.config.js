@@ -1,75 +1,74 @@
-
-const { join, resolve } = require('path')
+const { join, resolve } = require("path");
 // const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // const zopfli = require('@gfx/zopfli')
 // const BrotliPlugin = require('brotli-webpack-plugin')
 // const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i
-const pathResolve = dir => {
-  return join(__dirname, dir)
-}
-function addStyleResource (rule) {
-  rule.use('style-resource')
-    .loader('style-resources-loader')
+const pathResolve = (dir) => {
+  return join(__dirname, dir);
+};
+function addStyleResource(rule) {
+  rule
+    .use("style-resource")
+    .loader("style-resources-loader")
     .options({
-      patterns: [
-        resolve(__dirname, './src/assets/css/global.styl')
-      ]
-    })
+      patterns: [resolve(__dirname, "./src/assets/css/global.styl")],
+    });
 }
-const isProduction = process.env.NODE_ENV === 'production'
-const externals = isProduction ? {
-  wx: 'wx', // 键名是引入的名字 键值是全局变量名
-  vue: 'Vue',
-  vant: 'vant',
-  jsencrypt: 'JSEncrypt',
-  moment: 'moment'
-} : {
-  wx: 'wx' // 键名是引入的名字 键值是全局变量名
-  // vue: 'Vue',
-  // vant: 'vant',
-  // jsencrypt: 'JSEncrypt',
-  // moment: 'moment'
-}
+const isProduction = process.env.NODE_ENV === "production";
+const externals = isProduction
+  ? {
+      wx: "wx", // 键名是引入的名字 键值是全局变量名
+      vue: "Vue",
+      vant: "vant",
+      jsencrypt: "JSEncrypt",
+      moment: "moment",
+    }
+  : {
+      wx: "wx", // 键名是引入的名字 键值是全局变量名
+      // vue: 'Vue',
+      // vant: 'vant',
+      // jsencrypt: 'JSEncrypt',
+      // moment: 'moment'
+    };
 module.exports = {
-  publicPath: isProduction ? './' : './', // 项目相对路径
+  publicPath: isProduction ? "./" : "./", // 项目相对路径
   // assetsDir: './',
-  chainWebpack: config => {
-    config
-      .resolve.alias
-      .set('@', pathResolve('src')) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
-      .set('@a', pathResolve('src/assets')) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
-      .set('@s', pathResolve('src/store'))
-      .set('@v', pathResolve('src/views'))
-      .set('@l', pathResolve('src/lib'))
-      .set('@hhf', pathResolve('src/components/hhf-components'))
-      .set('@yun', pathResolve('src/components/yun-components'))
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set("@", pathResolve("src")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
+      .set("@a", pathResolve("src/assets")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
+      .set("@s", pathResolve("src/store"))
+      .set("@v", pathResolve("src/views"))
+      .set("@l", pathResolve("src/lib"))
+      .set("@hhf", pathResolve("src/components/hhf-components"))
+      .set("@yun", pathResolve("src/components/yun-components"))
       .end()
-      .parent
-      .output
-      .chunkFilename('js/[name].[contenthash].js')
-      // stylus全局变量配置
-    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-    types.forEach(type => addStyleResource(config.module.rule('stylus').oneOf(type)))
+      .parent.output.chunkFilename("js/[name].[contenthash].js");
+    // stylus全局变量配置
+    const types = ["vue-modules", "vue", "normal-modules", "normal"];
+    types.forEach((type) =>
+      addStyleResource(config.module.rule("stylus").oneOf(type))
+    );
     // 开启比gzip体验更好的Zopfli压缩
   },
   // 修改webpack的配置
   configureWebpack: {
     // 把原本需要写在webpack.config.js中的配置代码 写在这里 会自动合并
-    externals
+    externals,
   },
   css: {
     loaderOptions: {
       less: {
         modifyVars: {
           // 直接覆盖变量
-          'blue': '#58abff',
-          'button-info-background-color': '#58abff',
-          'button-info-border-color': '#58abff'
+          blue: "#58abff",
+          "button-info-background-color": "#58abff",
+          "button-info-border-color": "#58abff",
           // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
           // hack: `true; @import "your-less-file-path.less";`
-        }
-      }
-    }
+        },
+      },
+    },
   },
   // pluginOptions: {
   //   'style-resources-loader': {
@@ -90,11 +89,11 @@ module.exports = {
   productionSourceMap: false,
   // http://mct.api.hahaipi.com/mobile
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 8080,
     https: false,
     hotOnly: false,
-    proxy: 'http://dev.hahaipi.com'
+    proxy: "http://dev.hahaipi.com",
     // proxy: {
     //   '/Home': {
     //     target: 'http://dev.hahaipi.com/', // 域名
@@ -105,5 +104,5 @@ module.exports = {
     //   // }
     //   }
     // }
-  }
-}
+  },
+};

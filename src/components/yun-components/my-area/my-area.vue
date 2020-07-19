@@ -1,12 +1,15 @@
 <!-- 我的区域 -->
 <script>
-import LinkageSelection from '@yun/linkage-selection'
-import { mapActions } from 'vuex'
+import LinkageSelection from "@yun/linkage-selection";
+import { mapActions } from "vuex";
 export default {
-  name: 'MyArea',
+  name: "MyArea",
+  components: {
+    LinkageSelection
+  },
   model: {
-    prop: 'value',
-    event: 'trigger-change'
+    prop: "value",
+    event: "trigger-change"
   },
   props: {
     storeId: String,
@@ -15,32 +18,29 @@ export default {
     },
     title: {
       type: String,
-      default: '请选择区域'
+      default: "请选择区域"
     },
     rightIcon: {
       type: String,
-      default: 'arrow'
+      default: "arrow"
     },
     columns: Array
   },
-  data () {
+  data() {
     return {
       list: []
-    }
-  },
-  components: {
-    LinkageSelection
+    };
   },
   watch: {
     storeId: {
-      handler (val) {
+      handler(val) {
         if (val) {
           this.COMMON_GETAREA_ACTION({ storeId: val }).then(res => {
-            if (res.return_code === '0') {
-              this.list = res.data
-              this.$emit('trigger-change', {})
+            if (res.return_code === "0") {
+              this.list = res.data;
+              this.$emit("trigger-change", {});
             }
-          })
+          });
         }
       },
       immediate: true
@@ -48,28 +48,21 @@ export default {
   },
 
   methods: {
-    ...mapActions(['COMMON_GETAREA_ACTION']),
-    handleChoseArea (obj) {
-      this.$emit('trigger-change', obj.value)
+    ...mapActions(["COMMON_GETAREA_ACTION"]),
+    handleChoseArea(obj) {
+      this.$emit("trigger-change", obj.value);
     }
   },
 
-  mounted () {},
-  render (h) {
-    const {
-      value,
-      list,
-      handleChoseArea,
-      title,
-      rightIcon
-    } = this
-    let val
-    let defaultIndex = 0
+  render() {
+    const { value, list, handleChoseArea, title, rightIcon } = this;
+    let val;
+    let defaultIndex = 0;
     for (let i = 0; i < list.length; ++i) {
       if (list[i].id === value.id) {
-        val = list[i].name
-        defaultIndex = i
-        break
+        val = list[i].name;
+        defaultIndex = i;
+        break;
       }
     }
     return (
@@ -81,9 +74,8 @@ export default {
         default-index={defaultIndex}
         on-trigger-confirm={handleChoseArea}
       />
-    )
+    );
   }
-}
+};
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

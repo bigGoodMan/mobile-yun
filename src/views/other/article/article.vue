@@ -1,37 +1,38 @@
 <!-- 文章 -->
 <template>
-  <div class="article" :style="columns.length === 0 ? {'background-color': 'white'} : null">
+  <div
+    class="article"
+    :style="columns.length === 0 ? { 'background-color': 'white' } : null"
+  >
     <template v-if="columns.length > 0">
-      <ul class="article-card" v-for="(items, index) of columns" :key="index">
-        <li class="article-list" v-for="(el, inx) of items" :key="inx">
-          <h5 class="article-title">{{el.title}}</h5>
-          <p class="article-content">{{el.content}}</p>
+      <ul v-for="(items, index) of columns" :key="index" class="article-card">
+        <li v-for="(el, inx) of items" :key="inx" class="article-list">
+          <h5 class="article-title">{{ el.title }}</h5>
+          <p class="article-content">{{ el.content }}</p>
         </li>
       </ul>
     </template>
     <van-skeleton v-else title :row="50" />
-    </div>
+  </div>
 </template>
 
 <script>
-import definitions from './definitions'
+import definitions from "./definitions";
 export default {
-  name: 'Article',
+  name: "Article",
 
-  data () {
+  data() {
     return {
       columns: []
-    }
+    };
   },
-  created () {
-    const {
-      name
-    } = this.$route.query
+  created() {
+    const { name } = this.$route.query;
     if (name) {
-      this.columns = definitions[name]
+      this.columns = definitions[name];
     }
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .article

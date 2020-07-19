@@ -3,10 +3,9 @@ export default {
     giftInfoSelected: {}
   },
   mutations: {
-    INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE (state, data) {
-      state.giftInfoSelected = data
+    INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE(state, data) {
+      state.giftInfoSelected = data;
     }
   },
-  actions: {
-  }
-}
+  actions: {}
+};

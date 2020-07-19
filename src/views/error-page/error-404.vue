@@ -4,25 +4,25 @@
 </template>
 
 <script>
-import { testApi } from '@/api'
+import { testApi } from "@/api";
 export default {
-  name: 'error_404',
-
-  data () {
-    return {
-    }
-  },
+  name: "Error404",
 
   components: {},
 
+  data() {
+    return {};
+  },
+
   computed: {},
 
-  methods: {},
+  mounted() {
+    testApi()
+      .then(r => console.log("r:", r))
+      .catch(err => console.log(err));
+  },
 
-  mounted () {
-    testApi().then(r => console.log('r:', r)).catch(err => console.log(err))
-  }
-}
+  methods: {}
+};
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

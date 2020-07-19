@@ -1,60 +1,60 @@
 <!-- 取消确定按钮 -->
 <template>
   <div class="cancel-confirm-btn">
-      <div class="padding-20-30 size-0 flex-row flex-end-center">
-        <van-button
-          type="default"
-          class="cancel-confirm-btn-first cancel-confirm-btn-content"
-          @click="handleCancel"
-        >{{cancelName}}</van-button>
-        <van-button
-          type="info"
-          class="cancel-confirm-btn-content"
-          :loading="loading"
-          @click="handleConfirm"
-        >{{confirmName}}</van-button>
-      </div>
+    <div class="padding-20-30 size-0 flex-row flex-end-center">
+      <van-button
+        type="default"
+        class="cancel-confirm-btn-first cancel-confirm-btn-content"
+        @click="handleCancel"
+        >{{ cancelName }}</van-button
+      >
+      <van-button
+        type="info"
+        class="cancel-confirm-btn-content"
+        :loading="loading"
+        @click="handleConfirm"
+        >{{ confirmName }}</van-button
+      >
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'cancel_confirm_btn',
+  name: "CancelConfirmBtn",
+
+  components: {},
   props: {
     loading: {
       default: false,
       type: Boolean
     },
     confirmName: {
-      default: '确定',
+      default: "确定",
       type: String
     },
     cancelName: {
-      default: '取消',
+      default: "取消",
       type: String
     }
   },
-  data () {
-    return {
-    }
-  },
-
-  components: {
+  data() {
+    return {};
   },
 
   computed: {},
 
-  methods: {
-    handleConfirm () {
-      this.$emit('trigger-confirm')
-    },
-    handleCancel () {
-      this.$emit('trigger-cancel')
-    }
-  },
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {
+    handleConfirm() {
+      this.$emit("trigger-confirm");
+    },
+    handleCancel() {
+      this.$emit("trigger-cancel");
+    }
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .cancel-confirm-btn

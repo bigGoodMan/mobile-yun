@@ -2,17 +2,12 @@
 <template>
   <div class="tabulating-card">
     <div class="tabulating-card-img bgcolor-f2 flex-row flex-center">
-      <div class="tabulating-card-tag size-24" v-if="$slots.tag">
-        <van-tag
-          :color="tagColor"
-          size="large"
-        ><slot name="tag"></slot></van-tag>
+      <div v-if="$slots.tag" class="tabulating-card-tag size-24">
+        <van-tag :color="tagColor" size="large"
+          ><slot name="tag"></slot
+        ></van-tag>
       </div>
-      <img
-        class="tabulating-card-img-content"
-        :src="img"
-        alt=""
-      >
+      <img class="tabulating-card-img-content" :src="img" alt="" />
       <!-- <img class="tabulating-card-img-content" src="http://www.3d2000.com/wp-content/uploads/2016/05/294194-63df2252ee261b59.gif" alt=""> -->
     </div>
     <div>
@@ -24,27 +19,26 @@
 
 <script>
 export default {
-  name: 'TabulatingCard',
+  name: "TabulatingCard",
+
+  components: {},
   props: {
     img: String,
     tagColor: {
       type: String,
-      default: '#ff5722'
+      default: "#ff5722"
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {},
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
 <style lang="stylus">
 .tabulating-card-img

@@ -3,16 +3,12 @@
   <div class="handleConfirm">
     <div class="header bgcolor-f">
       <MyStore
-        @trigger-click="handleConfirm"
         :default-index="0"
         :store-id="store_id"
+        @trigger-click="handleConfirm"
       >
         <div class="flex-row flex-end-center flex-1">
-          <van-icon
-            @click="handleRouter"
-            name="question-o"
-            size="0.4rem"
-          />
+          <van-icon name="question-o" size="0.4rem" @click="handleRouter" />
         </div>
       </MyStore>
     </div>
@@ -24,22 +20,31 @@
           class="handleConfirm-fresh"
           @refresh="handleRefresh"
         >
-        <div class="size-28 color-3 padding-20 bgcolor-f" style="line-height: 1.5;">我的机台</div>
+          <div
+            class="size-28 color-3 padding-20 bgcolor-f"
+            style="line-height: 1.5;"
+          >
+            我的机台
+          </div>
           <van-collapse
-            class="handleConfirm-content bgcolor-f2"
             v-model="activeNames"
+            class="handleConfirm-content bgcolor-f2"
             accordion
           >
             <van-collapse-item
-               v-for="(items, index) of list"
+              v-for="(items, index) of list"
+              :key="items.area_id"
               :title="items.area_name || ''"
               :name="index"
-              :key="items.area_id"
             >
-            <div class="bgcolor-f" v-for="item of items.items" :key="item.machine_id">
-              <FreeGraspCell :info="item" />
-              <div class="border"></div>
-            </div>
+              <div
+                v-for="item of items.items"
+                :key="item.machine_id"
+                class="bgcolor-f"
+              >
+                <FreeGraspCell :info="item" />
+                <div class="border"></div>
+              </div>
 
               <!-- <MachineList :columns="columns" /> -->
             </van-collapse-item>
@@ -51,76 +56,72 @@
 </template>
 
 <script>
-import FreeGraspCell from './components/free-grasp-cell'
-import { getFreeInfiniteGraspList } from '@/api'
-import MyStore from '@yun/my-store'
+import FreeGraspCell from "./components/free-grasp-cell";
+import { getFreeInfiniteGraspList } from "@/api";
+import MyStore from "@yun/my-store";
 export default {
-  name: 'Switchgear',
-
-  data () {
-    return {
-      activeNames: 0,
-      list: [],
-      checked: true,
-      isLoading: false,
-      store_id: null
-    }
-  },
+  name: "Switchgear",
 
   components: {
     MyStore,
     FreeGraspCell
   },
 
-  computed: {
+  data() {
+    return {
+      activeNames: 0,
+      list: [],
+      checked: true,
+      isLoading: false,
+      store_id: null
+    };
   },
+
+  computed: {},
+  created() {
+    const { sid } = this.$route.query;
+    if (sid) {
+      this.store_id = sid;
+    }
+  },
+  mounted() {},
 
   methods: {
     // 根据门店获得信息
-    getList () {
-      this.$Loading('加载中……')
+    getList() {
+      this.$Loading("加载中……");
       return getFreeInfiniteGraspList({ store_id: this.store_id }).then(res => {
-        this.$Loading.close()
-        if (res.return_code !== '0') {
-          this.$Tip.warning(res.msg)
-          return
+        this.$Loading.close();
+        if (res.return_code !== "0") {
+          this.$Tip.warning(res.msg);
+          return;
         }
         this.list = res.data.map(items => {
           items.items = items.items.map(its => ({
             ...its,
             checked: !!(its.free_grasp - 0)
-          }))
-          return items
-        })
-      })
+          }));
+          return items;
+        });
+      });
     },
     // 选择门店回调
-    handleConfirm (data) {
-      this.store_id = data.value.store_id
-      this.getList()
+    handleConfirm(data) {
+      this.store_id = data.value.store_id;
+      this.getList();
     },
-    handleRouter () {
+    handleRouter() {
       this.$router.push({
-        name: 'Article'
-      })
+        name: "Article"
+      });
     },
-    handleRefresh () {
+    handleRefresh() {
       this.getList().then(() => {
-        this.isLoading = false
-      })
+        this.isLoading = false;
+      });
     }
-  },
-  created () {
-    const {
-      sid
-    } = this.$route.query
-    if (sid) {
-      this.store_id = sid
-    }
-  },
-  mounted () {
   }
-}
+};
 </script>
 <style lang="stylus">
 .switchgear

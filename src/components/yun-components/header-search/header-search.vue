@@ -1,24 +1,32 @@
 <!-- 头部搜索 -->
 <template>
-    <div class="flex-row flex-between-center bgcolor-f2 header-search">
-      <form action="javascript:return true" class="flex-1">
-      <van-search :placeholder="placeholder" class="header-search-content" background="#f2f2f2" @search="handleSearch" v-model="value" />
-      </form>
-      <div v-if="filter" class="header-search-filter color-2f4056">
-        <van-icon name="filter-o" @click="handleClick" />
-      </div>
+  <div class="flex-row flex-between-center bgcolor-f2 header-search">
+    <form action="javascript:return true" class="flex-1">
+      <van-search
+        :value="value"
+        :placeholder="placeholder"
+        class="header-search-content"
+        background="#f2f2f2"
+        @input="handleInput"
+        @search="handleSearch"
+      />
+    </form>
+    <div v-if="filter" class="header-search-filter color-2f4056">
+      <van-icon name="filter-o" @click="handleClick" />
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'header_search',
+  name: "HeaderSearch",
+  components: {},
   model: {
-    event: 'trigger-input'
+    event: "trigger-input"
   },
   props: {
     value: {
-      default: ''
+      default: ""
     },
     filter: {
       type: Boolean,
@@ -30,30 +38,24 @@ export default {
     },
     placeholder: String
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-  watch: {
-    value (currVal) {
-      this.$emit('trigger-input', currVal)
-    }
-  },
-  components: {},
 
-  computed: {},
+  mounted() {},
 
   methods: {
-    handleSearch () {
-      this.$emit('trigger-search', this.value)
+    handleSearch() {
+      this.$emit("trigger-search", this.value);
     },
-    handleClick () {
-      this.$emit('trigger-click')
+    handleInput(val) {
+      this.$emit("trigger-input", val);
+    },
+    handleClick() {
+      this.$emit("trigger-click");
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .header-search

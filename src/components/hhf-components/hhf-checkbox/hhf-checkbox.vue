@@ -59,8 +59,8 @@
 export default {
   // functional: true,
   model: {
-    prop: 'checked',
-    event: 'trigger-input'
+    prop: "checked",
+    event: "trigger-input"
   },
   props: {
     checked: {
@@ -72,17 +72,17 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       isChecked: this.checked
-    }
+    };
   },
   methods: {
-    handeChange ($event, vm) {
-      this.$emit('trigger-change', $event, this)
+    handeChange($event) {
+      this.$emit("trigger-change", $event, this);
     }
   },
-  render (createElement, context) {
+  render() {
     // console.log(context)
     // const {
     //   props: {
@@ -90,10 +90,7 @@ export default {
     //     checked },
     //   listeners
     // } = context
-    const {
-      isChecked,
-      disabled
-    } = this
+    const { isChecked, disabled } = this;
     return (
       <label class="hhf-checkbox">
         <input
@@ -102,16 +99,20 @@ export default {
           checked={isChecked}
           disabled={disabled}
           // onInput={(e) => { listeners['trigger-change'](e, context) }}
-          onChange={($event) => this.handeChange($event, this)}
+          onChange={$event => this.handeChange($event, this)}
         />
-        <span class={['hhf-checkbox-content', 'hhf-iconfont', isChecked ? 'hhf-icon-ticket' : null]}></span>
-        <span class="hhf-checkbox-text">
-          {this.$scopedSlots.default()}
-        </span>
+        <span
+          class={[
+            "hhf-checkbox-content",
+            "hhf-iconfont",
+            isChecked ? "hhf-icon-ticket" : null
+          ]}
+        ></span>
+        <span class="hhf-checkbox-text">{this.$scopedSlots.default()}</span>
       </label>
-    )
+    );
   }
-}
+};
 </script>
 <style lang="stylus">
 .hhf-checkbox

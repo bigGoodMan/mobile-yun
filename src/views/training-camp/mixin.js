@@ -1,5 +1,4 @@
-
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from "vuex";
 export default {
   computed: {
     ...mapState({
@@ -8,20 +7,20 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['TRAININGCAMP_INFO_ACTION']),
-    getInfo () {
+    ...mapActions(["TRAININGCAMP_INFO_ACTION"]),
+    getInfo() {
       if (Object.keys(this.userInfo).length === 0) {
-        this.$Loading()
+        this.$Loading();
         this.TRAININGCAMP_INFO_ACTION().then(res => {
-          this.$Loading.clear()
-          if (res.return_code !== '0') {
-            this.$Tip.warning(res.msg)
+          this.$Loading.clear();
+          if (res.return_code !== "0") {
+            this.$Tip.warning(res.msg);
           }
-        })
+        });
       }
     }
   },
-  created () {
-    this.getInfo()
+  created() {
+    this.getInfo();
   }
-}
+};

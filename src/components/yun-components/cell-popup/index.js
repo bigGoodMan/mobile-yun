@@ -1,2 +1,2 @@
-import CellPopup from './cell-popup.vue'
-export default CellPopup
+import CellPopup from "./cell-popup.vue";
+export default CellPopup;

@@ -1,5 +1,5 @@
 // import Mask from '../mask'
-import createNewInstance from '../popup-menu'
+import createNewInstance from "../popup-menu";
 // import initParams from '../uitls/initParams'
 // import Vue from 'vue'
 // let instance
@@ -7,7 +7,7 @@ import createNewInstance from '../popup-menu'
 //   instance = instance || PopupMenu.createInstance()
 //   return instance
 // }
-function GearLoading (h) {
+function GearLoading() {
   return (
     <div class="gear-loader">
       <div class="loader_overlay"></div>
@@ -32,38 +32,36 @@ function GearLoading (h) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-function WellLoading (h, props) {
+// eslint-disable-next-line no-unused-vars
+function WellLoading(h) {
   return (
     <div class="loader">
       <div class="well-loading"></div>
     </div>
-  )
+  );
 }
 
-function loading (options = {}) {
-  let newInstance = createNewInstance(options)
-  if (options.type === 'close') {
-    newInstance.remove(options.message)
-    return
+function loading(options = {}) {
+  const newInstance = createNewInstance(options);
+  if (options.type === "close") {
+    newInstance.remove(options.message);
+    return;
   }
-  if (options.type === 'clear') {
-    newInstance.removeSimilar('loading')
-    return
+  if (options.type === "clear") {
+    newInstance.removeSimilar("loading");
+    return;
   }
-  let {
-    message,
-    loadingType
-  } = options
-  if (typeof options === 'string') {
-    message = options
-    options = {}
+  let { message } = options;
+  if (typeof options === "string") {
+    message = options;
+    options = {};
   }
-  let opt = {
+  const opt = {
     ...options,
-    kind: 'loading',
-    name: 'plugins_tip',
+    kind: "loading",
+    name: "plugins_tip",
     Content: {
       props: {
         mask: {
@@ -71,48 +69,48 @@ function loading (options = {}) {
           default: false
         }
       },
-      methods: {
-      },
-      render (h, context) {
-        let LoadEle
+      methods: {},
+      render(h) {
+        const loadingType = "";
+        let LoadEle;
         switch (loadingType) {
-          case 'gear':
-            LoadEle = GearLoading(h)
-            break
+          case "gear":
+            LoadEle = GearLoading(h);
+            break;
           default:
-            LoadEle = WellLoading(h)
-            break
+            LoadEle = WellLoading(h);
+            break;
         }
         return (
           <div class="size-30 hhf-plugins-loading">
             {LoadEle}
             <p class="hhf-plugins-loading-text">{message}</p>
           </div>
-        )
+        );
       }
     }
-  }
-  opt.duration = opt.duration || 0
-  opt.position = opt.position || 'center'
-  opt.transitionName = opt.transitionName || 'fade'
-  opt.transitionName = `hhf-plugins-${opt.transitionName}`
-  newInstance.add(opt)
+  };
+  opt.duration = opt.duration || 0;
+  opt.position = opt.position || "center";
+  opt.transitionName = opt.transitionName || "fade";
+  opt.transitionName = `hhf-plugins-${opt.transitionName}`;
+  newInstance.add(opt);
 }
-['close', 'clear'].forEach(item => {
-  loading[item] = (options) => {
-    let opt = {}
-    if (typeof options === 'object') {
+["close", "clear"].forEach(item => {
+  loading[item] = options => {
+    let opt = {};
+    if (typeof options === "object") {
       opt = {
         type: item,
         ...options
-      }
+      };
     } else {
       opt = {
         type: item,
         message: options
-      }
+      };
     }
-    loading(opt)
-  }
-})
-export default loading
+    loading(opt);
+  };
+});
+export default loading;

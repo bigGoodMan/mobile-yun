@@ -1,2 +1,2 @@
-import InventoryingList from './inventorying-list.vue'
-export default InventoryingList
+import InventoryingList from "./inventorying-list.vue";
+export default InventoryingList;

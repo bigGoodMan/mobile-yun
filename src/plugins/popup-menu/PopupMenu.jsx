@@ -1,32 +1,32 @@
-import Popup from './Popup'
-import Mask from '../mask'
-import mixins from '../mixins'
-import { initKeyAdd, initZIndexAdd } from '../utils/initParams'
+import Popup from "./Popup";
+import Mask from "../mask";
+import mixins from "../mixins";
+import { initKeyAdd, initZIndexAdd } from "../utils/initParams";
 // let defaultOptions = {}
-function maxZindexFunc (arr) {
-  let ar = arr.sort((a, b) => b.zIndex - a.zIndex)
-  return ar.length > 0 ? ar[0] : {}
+function maxZindexFunc(arr) {
+  const ar = arr.sort((a, b) => b.zIndex - a.zIndex);
+  return ar.length > 0 ? ar[0] : {};
 }
 const PopupMenu = {
-  name: 'hhf-plugins-popup-menu',
-  data () {
+  name: "hhf-plugins-popup-menu",
+  data() {
     return {
       popupArr: []
-    }
+    };
   },
   mixins: [mixins],
   methods: {
-    add (popupProp) {
+    add(popupProp) {
       // popupProp.keyName = initKeyAdd('popup_menu')
       // this.popupArr = []
-      this.popupArr.push(this.listNode(popupProp))
+      this.popupArr.push(this.listNode(popupProp));
       if (this.popupArr.length > 0) {
-        this.addOverflow()
+        this.addOverflow();
       }
     },
-    listNode (popupProp) {
-      popupProp.keyName = popupProp.keyName || initKeyAdd(popupProp.name)
-      let {
+    listNode(popupProp) {
+      popupProp.keyName = popupProp.keyName || initKeyAdd(popupProp.name);
+      const {
         Content,
         confirm,
         cancel,
@@ -38,9 +38,9 @@ const PopupMenu = {
         styles,
         position,
         zIndex
-      } = popupProp
-      popupProp.zIndex = zIndex || initZIndexAdd(2)
-      const key = keyName
+      } = popupProp;
+      popupProp.zIndex = zIndex || initZIndexAdd(2);
+      const key = keyName;
       const popupProps = {
         key,
         props: {
@@ -54,16 +54,16 @@ const PopupMenu = {
           zIndex: popupProp.zIndex
         },
         on: {
-          'trigger-close': close || (() => {}),
-          'trigger-remove': () => this.remove(keyName)
+          "trigger-close": close || (() => {}),
+          "trigger-remove": () => this.remove(keyName)
         }
-      }
+      };
       const contentProps = {
         on: {
-          'trigger-confirm': () => this.handleConfirm(keyName, confirm),
-          'trigger-cancel': () => this.handleCancel(keyName, cancel)
+          "trigger-confirm": () => this.handleConfirm(keyName, confirm),
+          "trigger-cancel": () => this.handleCancel(keyName, cancel)
         }
-      }
+      };
       return {
         passValue: popupProp,
         content: (
@@ -71,31 +71,33 @@ const PopupMenu = {
             <Content {...contentProps} />
           </Popup>
         )
-      }
+      };
     },
-    remove (keyName) {
+    remove(keyName) {
       if (keyName) {
-        this.popupArr = this.popupArr.filter(v => v.passValue.keyName !== keyName)
+        this.popupArr = this.popupArr.filter(
+          v => v.passValue.keyName !== keyName
+        );
       } else {
-        this.popupArr = []
+        this.popupArr = [];
       }
       if (this.popupArr.length === 0) {
-        this.removeOverflow()
+        this.removeOverflow();
       }
     },
-    removeSimilar (kind) {
-      this.popupArr = this.popupArr.filter(v => v.passValue.kind !== kind)
+    removeSimilar(kind) {
+      this.popupArr = this.popupArr.filter(v => v.passValue.kind !== kind);
     },
-    handleConfirm (keyName, callback = () => true) {
-      !callback(keyName) || this.remove(keyName)
+    handleConfirm(keyName, callback = () => true) {
+      !callback(keyName) || this.remove(keyName);
     },
-    handleCancel (keyName, callback) {
-      callback(keyName)
-      this.remove(keyName)
+    handleCancel(keyName, callback) {
+      callback(keyName);
+      this.remove(keyName);
     },
-    showMask (obj) {
+    showMask(obj) {
       if (Object.keys(obj).length === 0) {
-        return false
+        return false;
       }
       const {
         maskColor,
@@ -104,7 +106,7 @@ const PopupMenu = {
         zIndex,
         keyName,
         maskClose // 关闭遮罩层是否去除组件
-      } = obj
+      } = obj;
       const maskProps = {
         props: {
           maskColor,
@@ -113,33 +115,31 @@ const PopupMenu = {
           maskClose // 关闭遮罩层是否去除组件
         },
         on: {
-          'trigger-remove': () => {
+          "trigger-remove": () => {
             if (maskClose) {
-              this.remove(keyName)
+              this.remove(keyName);
             }
           }
         },
-        slot: 'mask'
-      }
-      return maskProps
+        slot: "mask"
+      };
+      return maskProps;
     }
   },
-  render (h) {
-    const arr = []
+  render() {
+    const arr = [];
     const jsxDom = this.popupArr.map(v => {
-      arr.push(v.passValue)
-      return v.content
-    })
-    const maxObj = maxZindexFunc(arr)
-    const maskProps = this.showMask(maxObj)
+      arr.push(v.passValue);
+      return v.content;
+    });
+    const maxObj = maxZindexFunc(arr);
+    const maskProps = this.showMask(maxObj);
     return (
       <div class="hhf-plugins-popup-menu">
-        {
-          maskProps && maxObj.mask ? <Mask {...maskProps}/> : null
-        }
+        {maskProps && maxObj.mask ? <Mask {...maskProps} /> : null}
         {jsxDom}
       </div>
-    )
+    );
   }
-}
-export default PopupMenu
+};
+export default PopupMenu;

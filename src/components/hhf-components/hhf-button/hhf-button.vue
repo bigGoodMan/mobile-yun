@@ -20,9 +20,13 @@
 </template>
 
 <script>
-import HhfIcon from '../hhf-icon'
+import HhfIcon from "../hhf-icon";
 export default {
-  name: '',
+  name: "",
+
+  components: {
+    HhfIcon
+  },
   props: {
     disabled: {
       // 禁用
@@ -37,12 +41,12 @@ export default {
     loadingText: {
       // 加载文字
       type: String,
-      default: '加载中…'
+      default: "加载中…"
     },
     text: {
       // 按钮文字
       type: String,
-      default: '确定'
+      default: "确定"
     },
     bottomZIndex: {
       type: Number
@@ -53,42 +57,38 @@ export default {
     type: {
       // 按钮类型
       type: String,
-      default: 'default',
-      validator (val) {
+      default: "default",
+      validator(val) {
         return [
-          'default',
-          'primary',
-          'success',
-          'info',
-          'warning',
-          'danger'
-        ].includes(val)
+          "default",
+          "primary",
+          "success",
+          "info",
+          "warning",
+          "danger"
+        ].includes(val);
       }
     },
     size: {
       // 按钮尺寸
       type: String,
-      default: 'normal',
-      validator (val) {
-        return ['normal', 'large', 'small', 'mini', 'custom'].includes(val)
+      default: "normal",
+      validator(val) {
+        return ["normal", "large", "small", "mini", "custom"].includes(val);
       }
     },
     classes: [String, Array],
     styles: Object
   },
-  data () {
-    return {}
-  },
-
-  components: {
-    HhfIcon
+  data() {
+    return {};
   },
 
   computed: {
-    getBottomZIndexCls () {
-      return this.bottomZIndex ? `hhf-button-${this.size}-height` : null
+    getBottomZIndexCls() {
+      return this.bottomZIndex ? `hhf-button-${this.size}-height` : null;
     },
-    wrapClasses () {
+    wrapClasses() {
       const {
         classes,
         size,
@@ -97,51 +97,51 @@ export default {
         loading,
         disabled,
         bottomZIndex
-      } = this
+      } = this;
       let cls = [
-        'hhf-button',
+        "hhf-button",
         `hhf-button-${type}`,
         `hhf-button-${size}`,
         bottomZIndex ? `hhf-button-${size}-fixed` : null
-      ]
-      if (Object.prototype.toString.call(classes) === '[object Array]') {
-        cls = cls.concat(classes)
-      } else if (typeof classes === 'string') {
-        const arrCls = classes.split(' ')
-        cls = cls.concat(arrCls)
+      ];
+      if (Object.prototype.toString.call(classes) === "[object Array]") {
+        cls = cls.concat(classes);
+      } else if (typeof classes === "string") {
+        const arrCls = classes.split(" ");
+        cls = cls.concat(arrCls);
       }
       if (plain) {
-        cls.push('hhf-button-plain')
+        cls.push("hhf-button-plain");
       }
       if (loading) {
-        cls.push('hhf-button-loading')
+        cls.push("hhf-button-loading");
       }
       if (disabled) {
-        cls.push('hhf-button-disabled')
+        cls.push("hhf-button-disabled");
       }
-      return cls
+      return cls;
     },
-    wrapStyles () {
-      const { styles, radius, bottomZIndex } = this
-      let stl = {
+    wrapStyles() {
+      const { styles, radius, bottomZIndex } = this;
+      const stl = {
         ...styles,
         borderRadius: radius,
         zIndex: bottomZIndex
-      }
-      return stl
-    }
-  },
-  methods: {
-    handleClick () {
-      const { loading, disabled } = this
-      if (!loading && !disabled) {
-        this.$emit('trigger-click')
-      }
+      };
+      return stl;
     }
   },
 
-  mounted () {}
-}
+  mounted() {},
+  methods: {
+    handleClick() {
+      const { loading, disabled } = this;
+      if (!loading && !disabled) {
+        this.$emit("trigger-click");
+      }
+    }
+  }
+};
 </script>
 <style lang="stylus">
 fixed()

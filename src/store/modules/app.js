@@ -1,67 +1,70 @@
-import { getOssInfoApi } from '@/api'
+import { getOssInfoApi } from "@/api";
 export default {
   state: {
     errorList: [], // 日错误志列表
     collapsed: false, // 是否展示popup菜单栏
     imagePreviewShow: false, // 预览图片展示默认关闭
     previewImage: [], // 预览的图片
-    cachePageList: ['my_machine', 'add_gift_storage', 'Switchgear'], // 缓存页面
-    accessKeyID: '', // oss id
-    policy: '', // oss policy
-    signature: '', // oss signature
-    securityToken: '', // oss securityToken
-    callback: '' // oss callback
+    cachePageList: ["my_machine", "add_gift_storage", "Switchgear"], // 缓存页面
+    accessKeyID: "", // oss id
+    policy: "", // oss policy
+    signature: "", // oss signature
+    securityToken: "", // oss securityToken
+    callback: "" // oss callback
   },
   mutations: {
-    APP_ADDCACHEPAGELIST_MUTATE (state, name) {
+    APP_ADDCACHEPAGELIST_MUTATE(state, name) {
       if (!state.cachePageList.includes(name)) {
-        state.cachePageList.push(name)
+        state.cachePageList.push(name);
       }
     },
-    APP_REMOVECACHEPAGELIST_MUTATE (state, name) {
-      let index = state.cachePageList.indexOf(name)
+    APP_REMOVECACHEPAGELIST_MUTATE(state, name) {
+      const index = state.cachePageList.indexOf(name);
       if (~index) {
-        state.cachePageList.splice(index, 1)
+        state.cachePageList.splice(index, 1);
       }
     },
-    APP_IMAGEPREVIEW_MUTATE (state, { imagePreviewShow, previewImage }) {
-      state.previewImage = previewImage
-      state.imagePreviewShow = imagePreviewShow
+    APP_IMAGEPREVIEW_MUTATE(state, { imagePreviewShow, previewImage }) {
+      state.previewImage = previewImage;
+      state.imagePreviewShow = imagePreviewShow;
     },
-    APP_CLEARSTATE_MUTATE (state) {
-
-    },
+    APP_CLEARSTATE_MUTATE() {},
     // 操作是否展示popup菜单栏
-    APP_SHOWCOLLAPSED_MUTATE (state, collapsed) {
-      state.collapsed = collapsed
+    APP_SHOWCOLLAPSED_MUTATE(state, collapsed) {
+      state.collapsed = collapsed;
     },
     // 错误日志列表添加
-    APP_ADDERRORLOG_MUTATE (state, error) {
-      state.errorList.unshift(error)
+    APP_ADDERRORLOG_MUTATE(state, error) {
+      state.errorList.unshift(error);
     },
     // 设置oss信息
-    APP_SETOSSINFO_MUTATE (state, { accessKeyID, policy, signature, securityToken, callback }) {
-      state.accessKeyID = accessKeyID
-      state.policy = policy
-      state.signature = signature
-      state.securityToken = securityToken
-      state.callback = callback
+    APP_SETOSSINFO_MUTATE(
+      state,
+      { accessKeyID, policy, signature, securityToken, callback }
+    ) {
+      state.accessKeyID = accessKeyID;
+      state.policy = policy;
+      state.signature = signature;
+      state.securityToken = securityToken;
+      state.callback = callback;
     }
   },
   actions: {
     // 添加错误日志
-    APP_ADDERRORLOG_ACTION ({ rootState, commit }, info) {
-      const { user: { userId, userName, userHeadImage } } = rootState
-      let data = {
+    APP_ADDERRORLOG_ACTION({ rootState, commit }, info) {
+      const {
+        user: { userId, userName, userHeadImage }
+      } = rootState;
+      const data = {
         ...info,
         userId,
         time: new Date().getTime(),
         userName,
         userHeadImage
-      }
-      commit('APP_ADDERRORLOG_MUTATE', data)
+      };
+      commit("APP_ADDERRORLOG_MUTATE", data);
     },
-    async APP_SETOSSINFO_ACTION ({ state, commit }) {
+    async APP_SETOSSINFO_ACTION({ commit }) {
       // if (state.accessKeyID) {
       //   const {
       //     accessKeyID,
@@ -81,18 +84,18 @@ export default {
       //     }
       //   }
       // }
-      const res = await getOssInfoApi()
-      if (res.return_code === '0') {
-        const { data } = res
-        commit('APP_SETOSSINFO_MUTATE', {
+      const res = await getOssInfoApi();
+      if (res.return_code === "0") {
+        const { data } = res;
+        commit("APP_SETOSSINFO_MUTATE", {
           accessKeyID: data.AccessKeyId,
           policy: data.policy,
           signature: data.signature,
           securityToken: data.SecurityToken,
           callback: data.callback
-        })
+        });
       }
-      return res
+      return res;
     }
   }
-}
+};

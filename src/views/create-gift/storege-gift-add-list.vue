@@ -3,44 +3,41 @@
   <div class="storege-gift-add-list">
     <div class="storege-gift-add-list-header">
       <div class="fixed-max-width top-0">
-      <HeaderSearch
-        v-model="giftSearch"
-        @trigger-search="handleSearch"
-        placeholder="请输入礼品名称或编号"
-      />
-      <h5 class="size-28 flex-row flex-between-center margin-0 padding-20-30 bgcolor-f">
-        <span>礼品列表</span>
-        <HhfButton
-          type="info"
-          size="small"
-          radius="0.4rem"
-          @trigger-click="handleGo"
-        >新增礼品</HhfButton>
-      </h5>
-      <div class="border"></div>
+        <HeaderSearch
+          v-model="giftSearch"
+          placeholder="请输入礼品名称或编号"
+          @trigger-search="handleSearch"
+        />
+        <h5
+          class="size-28 flex-row flex-between-center margin-0 padding-20-30 bgcolor-f"
+        >
+          <span>礼品列表</span>
+          <HhfButton
+            type="info"
+            size="small"
+            radius="0.4rem"
+            @trigger-click="handleGo"
+            >新增礼品</HhfButton
+          >
+        </h5>
+        <div class="border"></div>
       </div>
     </div>
     <!-- 礼品列表内容 -->
     <van-pull-refresh
       v-model="isLoading"
-      @refresh="handleRefresh"
       style="overflow:initial"
+      @refresh="handleRefresh"
     >
       <van-list
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
-        @load="handleLoading"
         :offset="10"
+        @load="handleLoading"
       >
-        <div
-          v-for="(items, index) of list"
-          :key="index"
-        >
-          <GiftList
-            :result="items"
-            @trigger-click="handleChecked"
-          />
+        <div v-for="(items, index) of list" :key="index">
+          <GiftList :result="items" @trigger-click="handleChecked" />
           <div class="border"></div>
         </div>
       </van-list>
@@ -48,36 +45,22 @@
     <!-- 按钮 -->
     <div class="height-100">
       <div class="fixed-max-width bottom-0 size-0 zindex-2">
-        <HhfButton
-          type="info"
-          size="large"
-          @trigger-click="handleAdd"
-        >添加</HhfButton>
+        <HhfButton type="info" size="large" @trigger-click="handleAdd"
+          >添加</HhfButton
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderSearch from '@yun/header-search'
-import HhfButton from '@hhf/hhf-button'
-import GiftList from '@yun/gift-list'
-import { getGiftCreateListApi } from '@/api'
-import { mapMutations } from 'vuex'
+import HeaderSearch from "@yun/header-search";
+import HhfButton from "@hhf/hhf-button";
+import GiftList from "@yun/gift-list";
+import { getGiftCreateListApi } from "@/api";
+import { mapMutations } from "vuex";
 export default {
-  name: 'storege_gift_add_list',
-
-  data () {
-    return {
-      list: [],
-      isLoading: false, // 下拉刷新loading状态
-      loading: false, // 上拉加载loading状态
-      finished: true, // 是否加载完成
-
-      giftSearch: '', // 搜索内容
-      page: 1
-    }
-  },
+  name: "StoregeGiftAddList",
 
   components: {
     HeaderSearch,
@@ -85,100 +68,108 @@ export default {
     GiftList
   },
 
+  data() {
+    return {
+      list: [],
+      isLoading: false, // 下拉刷新loading状态
+      loading: false, // 上拉加载loading状态
+      finished: true, // 是否加载完成
+
+      giftSearch: "", // 搜索内容
+      page: 1
+    };
+  },
+
   computed: {},
 
+  mounted() {
+    this.handleLoading();
+  },
+
   methods: {
-    ...mapMutations(['GIFT_GIFTSTORAGELIST_MUTATE']),
+    ...mapMutations(["GIFT_GIFTSTORAGELIST_MUTATE"]),
     // 搜索
-    handleSearch (val) {
-      this.page = 1
+    handleSearch() {
+      this.page = 1;
       this.getGiftCreateList(dt => {
-        this.list = dt
-      })
+        this.list = dt;
+      });
     },
-    getGiftCreateList (callback = () => {}) {
+    getGiftCreateList(callback = () => {}) {
       this.$Loading({
-        message: '加载中...'
-      })
-      let {
-        giftSearch,
-        page
-      } = this
-      let {
-        bid
-      } = this.$route.query
+        message: "加载中..."
+      });
+      let { page } = this;
+      const { giftSearch } = this;
+      const { bid } = this.$route.query;
       getGiftCreateListApi({
         gift_id: giftSearch,
         brand_id: bid,
         page: page
       }).then(res => {
-        let arr = []
-        this.$Loading.clear()
-        if (res.return_code === '0') {
-          this.page = ++page
-          arr = res.data.map(v => ({ ...v, checked: false }))
+        let arr = [];
+        this.$Loading.clear();
+        if (res.return_code === "0") {
+          this.page = ++page;
+          arr = res.data.map(v => ({ ...v, checked: false }));
         } else if (res.msg) {
           this.$Tip.warning({
             mask: true,
             message: res.msg
-          })
+          });
         }
-        callback(arr)
-      })
+        callback(arr);
+      });
     },
     // 下拉刷新
-    handleRefresh () {
-      this.page = 1
+    handleRefresh() {
+      this.page = 1;
       this.getGiftCreateList(dt => {
-        this.list = dt
-        this.isLoading = false
-      })
+        this.list = dt;
+        this.isLoading = false;
+      });
     },
     // 上拉加载
-    handleLoading () {
-      this.getGiftCreateList((dt) => {
-        this.list = this.list.concat(dt)
-        this.finished = dt.length === 0
-        this.loading = false
-      })
+    handleLoading() {
+      this.getGiftCreateList(dt => {
+        this.list = this.list.concat(dt);
+        this.finished = dt.length === 0;
+        this.loading = false;
+      });
     },
     // 选中
-    handleChecked (items) {
+    handleChecked(items) {
       this.list = this.list.map(v => {
-        let obj = {
+        const obj = {
           ...v
-        }
+        };
         if (items.gift_id === v.gift_id) {
-          obj.checked = items.checked
+          obj.checked = items.checked;
         }
-        return obj
-      })
+        return obj;
+      });
     },
-    handleAdd () {
-      this.GIFT_GIFTSTORAGELIST_MUTATE(this.list.filter(v => v.checked).map(v => ({ ...v, checked: void 0, num: '', money_cost: '' })))
-      this.$router.go(-1)
+    handleAdd() {
+      this.GIFT_GIFTSTORAGELIST_MUTATE(
+        this.list
+          .filter(v => v.checked)
+          .map(v => ({ ...v, checked: void 0, num: "", money_cost: "" }))
+      );
+      this.$router.go(-1);
     },
-    handleGo () {
-      const {
-        sid,
-        bid,
-        brandname
-      } = this.$route.query
+    handleGo() {
+      const { sid, bid, brandname } = this.$route.query;
       this.$router.push({
-        name: 'add_edit_gift',
+        name: "add_edit_gift",
         query: {
           sid,
           bid,
           brandname
         }
-      })
+      });
     }
-  },
-
-  mounted () {
-    this.handleLoading()
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .storege-gift-add-list-header

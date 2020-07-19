@@ -1,31 +1,35 @@
 <!-- 筛选的列表 -->
 <template>
   <dl class="filter-list">
-    <dt class="filter-list-dt size-32 weight-bold color-393d49">{{title}}<span v-if="placeholder" class="color-9 size-24">{{placeholder}}</span></dt>
+    <dt class="filter-list-dt size-32 weight-bold color-393d49">
+      {{ title
+      }}<span v-if="placeholder" class="color-9 size-24">{{
+        placeholder
+      }}</span>
+    </dt>
     <dd class="filter-list-dd"><slot></slot></dd>
   </dl>
 </template>
 
 <script>
 export default {
-  name: 'filter_list',
+  name: "FilterList",
+
+  components: {},
   props: {
     title: String,
     placeholder: String
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {},
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
 <style lang="stylus" scoped>
 .filter-list

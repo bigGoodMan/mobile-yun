@@ -5,26 +5,45 @@
       <div class="size-0 flex-row flex-start">
         <div class="inventorying-list-cell-img bgcolor-f2 flex-row flex-center">
           <img
-            class="inventorying-list-cell-img-content"
             v-lazy="obj.thumb"
+            class="inventorying-list-cell-img-content"
             @click="handlePreview(obj)"
-          >
+          />
         </div>
-        <div class="inventorying-list-describe flex-column flex-start size-393d49">
-          <span class="weight-bold size-32 inventorying-list-describe-name">{{obj.name}}</span>
-          <span class="size-28">编号{{obj.gift_id}}</span>
+        <div
+          class="inventorying-list-describe flex-column flex-start size-393d49"
+        >
+          <span class="weight-bold size-32 inventorying-list-describe-name">{{
+            obj.name
+          }}</span>
+          <span class="size-28">编号{{ obj.gift_id }}</span>
         </div>
       </div>
       <div class="flex-row flex-between-center">
-        <div class="size-28 size-393d49 width-half">所在库位：<span>{{obj.location_info ? obj.location_info : '未标记库位'}}</span></div>
+        <div class="size-28 size-393d49 width-half">
+          所在库位：<span>{{
+            obj.location_info ? obj.location_info : "未标记库位"
+          }}</span>
+        </div>
         <div class="flex-row flex-center">
           <span class="size-28 size-393d49 inventorying-list-text">实盘数</span>
-          <HhfStepper v-model="obj.num" :max="99999" :min="0" @trigger-blur="handleStepperWatch" @trigger-add="handleStepperWatch" @trigger-reduce="handleStepperWatch"/>
+          <HhfStepper
+            v-model="obj.num"
+            :max="99999"
+            :min="0"
+            @trigger-blur="handleStepperWatch"
+            @trigger-add="handleStepperWatch"
+            @trigger-reduce="handleStepperWatch"
+          />
         </div>
       </div>
       <div class="text-right size-24 color-error inventorying-list-warn">
         <span v-show="emptyShow">实盘数不能为空</span>
-        <span v-show="errShow">实盘数小于可抓取数，请在商家app调整{{obj.location_info}}可抓取数</span>
+        <span v-show="errShow"
+          >实盘数小于可抓取数，请在商家app调整{{
+            obj.location_info
+          }}可抓取数</span
+        >
       </div>
     </div>
     <div class="border"></div>
@@ -32,49 +51,51 @@
 </template>
 
 <script>
-import HhfStepper from '@hhf/hhf-stepper'
-import { addInventoryDataApi } from '@/api'
+import HhfStepper from "@hhf/hhf-stepper";
+import { addInventoryDataApi } from "@/api";
 export default {
-  name: 'inventorying_list',
+  name: "InventoryingList",
+
+  components: {
+    HhfStepper
+  },
   props: {
     obj: Object
   },
-  data () {
+  data() {
     return {
       max: 99999,
       emptyShow: false,
       errShow: false,
       images: []
-    }
-  },
-
-  components: {
-    HhfStepper
+    };
   },
 
   computed: {},
 
+  mounted() {
+    // console.log(this.$refs['img'].getBoundingClientRect())
+  },
+  beforeDestroy() {
+    this.handleClearTime();
+  },
+
   methods: {
-    handlePreview (items) {
-      this.$emit('trigger-preview', items.img)
+    handlePreview(items) {
+      this.$emit("trigger-preview", items.img);
     },
 
-    handleClearTime () {
-      clearTimeout(this.timer)
-      this.timer = null
+    handleClearTime() {
+      clearTimeout(this.timer);
+      this.timer = null;
     },
-    handleChange (val) {
+    handleChange(val) {
       if (val > this.max) {
-        return
+        return;
       }
-      const {
-        id,
-        sid
-      } = this.$route.query
-      const {
-        obj
-      } = this
-      this.handleClearTime()
+      const { id, sid } = this.$route.query;
+      const { obj } = this;
+      this.handleClearTime();
       this.timer = setTimeout(() => {
         addInventoryDataApi({
           store_id: sid,
@@ -82,39 +103,30 @@ export default {
           gift_id: obj.gift_id,
           num: val
         }).then(res => {
-          if (res.return_code !== '0' && res.msg) {
+          if (res.return_code !== "0" && res.msg) {
             this.$Tip.warning({
               message: res.msg,
               mask: true
-            })
+            });
           }
-        })
-      }, 500)
+        });
+      }, 500);
     },
-    handleStepperWatch (val) {
-      const {
-        obj
-      } = this
-      this.emptyShow = false
-      this.errShow = false
-      if (val === '') {
-        this.emptyShow = true
-        return
+    handleStepperWatch(val) {
+      const { obj } = this;
+      this.emptyShow = false;
+      this.errShow = false;
+      if (val === "") {
+        this.emptyShow = true;
+        return;
       } else if (obj.num < obj.conf_num - 0) {
-        this.errShow = true
-        return
+        this.errShow = true;
+        return;
       }
-      this.handleChange(val)
+      this.handleChange(val);
     }
-  },
-
-  mounted () {
-    // console.log(this.$refs['img'].getBoundingClientRect())
-  },
-  beforeDestroy () {
-    this.handleClearTime()
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .inventorying-list

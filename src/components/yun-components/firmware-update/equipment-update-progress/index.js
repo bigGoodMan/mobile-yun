@@ -1,2 +1,2 @@
-import EquipmentUpdateProgress from './equipment-update-progress'
-export default EquipmentUpdateProgress
+import EquipmentUpdateProgress from "./equipment-update-progress";
+export default EquipmentUpdateProgress;

@@ -3,16 +3,12 @@
   <div class="switchgear">
     <div class="header bgcolor-f">
       <MyStore
-        @trigger-click="handleConfirm"
         :default-index="0"
         :store-id="store_id"
+        @trigger-click="handleConfirm"
       >
         <div class="flex-row flex-end-center flex-1">
-          <van-icon
-            @click="handleRouter"
-            name="question-o"
-            size="0.4rem"
-          />
+          <van-icon name="question-o" size="0.4rem" @click="handleRouter" />
         </div>
       </MyStore>
     </div>
@@ -24,22 +20,34 @@
           class="switchgear-fresh"
           @refresh="handleRefresh"
         >
-        <div class="size-28 color-3 padding-20 bgcolor-f" style="line-height: 1.5;">我的机台</div>
+          <div
+            class="size-28 color-3 padding-20 bgcolor-f"
+            style="line-height: 1.5;"
+          >
+            我的机台
+          </div>
           <van-collapse
-            class="switchgear-content bgcolor-f2"
             v-model="activeNames"
+            class="switchgear-content bgcolor-f2"
             accordion
           >
             <van-collapse-item
-               v-for="(items, index) of switchgearList"
+              v-for="(items, index) of switchgearList"
+              :key="items.area_id"
               :title="items.area_name || ''"
               :name="index"
-              :key="items.area_id"
             >
-            <div class="bgcolor-f" v-for="item of items.items" :key="item.machine_id">
-              <MachineSwitchCell @trigger-click="(type) => handleOperate(type, item)" :info="item"/>
-              <div class="border"></div>
-            </div>
+              <div
+                v-for="item of items.items"
+                :key="item.machine_id"
+                class="bgcolor-f"
+              >
+                <MachineSwitchCell
+                  :info="item"
+                  @trigger-click="type => handleOperate(type, item)"
+                />
+                <div class="border"></div>
+              </div>
 
               <!-- <MachineList :columns="columns" /> -->
             </van-collapse-item>
@@ -51,25 +59,25 @@
 </template>
 
 <script>
-import MachineSwitchCell from '@yun/switchgear/machine-switch-cell'
-import { setSwitchgearOnOffApi } from '@/api'
-import MyStore from '@yun/my-store'
-import { mapActions, mapState, mapMutations } from 'vuex'
+import MachineSwitchCell from "@yun/switchgear/machine-switch-cell";
+import { setSwitchgearOnOffApi } from "@/api";
+import MyStore from "@yun/my-store";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
-  name: 'Switchgear',
+  name: "Switchgear",
 
-  data () {
+  components: {
+    MyStore,
+    MachineSwitchCell
+  },
+
+  data() {
     return {
       activeNames: 0,
       columns: [],
       isLoading: false,
       store_id: null
-    }
-  },
-
-  components: {
-    MyStore,
-    MachineSwitchCell
+    };
   },
 
   computed: {
@@ -78,115 +86,114 @@ export default {
     })
   },
 
+  created() {
+    const { sid } = this.$route.query;
+    if (sid) {
+      this.store_id = sid;
+    }
+  },
   methods: {
-    ...mapActions(['SWITCHGEAR_GETSWITCHGEARLIST_ACTION']),
-    ...mapMutations(['SWITCHGEAR_SETSTOREID_MUTATE', 'SWITCHGEAR_AREAID_MUTATE', 'SWITCHGEAR_MACHINEID_MUTATE']),
+    ...mapActions(["SWITCHGEAR_GETSWITCHGEARLIST_ACTION"]),
+    ...mapMutations([
+      "SWITCHGEAR_SETSTOREID_MUTATE",
+      "SWITCHGEAR_AREAID_MUTATE",
+      "SWITCHGEAR_MACHINEID_MUTATE"
+    ]),
     // 根据门店获得信息
-    getSwitchgearList () {
-      this.$Loading('加载中……')
-      return this.SWITCHGEAR_GETSWITCHGEARLIST_ACTION(this.store_id).then(res => {
-        this.$Loading.clear()
-        if (res.return_code !== '0') {
-          this.$Tip.warning(res.msg)
+    getSwitchgearList() {
+      this.$Loading("加载中……");
+      return this.SWITCHGEAR_GETSWITCHGEARLIST_ACTION(this.store_id).then(
+        res => {
+          this.$Loading.clear();
+          if (res.return_code !== "0") {
+            this.$Tip.warning(res.msg);
+          }
         }
-      })
+      );
     },
     // 选择门店回调
-    handleConfirm (data) {
-      this.store_id = data.value.store_id
-      this.getSwitchgearList()
+    handleConfirm(data) {
+      this.store_id = data.value.store_id;
+      this.getSwitchgearList();
     },
-    handleRouter () {
+    handleRouter() {
       this.$router.push({
-        name: 'Article'
-      })
+        name: "Article"
+      });
     },
-    setSwitchgearOnOff (action, mid) {
-      let $this = this
-      $this.$Loading('加载中……')
+    setSwitchgearOnOff(action, mid) {
+      const $this = this;
+      $this.$Loading("加载中……");
       setSwitchgearOnOffApi({
         mid,
         action
       }).then(res => {
-        $this.$Loading.clear()
-        if (res.return_code === '0') {
-          $this.$Tip.success(res.msg)
-          return
+        $this.$Loading.clear();
+        if (res.return_code === "0") {
+          $this.$Tip.success(res.msg);
+          return;
         }
-        $this.$Tip.warning(res.msg)
-      })
+        $this.$Tip.warning(res.msg);
+      });
     },
-    handleOperate (type, item) {
-      let $this = this
+    handleOperate(type, item) {
+      const $this = this;
       switch (type) {
-        case 'close':
+        case "close":
           this.$Confirm.warning({
-            message: '关机',
-            descrition: '关机指令即将发送',
-            confirmName: '关机',
+            message: "关机",
+            descrition: "关机指令即将发送",
+            confirmName: "关机",
             mask: true,
-            confirm () {
+            confirm() {
               // console.log(options)
-              $this.setSwitchgearOnOff(2, item.machine_id)
-              return true
+              $this.setSwitchgearOnOff(2, item.machine_id);
+              return true;
             },
-            cancel () {
-            }
-          })
-          break
-        case 'open':
+            cancel() {}
+          });
+          break;
+        case "open":
           this.$Confirm.warning({
-            message: '开机',
-            descrition: '开机指令即将发送',
-            confirmName: '开机',
+            message: "开机",
+            descrition: "开机指令即将发送",
+            confirmName: "开机",
             mask: true,
-            confirm () {
-              $this.setSwitchgearOnOff(1, item.machine_id)
-              return true
+            confirm() {
+              $this.setSwitchgearOnOff(1, item.machine_id);
+              return true;
             },
-            cancel () {
-            }
-          })
-          break
-        case 'restart':
+            cancel() {}
+          });
+          break;
+        case "restart":
           this.$Confirm.warning({
-            message: '重启',
-            descrition: '重启指令即将发送',
-            confirmName: '重启',
+            message: "重启",
+            descrition: "重启指令即将发送",
+            confirmName: "重启",
             mask: true,
-            confirm () {
-              $this.setSwitchgearOnOff(3, item.machine_id)
-              return true
+            confirm() {
+              $this.setSwitchgearOnOff(3, item.machine_id);
+              return true;
             },
-            cancel () {
-            }
-          })
-          break
-        case 'timing':
-          this.SWITCHGEAR_SETSTOREID_MUTATE(this.store_id)
-          this.SWITCHGEAR_AREAID_MUTATE(item.area_id)
-          this.SWITCHGEAR_MACHINEID_MUTATE(item.machine_id)
-          this.$router.push({ name: 'TimeSwitch' })
-          break
+            cancel() {}
+          });
+          break;
+        case "timing":
+          this.SWITCHGEAR_SETSTOREID_MUTATE(this.store_id);
+          this.SWITCHGEAR_AREAID_MUTATE(item.area_id);
+          this.SWITCHGEAR_MACHINEID_MUTATE(item.machine_id);
+          this.$router.push({ name: "TimeSwitch" });
+          break;
       }
     },
-    handleRefresh () {
+    handleRefresh() {
       this.getSwitchgearList().then(() => {
-        this.isLoading = false
-      })
+        this.isLoading = false;
+      });
     }
-  },
-  created () {
-    const {
-      sid
-    } = this.$route.query
-    if (sid) {
-      this.store_id = sid
-    }
-  },
-  mounted () {
   }
-}
+};
 </script>
 <style lang="stylus">
 .switchgear

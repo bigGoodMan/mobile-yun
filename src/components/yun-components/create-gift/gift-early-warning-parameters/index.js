@@ -1,2 +1,2 @@
-import GiftEarlyWarningParameters from './gift-early-warning-parameters'
-export default GiftEarlyWarningParameters
+import GiftEarlyWarningParameters from "./gift-early-warning-parameters";
+export default GiftEarlyWarningParameters;

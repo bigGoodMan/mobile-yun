@@ -1,16 +1,16 @@
 <!-- 收藏按钮 -->
 <template>
-  <span>
-
-  </span>
+  <span> </span>
 </template>
 
 <script>
 export default {
-  name: 'CollectBtn',
+  name: "CollectBtn",
+
+  components: {},
   model: {
-    prop: 'checked',
-    event: 'trigger-change'
+    prop: "checked",
+    event: "trigger-change"
   },
   props: {
     checked: {
@@ -19,22 +19,18 @@ export default {
     },
     color: {
       type: String,
-      default: '#e91e63'
+      default: "#e91e63"
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {},
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

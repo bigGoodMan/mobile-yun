@@ -1,7 +1,7 @@
 <!-- 机台卡片 -->
 <template>
   <dl class="machine-card">
-    <dt class="size-28 color-3 machine-card-place">{{title}}</dt>
+    <dt v-if="title" class="size-28 color-3 machine-card-place">{{ title }}</dt>
     <dd class="machine-card-main bgcolor-f2">
       <ul class="machine-card-content">
         <slot></slot>
@@ -12,23 +12,22 @@
 
 <script>
 export default {
-  name: '',
+  name: "MachineCard",
+
+  components: {},
   props: {
     title: String
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {},
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
 <style lang="stylus">
 .machine-card

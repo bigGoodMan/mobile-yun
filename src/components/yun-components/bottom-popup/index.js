@@ -1,2 +1,2 @@
-import BottomPopup from './bottom-popup.vue'
-export default BottomPopup
+import BottomPopup from "./bottom-popup.vue";
+export default BottomPopup;

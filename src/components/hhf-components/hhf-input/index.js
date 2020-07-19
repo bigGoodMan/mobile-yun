@@ -1,2 +1,2 @@
-import HhfInput from './hhf-input.vue'
-export default HhfInput
+import HhfInput from "./hhf-input.vue";
+export default HhfInput;

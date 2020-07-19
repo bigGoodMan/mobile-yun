@@ -1,12 +1,15 @@
 <!-- 根据门店和区域查询机台 -->
 <script>
-import LinkageSelection from '@yun/linkage-selection'
-import { mapActions } from 'vuex'
+import LinkageSelection from "@yun/linkage-selection";
+import { mapActions } from "vuex";
 export default {
-  name: 'MyMachine',
+  name: "MyMachine",
+  components: {
+    LinkageSelection
+  },
   model: {
-    prop: 'value',
-    event: 'trigger-change'
+    prop: "value",
+    event: "trigger-change"
   },
   props: {
     storeId: [String, Number],
@@ -16,43 +19,42 @@ export default {
     },
     title: {
       type: String,
-      default: '请选择机台'
+      default: "请选择机台"
     },
     type: {
       type: String,
-      default: 'MACHINE',
-      validator (val) {
-        return ['MACHINE', 'MACHINE_TYPE'].includes(val)
+      default: "MACHINE",
+      validator(val) {
+        return ["MACHINE", "MACHINE_TYPE"].includes(val);
       }
     },
     rightIcon: {
       type: String,
-      default: 'arrow'
+      default: "arrow"
     },
     columns: Array
   },
-  data () {
+  data() {
     return {
       list: []
-    }
-  },
-  components: {
-    LinkageSelection
+    };
   },
   watch: {
     areaId: {
-      handler (val) {
-        const { storeId, type } = this
+      handler(val) {
+        const { storeId, type } = this;
         if (storeId && val) {
-          let jsons = { storeId, areaId: val }
-          if (type === 'MACHINE_TYPE') {
-            this.COMMON_GETMACHINETYPE_ACTION(jsons).then(this.handleReturnDeal)
-            return
+          const jsons = { storeId, areaId: val };
+          if (type === "MACHINE_TYPE") {
+            this.COMMON_GETMACHINETYPE_ACTION(jsons).then(
+              this.handleReturnDeal
+            );
+            return;
           }
-          this.COMMON_GETMACHINE_ACTION(jsons).then(this.handleReturnDeal)
+          this.COMMON_GETMACHINE_ACTION(jsons).then(this.handleReturnDeal);
         } else {
-          this.list = []
-          this.$emit('trigger-change', {})
+          this.list = [];
+          this.$emit("trigger-change", {});
         }
       },
       immediate: true
@@ -60,35 +62,28 @@ export default {
   },
 
   methods: {
-    ...mapActions(['COMMON_GETMACHINE_ACTION', 'COMMON_GETMACHINETYPE_ACTION']),
-    handleChoseMachine (obj) {
-      this.$emit('trigger-change', obj.value)
+    ...mapActions(["COMMON_GETMACHINE_ACTION", "COMMON_GETMACHINETYPE_ACTION"]),
+    handleChoseMachine(obj) {
+      this.$emit("trigger-change", obj.value);
     },
-    handleReturnDeal (res) {
-      if (res.return_code === '0') {
-        const { data } = res
-        this.list = data
-        this.$emit('trigger-change', {})
+    handleReturnDeal(res) {
+      if (res.return_code === "0") {
+        const { data } = res;
+        this.list = data;
+        this.$emit("trigger-change", {});
       }
     }
   },
 
-  mounted () {},
-  render (h) {
-    const {
-      value,
-      list,
-      handleChoseMachine,
-      title,
-      rightIcon
-    } = this
-    let val
-    let defaultIndex = 0
+  render() {
+    const { value, list, handleChoseMachine, title, rightIcon } = this;
+    let val;
+    let defaultIndex = 0;
     for (let i = 0; i < list.length; ++i) {
       if (list[i].id === value.id) {
-        val = list[i].no
-        defaultIndex = i
-        break
+        val = list[i].no;
+        defaultIndex = i;
+        break;
       }
     }
     return (
@@ -100,9 +95,8 @@ export default {
         default-index={defaultIndex}
         on-trigger-confirm={handleChoseMachine}
       />
-    )
+    );
   }
-}
+};
 </script>
-<style lang="stylus">
-</style>
+<style lang="stylus"></style>

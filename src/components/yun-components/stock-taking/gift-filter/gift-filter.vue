@@ -7,46 +7,47 @@
       class="gift-filter-container"
       @click-overlay="handleClose"
     >
-    <div>
-    <FilterList title="库位" placeholder="根据库存查看库位中的礼品">
-      <div class="size-0">
-        <div
-          class="gift-filter-storehouse"
-          v-for="items in statusList"
-          :key="items.id"
-        >
-          <HhfButton
-            classes="gift-filter-storehouse-btn"
-            @trigger-click="handleClick(items)"
-            :styles="items.checked ? activeStyles : null"
-          >{{items.value}}</HhfButton>
-        </div>
+      <div>
+        <FilterList title="库位" placeholder="根据库存查看库位中的礼品">
+          <div class="size-0">
+            <div
+              v-for="items in statusList"
+              :key="items.id"
+              class="gift-filter-storehouse"
+            >
+              <HhfButton
+                classes="gift-filter-storehouse-btn"
+                :styles="items.checked ? activeStyles : null"
+                @trigger-click="handleClick(items)"
+                >{{ items.value }}</HhfButton
+              >
+            </div>
+          </div>
+        </FilterList>
       </div>
-    </FilterList>
-    </div>
     </van-popup>
   </div>
 </template>
 
 <script>
-import FilterList from '../filter-list'
-import { mapState, mapActions } from 'vuex'
+import FilterList from "../filter-list";
+import { mapState, mapActions } from "vuex";
 export default {
-  name: 'gift_filter',
-
-  data () {
-    return {
-      activeStyles: {
-        color: '#1890fc',
-        borderColor: '#1890fc',
-        backgroundColor: 'rgba(24, 144, 252, 0.1)'
-      },
-      list: []
-    }
-  },
+  name: "GiftFilter",
 
   components: {
     FilterList
+  },
+
+  data() {
+    return {
+      activeStyles: {
+        color: "#1890fc",
+        borderColor: "#1890fc",
+        backgroundColor: "rgba(24, 144, 252, 0.1)"
+      },
+      list: []
+    };
   },
 
   computed: {
@@ -55,35 +56,34 @@ export default {
     })
   },
 
+  created() {
+    this.getStore();
+  },
   methods: {
-    ...mapActions(['COMMON_GETSTORE_ACTION']),
+    ...mapActions(["COMMON_GETSTORE_ACTION"]),
     // 关闭筛选窗
-    handleClose () {
-      this.$emit('trigger-close')
+    handleClose() {
+      this.$emit("trigger-close");
     },
-    handleClick (items) {
+    handleClick(items) {
       this.list = this.list.map(v => {
         const obj = {
           ...v
-        }
-        obj.checked = items.id === v.id ? !obj.checked : obj.checked
-        return obj
-      })
+        };
+        obj.checked = items.id === v.id ? !obj.checked : obj.checked;
+        return obj;
+      });
     },
     // 获取门店
-    getStore () {
+    getStore() {
       this.COMMON_GETSTORE_ACTION().then(res => {
-        if (res.return_code !== '0') {
-          this.$Tip.warning(res.msg)
+        if (res.return_code !== "0") {
+          this.$Tip.warning(res.msg);
         }
-      })
+      });
     }
-  },
-  created () {
-    this.getStore()
-  },
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 initStyle()

@@ -1,10 +1,12 @@
-
 const FirmwareUpdate = {
-  path: '/firmware-update',
-  name: 'FirmwareUpdate',
-  component: () => import(/* webpackChunkName: "FirmwareUpdate" */ '@v/firmware-update/firmware-update.vue'),
+  path: "/firmware-update",
+  name: "FirmwareUpdate",
+  component: () =>
+    import(
+      /* webpackChunkName: "FirmwareUpdate" */ "@v/firmware-update/firmware-update.vue"
+    ),
   meta: {
-    title: '固件更新'
+    title: "固件更新"
   }
-}
-export default [FirmwareUpdate]
+};
+export default [FirmwareUpdate];

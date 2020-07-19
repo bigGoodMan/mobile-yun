@@ -1,2 +1,2 @@
-import LinkageSelection from './linkage-selection'
-export default LinkageSelection
+import LinkageSelection from "./linkage-selection";
+export default LinkageSelection;

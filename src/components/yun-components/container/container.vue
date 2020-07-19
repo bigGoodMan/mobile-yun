@@ -1,17 +1,17 @@
 <!-- container -->
 <template>
   <div class="container">
-        <div :class="tabBar ? 'content-bottom' : null">
-          <transition :name="transitionName">
-            <keep-alive :include="cachePageList">
-              <router-view class="child-view"></router-view>
-            </keep-alive>
-          </transition>
-        </div>
+    <div :class="tabBar ? 'content-bottom' : null">
+      <transition :name="transitionName">
+        <keep-alive :include="cachePageList">
+          <router-view class="child-view"></router-view>
+        </keep-alive>
+      </transition>
+    </div>
     <template>
       <ul
-        class="size-36 bgcolor-f2 no-ul tab-bar flex-row flex-start-stretch"
         v-if="tabBar"
+        class="size-36 bgcolor-f2 no-ul tab-bar flex-row flex-start-stretch"
       >
         <li
           class="tab-bar-route flex-row flex-center"
@@ -22,8 +22,8 @@
           <van-icon name="arrow-left" />
         </li>
         <li
-          class="tab-bar-route flex-row flex-center"
           v-if="goHome"
+          class="tab-bar-route flex-row flex-center"
           @click="handleGoHome"
           @touchstart="() => {}"
         >
@@ -43,34 +43,28 @@
         class="go-home flex-row flex-center"
         @click="handleGoHome"
       >
-        <van-icon
-          :name="home"
-          color="#ffffff"
-        />
+        <van-icon :name="home" color="#ffffff" />
       </div>
     </template>
-    <van-image-preview
-      v-model="show"
-      :images="previewImage"
-    >
+    <van-image-preview v-model="show" :images="previewImage">
     </van-image-preview>
   </div>
 </template>
 
 <script>
-import config from '@/config'
-import { home } from '@l/img'
-import { mapState, mapMutations } from 'vuex'
+import config from "@/config";
+import { home } from "@l/img";
+import { mapState, mapMutations } from "vuex";
 export default {
-  name: 'container',
+  name: "Container",
 
-  data () {
+  data() {
     return {
       home: home,
       goHome: null,
       tabBar: false,
-      transitionName: 'slide-left'
-    }
+      transitionName: "slide-left"
+    };
   },
   computed: {
     ...mapState({
@@ -80,90 +74,81 @@ export default {
       cachePageList: state => state.app.cachePageList
     }),
     show: {
-      get () {
-        return this.imagePreviewShow
+      get() {
+        return this.imagePreviewShow;
       },
-      set (imagePreviewShow) {
-        this.APP_IMAGEPREVIEW_MUTATE({ imagePreviewShow, previewImage: [] })
+      set(imagePreviewShow) {
+        this.APP_IMAGEPREVIEW_MUTATE({ imagePreviewShow, previewImage: [] });
       }
     },
-    tabBarStly () {
-      return this.goHome ? { width: 'calc(100% / 3)' } : null
+    tabBarStly() {
+      return this.goHome ? { width: "calc(100% / 3)" } : null;
     }
   },
 
   watch: {
     token: {
-      handler (val) {
+      handler(val) {
         // 判断是否需要token
         if (!config.notLoginPageName.includes(this.$route.name) && !val) {
-          const $route = this.$route
-          const path = $route.path
-          const query = $route.query
-          const params = $route.params
+          const $route = this.$route;
+          const path = $route.path;
+          const query = $route.query;
+          const params = $route.params;
           this.$router.push({
-            name: 'login',
+            name: "login",
             query: {
-              url: encodeURIComponent(JSON.stringify({
-                path,
-                query,
-                params
-              }))
+              url: encodeURIComponent(
+                JSON.stringify({
+                  path,
+                  query,
+                  params
+                })
+              )
             }
-          })
+          });
         }
       },
       immediate: true
     },
-    '$route': {
-      handler (route) {
-        this.goHome = route.meta && route.meta.goHome
-        this.tabBar = route.meta && route.meta.tabBar
+    $route: {
+      handler(route) {
+        this.goHome = route.meta && route.meta.goHome;
+        this.tabBar = route.meta && route.meta.tabBar;
       },
       immediate: true
     }
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     // if (to.name === 'login') {
     //   this.transitionName = 'slide-up'
     // } else if (from.name === 'login') {
     //   this.transitionName = 'slide-down'
     // } else
     if (to.meta.toTransition) {
-      this.transitionName = to.meta.toTransition
+      this.transitionName = to.meta.toTransition;
     } else if (from.meta.fromTransition) {
-      this.transitionName = from.meta.fromTransition
-    } else if (to.path.split('/').length > from.path.split('/').length) {
-      this.transitionName = 'slide-left'
-    } else if (to.path.split('/').length < from.path.split('/').length) {
-      this.transitionName = 'slide-right'
+      this.transitionName = from.meta.fromTransition;
+    } else if (to.path.split("/").length > from.path.split("/").length) {
+      this.transitionName = "slide-left";
+    } else if (to.path.split("/").length < from.path.split("/").length) {
+      this.transitionName = "slide-right";
     }
-    next()
+    next();
   },
-  components: {},
 
   methods: {
-    ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
-    handleGoHome () {
+    ...mapMutations(["APP_IMAGEPREVIEW_MUTATE"]),
+    handleGoHome() {
       if (this.goHome === this.$route.name) {
-        return
+        return;
       }
       this.$router.push({
         name: this.goHome
-      })
+      });
     }
-  },
-  created () {
-    // window.addEventListener('popstate', (e) => {
-    //   console.log(e)
-    // })
-    // document.body.classList.add('bgcolor-f2')
-  },
-  mounted () {},
-  beforeDestroy () {
-    // document.body.classList.remove('bgcolor-f2')
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .container

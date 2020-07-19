@@ -7,26 +7,23 @@
 
 <script>
 export default {
-  name: 'TrainingCampDetail',
-
-  data () {
-    return {
-    }
-  },
+  name: "TrainingCampDetail",
 
   components: {},
 
-  computed: {},
-
-  methods: {},
-  created () {
-    const {
-      url
-    } = this.$route.query
-    this.url = url
+  data() {
+    return {};
   },
-  mounted () {}
-}
+
+  computed: {},
+  created() {
+    const { url } = this.$route.query;
+    this.url = url;
+  },
+  mounted() {},
+
+  methods: {}
+};
 </script>
 <style lang="stylus" scoped>
 .training-camp-detail

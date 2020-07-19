@@ -3,9 +3,9 @@
   <div class="my-machine bgcolor-f2 main-body">
     <div class="my-machine-header bgcolor-f">
       <MyStore
-        @trigger-click="handleConfirm"
         :store-id="store_id"
         :default-index="0"
+        @trigger-click="handleConfirm"
       />
     </div>
     <div class="main-container">
@@ -16,14 +16,8 @@
           class="my-machine-fresh"
           @refresh="handleRefresh"
         >
-          <van-collapse
-            class="my-machine-content"
-            v-model="activeNames"
-          >
-            <van-collapse-item
-              title="我的机台"
-              :name="0"
-            >
+          <van-collapse v-model="activeNames" class="my-machine-content">
+            <van-collapse-item title="我的机台" :name="0">
               <MachineList :columns="columns" />
             </van-collapse-item>
           </van-collapse>
@@ -33,62 +27,59 @@
   </div>
 </template>
 <script>
-import MyStore from '@yun/my-store'
-import MachineList from '@yun/machine/machine-list'
-import { getMachineListApi } from '@/api'
+import MyStore from "@yun/my-store";
+import MachineList from "@yun/machine/machine-list";
+import { getMachineListApi } from "@/api";
 export default {
-  name: 'my_machine',
-
-  data () {
-    return {
-      activeNames: [0],
-      columns: [],
-      isLoading: false,
-      store_id: null
-    }
-  },
+  name: "MyMachine",
 
   components: {
     MyStore,
     MachineList
   },
 
+  data() {
+    return {
+      activeNames: [0],
+      columns: [],
+      isLoading: false,
+      store_id: null
+    };
+  },
+
   computed: {},
+  created() {
+    const { sid } = this.$route.query;
+    if (sid) {
+      this.store_id = sid;
+    }
+  },
+  mounted() {},
 
   methods: {
-    handleConfirm (data) {
-      this.store_id = data.value.store_id
-      this.handleGetMachineList()
+    handleConfirm(data) {
+      this.store_id = data.value.store_id;
+      this.handleGetMachineList();
     },
-    handleGetMachineList (callback = () => {}) {
-      this.$Loading('加载中')
+    handleGetMachineList(callback = () => {}) {
+      this.$Loading("加载中");
       getMachineListApi({ store_id: this.store_id }).then(res => {
-        callback()
-        this.$Loading.clear()
-        if (res.return_code === '0') {
-          this.columns = res.data.machine_list
+        callback();
+        this.$Loading.clear();
+        if (res.return_code === "0") {
+          this.columns = res.data.machine_list;
         } else {
-          this.$Tip.warning(res.msg)
+          this.$Tip.warning(res.msg);
         }
-      })
+      });
     },
-    handleRefresh () {
+    handleRefresh() {
       this.handleGetMachineList(() => {
-        this.isLoading = false
-      })
+        this.isLoading = false;
+      });
     }
-  },
-  created () {
-    const {
-      sid
-    } = this.$route.query
-    if (sid) {
-      this.store_id = sid
-    }
-  },
-  mounted () {
   }
-}
+};
 </script>
 <style lang="stylus">
 .my-machine

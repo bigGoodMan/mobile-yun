@@ -26,9 +26,11 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 export default {
-  name: 'LoadingImg',
+  name: "LoadingImg",
+
+  components: {},
   props: {
     img: {
       type: String
@@ -47,41 +49,37 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       showErr: false
-    }
+    };
   },
-
-  components: {},
   computed: {
-    wrapStyl () {
-      let { width, height, radius } = this
-      width = typeof width === 'number' ? `${width}px` : width
-      height = typeof height === 'number' ? `${height}px` : height
-      radius = typeof radius === 'number' ? `${radius}px` : radius
+    wrapStyl() {
+      let { width, height, radius } = this;
+      width = typeof width === "number" ? `${width}px` : width;
+      height = typeof height === "number" ? `${height}px` : height;
+      radius = typeof radius === "number" ? `${radius}px` : radius;
       return {
         width,
         height,
-        'border-radius': radius
-      }
+        "border-radius": radius
+      };
     }
   },
 
   methods: {
-    ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']),
-    handleClick (e, img) {
+    ...mapMutations(["APP_IMAGEPREVIEW_MUTATE"]),
+    handleClick(e, img) {
       if (this.magnify) {
         this.APP_IMAGEPREVIEW_MUTATE({
           previewImage: [img],
           imagePreviewShow: true
-        })
+        });
       }
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .loading-img

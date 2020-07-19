@@ -1,2 +1,2 @@
-import HhfStepper from './hhf-stepper.vue'
-export default HhfStepper
+import HhfStepper from "./hhf-stepper.vue";
+export default HhfStepper;

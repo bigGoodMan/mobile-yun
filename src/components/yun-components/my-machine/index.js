@@ -1,2 +1,2 @@
-import MyMachine from './my-machine'
-export default MyMachine
+import MyMachine from "./my-machine";
+export default MyMachine;

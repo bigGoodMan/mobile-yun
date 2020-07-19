@@ -5,52 +5,42 @@
     <div class="machine-detail-basics bgcolor-f">
       <h5 class="size-30 color-3 machine-detail-title">基础信息</h5>
       <van-cell-group>
-        <van-cell
-          title="门店"
-          :value="machine.store_name"
-        />
-        <van-cell
-          title="编号"
-          :value="`${machine.area_name}-${machine.no}`"
-        />
+        <van-cell title="门店" :value="machine.store_name" />
+        <van-cell title="编号" :value="`${machine.area_name}-${machine.no}`" />
         <van-cell title="资产id">
           <template>
             <van-tag
               v-if="machine.is_online === '1'"
-              color="#5fb878"
               :key="new Date() + 1"
-            >在线</van-tag>
-            <van-tag
-              v-else
-              color="#ff0000"
-              :key="new Date() + 2"
-            >离线</van-tag>
-            <span class="machine-detail-id">{{machine.machine_id}}</span>
+              color="#5fb878"
+              >在线</van-tag
+            >
+            <van-tag v-else :key="new Date() + 2" color="#ff0000">离线</van-tag>
+            <span class="machine-detail-id">{{ machine.machine_id }}</span>
           </template>
         </van-cell>
-        <van-cell
-          title="机型"
-          :value="machine.type_name"
-        />
-        <van-cell
-          title="爪型"
-          :value="machine.claw_type"
-        />
+        <van-cell title="机型" :value="machine.type_name" />
+        <van-cell title="爪型" :value="machine.claw_type" />
         <van-cell
           title="游玩单价"
           :value="machine.coins_sell + '币'"
           is-link
-          :to="{name: 'play_price', query: { mid }}"
+          :to="{ name: 'play_price', query: { mid } }"
         />
       </van-cell-group>
     </div>
     <!-- 在售礼品 -->
-    <div class="machine-detail-gift bgcolor-f" v-if="machine.gift_info.length > 0">
+    <div
+      v-if="machine.gift_info.length > 0"
+      class="machine-detail-gift bgcolor-f"
+    >
       <h5 class="size-30 color-3 machine-detail-title">在售礼品</h5>
       <template v-for="(items, index) in machine.gift_info">
         <div :key="index">
           <div class="border border-border-ebedf0"></div>
-          <div class="flex-row flex-between-stretch machine-detail-gift-container">
+          <div
+            class="flex-row flex-between-stretch machine-detail-gift-container"
+          >
             <div class="flex-row flex-between-stretch">
               <div class="size-0 machine-detail-gift-img flex-row flex-center">
                 <img
@@ -59,25 +49,30 @@
                   @click="handleImgPreview(items)"
                 />
               </div>
-              <div class="flex-column flex-around-start machine-detail-gift-info" style="flex-wrap: wrap;">
-                <span class="color-3 weight-bold size-30">{{items.gift_name}}</span>
-                <span class="color-3 size-28">礼品编号：{{items.gift_id}}</span>
+              <div
+                class="flex-column flex-around-start machine-detail-gift-info"
+                style="flex-wrap: wrap;"
+              >
+                <span class="color-3 weight-bold size-30">{{
+                  items.gift_name
+                }}</span>
+                <span class="color-3 size-28"
+                  >礼品编号：{{ items.gift_id }}</span
+                >
               </div>
             </div>
             <div class="flex-column flex-start-stretch">
-              <span class="color-3 size-28">可抓取数：{{items.gift_num}}</span>
+              <span class="color-3 size-28"
+                >可抓取数：{{ items.gift_num }}</span
+              >
             </div>
           </div>
         </div>
       </template>
     </div>
-    <van-image-preview
-  v-model="show"
-  :images="images"
-  @change="handleChange"
->
-  <template v-slot:index>第{{ index }}页</template>
-</van-image-preview>
+    <van-image-preview v-model="show" :images="images" @change="handleChange">
+      <template v-slot:index>第{{ index }}页</template>
+    </van-image-preview>
     <!-- 参数设置 -->
     <div class="machine-detail-param bgcolor-f">
       <h5 class="size-30 color-3 machine-detail-title">参数设置</h5>
@@ -85,69 +80,68 @@
         <van-cell
           title="运营参数"
           is-link
-          :to="{name: 'operational_parameters', query: { mid }}"
+          :to="{ name: 'operational_parameters', query: { mid } }"
         />
         <van-cell
           title="预警参数"
           is-link
-          :to="{name: 'early_warning_parameters', query: { mid }}"
+          :to="{ name: 'early_warning_parameters', query: { mid } }"
         />
       </van-cell-group>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  name: 'machine_detail',
+  name: "MachineDetail",
 
-  data () {
+  data() {
     return {
-      mid: '',
+      mid: "",
       index: 1,
       show: false,
       images: []
-    }
+    };
   },
   computed: {
     ...mapState({
       machine: state => state.machine
     })
   },
-  components: {
+  created() {
+    this.getMachineDetail();
   },
   methods: {
-    ...mapActions(['MACHINE_MACHINEDETAIL_ACTION']),
-    handleChange (e) {
-    },
-    getMachineDetail () {
-      const { mid } = this.$route.query
+    ...mapActions(["MACHINE_MACHINEDETAIL_ACTION"]),
+    handleChange() {},
+    getMachineDetail() {
+      const { mid } = this.$route.query;
       if (mid) {
-        this.mid = mid
-        this.$Loading()
+        this.mid = mid;
+        this.$Loading();
         this.MACHINE_MACHINEDETAIL_ACTION({ id: mid }).then(res => {
-          this.$Loading.clear()
-          if (res.return_code !== '0') {
-            this.$Tip.warning(res.msg)
+          this.$Loading.clear();
+          if (res.return_code !== "0") {
+            this.$Tip.warning(res.msg);
           }
-        })
+        });
       }
     },
     // 预览
-    handleImgPreview (items) {
-      let giftArr = this.machine.gift_info.filter(v => v.gift_id !== items.gift_id)
-      giftArr.unshift(items)
+    handleImgPreview(items) {
+      const giftArr = this.machine.gift_info.filter(
+        v => v.gift_id !== items.gift_id
+      );
+      giftArr.unshift(items);
       this.images = giftArr.map(v => {
-        return v.name
-      })
-      this.show = true
+        return v.name;
+      });
+      this.show = true;
     }
-  },
-  created () {
-    this.getMachineDetail()
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .machine-detail

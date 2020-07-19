@@ -5,9 +5,9 @@
       <CellList
         title="适用机型"
         :value="giftMachineType[result.machine_type]"
-        @trigger-click="typeShow = true"
         placeholder="请选择"
         right-icon="arrow"
+        @trigger-click="typeShow = true"
       />
     </div>
     <div class="border border-ebedf0"></div>
@@ -15,38 +15,56 @@
       <CellList
         title="适用爪子"
         :value="clawType[result.claw_type]"
-        @trigger-click="clawShow = true"
         placeholder="请选择"
         right-icon
+        @trigger-click="clawShow = true"
       />
     </div>
     <div class="border border-ebedf0"></div>
     <div class="padding-20-30">
       <HhfInput
+        v-model="defaultEarnRate"
         title="预设毛利率（%）"
         type="tel"
-        v-model="defaultEarnRate"
         class="color-input"
         placeholder="可填1~100，不填则默认75%"
       />
       <div class="color-error size-20 text-right height-err">
         <span v-show="errObj.defaultEarnRate">不在毛利率范围1~100</span>
       </div>
-      <div class="size-22 color-7 gift-basic-parameters-tip">该礼品配置到机台上时，系统会根据此值计算出合理的获奖局数</div>
+      <div class="size-22 color-7 gift-basic-parameters-tip">
+        该礼品配置到机台上时，系统会根据此值计算出合理的获奖局数
+      </div>
     </div>
-       <BottomPopup :columns="typeColumns"  :show="typeShow" @trigger-confirm="(val) => handleConfirm('machine_type', val)" @trigger-close="typeShow = false" />
-       <BottomPopup :columns="clawColumns" :show="clawShow" @trigger-confirm="(val) => handleConfirm('claw_type', val)" @trigger-close="clawShow = false" />
+    <BottomPopup
+      :columns="typeColumns"
+      :show="typeShow"
+      @trigger-confirm="val => handleConfirm('machine_type', val)"
+      @trigger-close="typeShow = false"
+    />
+    <BottomPopup
+      :columns="clawColumns"
+      :show="clawShow"
+      @trigger-confirm="val => handleConfirm('claw_type', val)"
+      @trigger-close="clawShow = false"
+    />
   </div>
 </template>
 
 <script>
-import HhfInput from '@hhf/hhf-input'
-import BottomPopup from '@yun/bottom-popup'
-import CellList from '@yun/cell-list'
-import { GIFT_MACHINE_TYPE, CLAW_TYPE } from '@l/judge'
-import errRangeMixin from '@yun/mixins/errRangeMixin'
+import HhfInput from "@hhf/hhf-input";
+import BottomPopup from "@yun/bottom-popup";
+import CellList from "@yun/cell-list";
+import { GIFT_MACHINE_TYPE, CLAW_TYPE } from "@l/judge";
+import errRangeMixin from "@yun/mixins/errRangeMixin";
 export default {
-  name: 'gift_basic_parameters',
+  name: "GiftBasicParameters",
+
+  components: {
+    HhfInput,
+    BottomPopup,
+    CellList
+  },
   mixins: [errRangeMixin],
   props: {
     result: {
@@ -54,7 +72,7 @@ export default {
       default: () => ({})
     }
   },
-  data () {
+  data() {
     return {
       // 机型
       giftMachineType: GIFT_MACHINE_TYPE,
@@ -62,71 +80,66 @@ export default {
       // 爪型
       clawType: CLAW_TYPE,
       clawShow: false
-    }
-  },
-
-  components: {
-    HhfInput,
-    BottomPopup,
-    CellList
+    };
   },
 
   computed: {
     // 机型
-    typeColumns () {
-      return this.commonColumn('machine_type', GIFT_MACHINE_TYPE)
+    typeColumns() {
+      return this.commonColumn("machine_type", GIFT_MACHINE_TYPE);
     },
-    clawColumns () {
-      return this.commonColumn('claw_type', CLAW_TYPE)
+    clawColumns() {
+      return this.commonColumn("claw_type", CLAW_TYPE);
     },
     defaultEarnRate: {
-      get () {
-        return this.result.default_earn_rate
+      get() {
+        return this.result.default_earn_rate;
       },
-      set (val) {
+      set(val) {
         this.judgeFunc({
           value: val,
           range: [1, 100],
-          key: 'defaultEarnRate'
-        })
-        this.$emit('trigger-change', {
+          key: "defaultEarnRate"
+        });
+        this.$emit("trigger-change", {
           ...this.result,
           default_earn_rate: val
-        })
+        });
       }
     }
   },
+  created() {},
+  mounted() {},
   methods: {
-    commonColumn (key, obj) {
-      const id = this.result[key]
-      let defaultIndex = 0
-      let values = []
-      const keyArr = Object.keys(obj)
+    commonColumn(key, obj) {
+      const id = this.result[key];
+      let defaultIndex = 0;
+      const values = [];
+      const keyArr = Object.keys(obj);
       keyArr.forEach((v, i) => {
         if (v === id) {
-          defaultIndex = i
+          defaultIndex = i;
         }
         values.push({
           text: obj[v],
           id: v
-        })
-      })
-      return [{
-        values,
-        defaultIndex
-      }]
+        });
+      });
+      return [
+        {
+          values,
+          defaultIndex
+        }
+      ];
     },
-    handleConfirm (key, obj) {
-      this.$emit('trigger-change', {
+    handleConfirm(key, obj) {
+      this.$emit("trigger-change", {
         ...this.result,
         [key]: obj.value[0].id
-      })
+      });
     }
-  },
-  created () {
-  },
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .gift-basic-parameters-tip

@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-import user from './modules/user'
-import app from './modules/app'
-import machine from './modules/machine'
-import common from './modules/common'
-import inventory from './modules/inventory'
-import gift from './modules/gift'
-import intelligentGrasp from './modules/intelligent-grasp'
-import switchgear from './modules/switchgear'
-import trainingCamp from './modules/training-camp'
-import setMeal from './modules/set-meal'
+import user from "./modules/user";
+import app from "./modules/app";
+import machine from "./modules/machine";
+import common from "./modules/common";
+import inventory from "./modules/inventory";
+import gift from "./modules/gift";
+import intelligentGrasp from "./modules/intelligent-grasp";
+import switchgear from "./modules/switchgear";
+import trainingCamp from "./modules/training-camp";
+import setMeal from "./modules/set-meal";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 // 数据初始化保存
 const initData = {
   user: user.state,
@@ -25,15 +25,14 @@ const initData = {
   switchgear: switchgear.state,
   trainingCamp: trainingCamp.state,
   setMeal: setMeal.state
-}
+};
 export default new Vuex.Store({
-  state: {
-  },
+  state: {},
   mutations: {
-    CLEARSTATE_MUTATE (state) {
-      for (let key in state) {
-        for (let name in state[key]) {
-          state[key][name] = initData[key][name]
+    CLEARSTATE_MUTATE(state) {
+      for (const key in state) {
+        for (const name in state[key]) {
+          state[key][name] = initData[key][name];
         }
       }
     }
@@ -53,4 +52,4 @@ export default new Vuex.Store({
     trainingCamp,
     setMeal
   }
-})
+});

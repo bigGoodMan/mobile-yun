@@ -8,7 +8,10 @@
       <span class="size-26">{{ packageItem.title }}</span>
     </div>
     <template v-if="typeof packageItem.checked === 'boolean'">
-      <van-checkbox :value="packageItem.checked" @click="handleChecked"></van-checkbox>
+      <van-checkbox
+        :value="packageItem.checked"
+        @click="handleChecked"
+      ></van-checkbox>
     </template>
     <template v-else>
       <HhfButton
@@ -31,46 +34,46 @@
 </template>
 
 <script>
-import HhfButton from '@hhf/hhf-button'
+import HhfButton from "@hhf/hhf-button";
 export default {
-  name: 'ConsumptionPackageItem',
-
-  data () {
-    return {}
+  name: "ConsumptionPackageItem",
+  components: {
+    HhfButton
   },
   props: {
     packageItem: {
       type: Object,
-      default () {
-        return {}
+      default() {
+        return {};
       }
     }
   },
-  components: {
-    HhfButton
+
+  data() {
+    return {};
   },
 
   computed: {
-    rulesTitle () {
-      const { limit, discount } = this.packageItem
-      return `满${limit}局送${discount}局`
+    rulesTitle() {
+      const { limit, discount } = this.packageItem;
+      return `满${limit}局送${discount}局`;
     }
   },
+
+  mounted() {},
 
   methods: {
-    handleDelete (items) {
-      this.$emit('trigger-delete', this.packageItem)
+    handleDelete() {
+      this.$emit("trigger-delete", this.packageItem);
     },
-    handleEdit () {
-      this.$emit('trigger-edit', this.packageItem)
+    handleEdit() {
+      this.$emit("trigger-edit", this.packageItem);
     },
-    handleChecked () {
-      this.$emit('trigger-checked', this.packageItem)
+    handleChecked() {
+      this.$emit("trigger-checked", this.packageItem);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .consumption-package-item

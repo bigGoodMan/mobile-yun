@@ -4,44 +4,80 @@
     <div class="consumption-package-popup">
       <dl class="list-first">
         <dt class="title size-28 weight-bold">套餐名称</dt>
-        <dd class="content"><HhfInput placeholder="请输入套餐名称" v-model="packageData.title" position="left"/></dd>
+        <dd class="content">
+          <HhfInput
+            v-model="packageData.title"
+            placeholder="请输入套餐名称"
+            position="left"
+          />
+        </dd>
         <dd class="content border"></dd>
       </dl>
       <dl class="list-second">
         <dt class="title size-28 weight-bold">规则</dt>
         <dd class="margin-0 content">
-          <HhfInput title="每满" type="tel" placeholder="1~20" position="center" v-model="packageData.limit" :error-text="limitError" @trigger-blur="handleBlur('limitError', packageData.limit)" width="2rem" border suffix="局"/>
+          <HhfInput
+            v-model="packageData.limit"
+            title="每满"
+            type="tel"
+            placeholder="1~20"
+            position="center"
+            :error-text="limitError"
+            width="2rem"
+            border
+            suffix="局"
+            @trigger-blur="handleBlur('limitError', packageData.limit)"
+          />
         </dd>
         <dd class="margin-0 content">
           <!-- eslint-disable-next-line no-irregular-whitespace -->
-          <HhfInput title="送　" type="tel" placeholder="1~20" position="center" v-model="packageData.discount" :error-text="discountError" @trigger-blur="handleBlur('discountError', packageData.discount)" width="2rem" border suffix="局"/>
+          <HhfInput
+            v-model="packageData.discount"
+            title="送　"
+            type="tel"
+            placeholder="1~20"
+            position="center"
+            :error-text="discountError"
+            width="2rem"
+            border
+            suffix="局"
+            @trigger-blur="handleBlur('discountError', packageData.discount)"
+          />
         </dd>
       </dl>
-       <div class="cross" @click="handleClose">
-      <van-icon name="cross" color="#ee0a24" size="20px" class="weight-bold" />
-    </div>
+      <div class="cross" @click="handleClose">
+        <van-icon
+          name="cross"
+          color="#ee0a24"
+          size="20px"
+          class="weight-bold"
+        />
+      </div>
       <div class="text-center">
-      <HhfButton type="info" size="normal" radius="0.1rem" @trigger-click="handleSave">保存</HhfButton>
+        <HhfButton
+          type="info"
+          size="normal"
+          radius="0.1rem"
+          @trigger-click="handleSave"
+          >保存</HhfButton
+        >
       </div>
     </div>
   </van-popup>
 </template>
 
 <script>
-import HhfInput from '@hhf/hhf-input'
-import HhfButton from '@hhf/hhf-button'
+import HhfInput from "@hhf/hhf-input";
+import HhfButton from "@hhf/hhf-button";
 export default {
-  name: 'ConsumptionPackagePopup',
-  data () {
-    return {
-      limitError: '',
-      discountError: '',
-      packageData: {}
-    }
+  name: "ConsumptionPackagePopup",
+  components: {
+    HhfInput,
+    HhfButton
   },
   model: {
-    prop: 'show',
-    event: 'trigger-change'
+    prop: "show",
+    event: "trigger-change"
   },
   props: {
     show: {
@@ -52,18 +88,21 @@ export default {
       type: Object
     }
   },
-  components: {
-    HhfInput,
-    HhfButton
+  data() {
+    return {
+      limitError: "",
+      discountError: "",
+      packageData: {}
+    };
   },
 
   computed: {},
   watch: {
-    itemData (currVal) {
-      this.limitError = ''
-      this.discountError = ''
+    itemData(currVal) {
+      this.limitError = "";
+      this.discountError = "";
       if (!currVal) {
-        return
+        return;
       }
       this.packageData = {
         title: currVal.title,
@@ -71,50 +110,46 @@ export default {
         store_id: currVal.store_id,
         limit: currVal.limit,
         discount: currVal.discount
-      }
-    }
-  },
-  methods: {
-    handleBlur (key, val) {
-      if (!/^[0-9]*$/.test(val)) {
-        this[key] = '格式不正确'
-        return
-      }
-      if (val - 0 >= 0 && val - 0 <= 20) {
-        this[key] = ''
-        return
-      }
-      this[key] = '0~20局数'
-    },
-    handleClose () {
-      this.$emit('trigger-change', false)
-    },
-    handleSave () {
-      const {
-        title,
-        discount,
-        limit
-      } = this.packageData
-      if (!title) {
-        this.$Tip.warning('名称不能为空')
-        return
-      }
-      if (!/^[0-9]*$/.test(discount) || discount - 0 < 0 || discount - 0 > 20) {
-        this.discountError = '0~20局数'
-        this.$Tip.warning('请填入正确的格式')
-        return
-      }
-      if (!/^[0-9]*$/.test(limit) || limit - 0 < 0 || limit - 0 > 20) {
-        this.limitError = '0~20局数'
-        this.$Tip.warning('请填入正确的格式')
-        return
-      }
-      this.$emit('trigger-save', this.packageData)
+      };
     }
   },
 
-  mounted () {}
-}
+  mounted() {},
+  methods: {
+    handleBlur(key, val) {
+      if (!/^[0-9]*$/.test(val)) {
+        this[key] = "格式不正确";
+        return;
+      }
+      if (val - 0 >= 0 && val - 0 <= 20) {
+        this[key] = "";
+        return;
+      }
+      this[key] = "0~20局数";
+    },
+    handleClose() {
+      this.$emit("trigger-change", false);
+    },
+    handleSave() {
+      const { title, discount, limit } = this.packageData;
+      if (!title) {
+        this.$Tip.warning("名称不能为空");
+        return;
+      }
+      if (!/^[0-9]*$/.test(discount) || discount - 0 < 0 || discount - 0 > 20) {
+        this.discountError = "0~20局数";
+        this.$Tip.warning("请填入正确的格式");
+        return;
+      }
+      if (!/^[0-9]*$/.test(limit) || limit - 0 < 0 || limit - 0 > 20) {
+        this.limitError = "0~20局数";
+        this.$Tip.warning("请填入正确的格式");
+        return;
+      }
+      this.$emit("trigger-save", this.packageData);
+    }
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .consumption-package-popup

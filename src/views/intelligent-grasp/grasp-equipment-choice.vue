@@ -2,9 +2,13 @@
 <template>
   <div class="grasp-equipment-choice">
     <div class="header bgcolor-f">
-      <MyStore @trigger-click="handleConfirm" :store-id="storeId" :default-index="0">
+      <MyStore
+        :store-id="storeId"
+        :default-index="0"
+        @trigger-click="handleConfirm"
+      >
         <div class="flex-row flex-end-center flex-1">
-          <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
+          <van-icon name="question-o" size="0.4rem" @click="handleRouter" />
         </div>
       </MyStore>
     </div>
@@ -12,9 +16,9 @@
       <div class="bgcolor-f content">
         <h5 class="margin-0 padding-20-30 size-30">我的机台</h5>
         <div class="border"></div>
-        <MyArea :store-id="storeId" v-model="area" />
+        <MyArea v-model="area" :store-id="storeId" />
         <div class="border"></div>
-        <MyMachine :store-id="storeId" :area-id="area.id" v-model="machine" />
+        <MyMachine v-model="machine" :store-id="storeId" :area-id="area.id" />
         <!-- <LinkageSelection
           right-icon
           title="请选择区域"
@@ -32,8 +36,12 @@
         />-->
         <div class="border"></div>
       </div>
-      <div class="bgcolor-f content" v-if="machine.id">
-        <CellList right-icon="arrow" placeholder="请选择礼品" @trigger-click="handleRouterGift">
+      <div v-if="machine.id" class="bgcolor-f content">
+        <CellList
+          right-icon="arrow"
+          placeholder="请选择礼品"
+          @trigger-click="handleRouterGift"
+        >
           <template v-slot:title>
             <h5 class="margin-0 size-30">我的礼品</h5>
           </template>
@@ -48,39 +56,53 @@
         </div>
       </div>
     </div>
-    <div class="finish-btn-content" v-if="finishShow">
+    <div v-if="finishShow" class="finish-btn-content">
       <HhfButton
         type="info"
         :loading="finishLoading"
-        @trigger-click="handleFinished"
         radius="0.05rem"
-      >完成</HhfButton>
+        @trigger-click="handleFinished"
+        >完成</HhfButton
+      >
     </div>
-    <div class="fixed-max-width bottom-0 size-0 zindex-2" v-if="giftInfoSelected.id">
+    <div
+      v-if="giftInfoSelected.id"
+      class="fixed-max-width bottom-0 size-0 zindex-2"
+    >
       <HhfButton
         size="large"
         type="info"
         :loading="loading"
-        @trigger-click="handleStart"
         radius="0.05rem"
-      >开始配置</HhfButton>
+        @trigger-click="handleStart"
+        >开始配置</HhfButton
+      >
     </div>
   </div>
 </template>
 
 <script>
-import MyStore from '@yun/my-store'
-import MyArea from '@yun/my-area'
-import MyMachine from '@yun/my-machine'
-import HhfButton from '@hhf/hhf-button'
-import CellList from '@yun/cell-list'
+import MyStore from "@yun/my-store";
+import MyArea from "@yun/my-area";
+import MyMachine from "@yun/my-machine";
+import HhfButton from "@hhf/hhf-button";
+import CellList from "@yun/cell-list";
 // import LinkageSelection from '@yun/linkage-selection'
-import { mapMutations, mapState } from 'vuex'
-import { startConfigureGraspApi, getConfigureGraspResultApi } from '@/api'
+import { mapMutations, mapState } from "vuex";
+import { startConfigureGraspApi, getConfigureGraspResultApi } from "@/api";
 export default {
-  name: 'GraspEquipmentChoice',
+  name: "GraspEquipmentChoice",
 
-  data () {
+  components: {
+    MyStore,
+    // LinkageSelection,
+    CellList,
+    HhfButton,
+    MyArea,
+    MyMachine
+  },
+
+  data() {
     return {
       finishShow: false,
       finishLoading: false,
@@ -93,16 +115,7 @@ export default {
       areaValue: {}, // 选中的区域
       machineColumns: [], // 机台列表
       machineValue: {} // 选中的机台
-    }
-  },
-
-  components: {
-    MyStore,
-    // LinkageSelection,
-    CellList,
-    HhfButton,
-    MyArea,
-    MyMachine
+    };
   },
 
   computed: {
@@ -110,53 +123,78 @@ export default {
       giftInfoSelected: state => state.intelligentGrasp.giftInfoSelected
     })
   },
-  activated () { // keep-alive 组件激活调用
-    this.finishShow = false
-    this.finishLoading = false
+  activated() {
+    // keep-alive 组件激活调用
+    this.finishShow = false;
+    this.finishLoading = false;
+  },
+  created() {
+    const { sid, mid, aid } = this.$route.query;
+    if (sid) {
+      this.storeId = sid;
+    }
+    if (sid && aid) {
+      this.area.id = aid;
+    }
+    if (sid && aid && mid) {
+      this.machine.id = mid;
+    }
+    this.APP_ADDCACHEPAGELIST_MUTATE("GraspEquipmentChoice");
   },
   methods: {
-    ...mapMutations(['APP_ADDCACHEPAGELIST_MUTATE', 'INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE']),
+    ...mapMutations([
+      "APP_ADDCACHEPAGELIST_MUTATE",
+      "INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE"
+    ]),
     // 完成
-    handleFinished () {
-      this.finishLoading = true
-      getConfigureGraspResultApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machine.id }).then(res => {
-        this.finishLoading = false
-        if (res.return_code === '0') {
-          this.$Loading.clear()
-          this.finishShow = false
-          this.$Tip.success(res.msg)
+    handleFinished() {
+      this.finishLoading = true;
+      getConfigureGraspResultApi({
+        store_id: this.storeId,
+        gift_id: this.giftInfoSelected.id,
+        mid: this.machine.id
+      }).then(res => {
+        this.finishLoading = false;
+        if (res.return_code === "0") {
+          this.$Loading.clear();
+          this.finishShow = false;
+          this.$Tip.success(res.msg);
         } else if (res.msg) {
           this.$Tip.warning({
             message: res.msg,
-            maskColor: 'rgba(0, 0, 0,.8)',
+            maskColor: "rgba(0, 0, 0,.8)",
             mask: true
-          })
+          });
         }
-      })
+      });
     },
     // 开始配置
-    handleStart () {
-      this.loading = true
-      startConfigureGraspApi({ store_id: this.storeId, gift_id: this.giftInfoSelected.id, mid: this.machine.id }).then(res => {
-        this.loading = false
-        if (res.return_code === '0') {
+    handleStart() {
+      this.loading = true;
+      startConfigureGraspApi({
+        store_id: this.storeId,
+        gift_id: this.giftInfoSelected.id,
+        mid: this.machine.id
+      }).then(res => {
+        this.loading = false;
+        if (res.return_code === "0") {
           this.$Loading({
-            message: '请在机台上按【下抓键】开始配置',
+            message: "请在机台上按【下抓键】开始配置",
             mask: true,
-            maskColor: 'rgba(0, 0, 0,.8)',
+            maskColor: "rgba(0, 0, 0,.8)",
             zIndex: 11
-          })
-          this.finishShow = true
+          });
+          this.finishShow = true;
         } else if (res.msg) {
-          this.$Tip.warning(res.msg)
+          this.$Tip.warning(res.msg);
         }
-      })
+      });
     },
     // 选择门店
-    handleConfirm (obj) {
-      this.storeId = obj.value.store_id
+    handleConfirm(obj) {
+      this.storeId = obj.value.store_id;
       // this.getAreaListByStore()
-      this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
+      this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}); // 清空store抓感礼品
     },
     // 获取区域列表
     // getAreaListByStore () {
@@ -215,41 +253,22 @@ export default {
     //   this.machineValue = obj.value[0]
     //   this.INTELLIGENTGRASP_EDITGIFTINFOSELECTED_MUTATE({}) // 清空store抓感礼品
     // },
-    handleRouter () {
+    handleRouter() {
       this.$router.push({
-        name: 'Article'
-      })
+        name: "Article"
+      });
     },
-    handleRouterGift () {
+    handleRouterGift() {
       this.$router.push({
-        name: 'GraspGiftChoice',
+        name: "GraspGiftChoice",
         query: {
           sid: this.storeId
         }
-      })
+      });
     },
-    handleSave () {}
-  },
-
-  mounted () {},
-  created () {
-    const {
-      sid,
-      mid,
-      aid
-    } = this.$route.query
-    if (sid) {
-      this.storeId = sid
-    }
-    if (sid && aid) {
-      this.area.id = aid
-    }
-    if (sid && aid && mid) {
-      this.machine.id = mid
-    }
-    this.APP_ADDCACHEPAGELIST_MUTATE('GraspEquipmentChoice')
+    handleSave() {}
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .grasp-equipment-choice {

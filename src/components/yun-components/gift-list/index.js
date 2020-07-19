@@ -1,2 +1,2 @@
-import GiftList from './gift-list.vue'
-export default GiftList
+import GiftList from "./gift-list.vue";
+export default GiftList;

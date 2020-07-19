@@ -14,8 +14,8 @@
       >
         <van-pull-refresh
           v-model="learningManualFreshLoading"
+          style="overflow: initial;"
           @refresh="handleRefresh"
-          style="overflow:initial"
         >
           <div class="padding-top-20">
             <template v-if="learningManualList.length > 0">
@@ -23,8 +23,8 @@
                 v-model="learningManualLoading"
                 :finished="learningManualFinished"
                 finished-text="没有更多了"
-                @load="handleLoading(2)"
                 :offset="10"
+                @load="handleLoading(2)"
               >
                 <ul class="no-ul">
                   <li
@@ -38,7 +38,8 @@
               </van-list>
             </template>
             <template v-else>
-              <div class="size-24 text-center padding-top-20 color-9 ">暂时没有数据
+              <div class="size-24 text-center padding-top-20 color-9">
+                暂时没有数据
                 <van-icon name="smile-o" />
               </div>
             </template>
@@ -50,11 +51,10 @@
         name="training-1"
         class="training-camp-column-tabcontent"
       >
-
         <van-pull-refresh
           v-model="coreCourseFreshLoading"
+          style="overflow: initial;"
           @refresh="handleRefresh"
-          style="overflow:initial"
         >
           <div class="padding-top-20">
             <template v-if="coreCourseList.length > 0">
@@ -62,8 +62,8 @@
                 v-model="coreCourseLoading"
                 :finished="coreCourseFinished"
                 finished-text="没有更多了"
-                @load="handleLoading(1)"
                 :offset="10"
+                @load="handleLoading(1)"
               >
                 <ul class="no-ul">
                   <li
@@ -77,7 +77,8 @@
               </van-list>
             </template>
             <template v-else>
-              <div class="size-24 text-center padding-top-20 color-9 ">暂时没有数据
+              <div class="size-24 text-center padding-top-20 color-9">
+                暂时没有数据
                 <van-icon name="smile-o" />
               </div>
             </template>
@@ -91,8 +92,8 @@
       >
         <van-pull-refresh
           v-model="newFeaturesFreshLoading"
+          style="overflow: initial;"
           @refresh="handleRefresh"
-          style="overflow:initial"
         >
           <div class="padding-top-20">
             <template v-if="newFeaturesList.length > 0">
@@ -100,8 +101,8 @@
                 v-model="newFeaturesLoading"
                 :finished="newFeaturesFinished"
                 finished-text="没有更多了"
-                @load="handleLoading(3)"
                 :offset="10"
+                @load="handleLoading(3)"
               >
                 <ul class="no-ul">
                   <li
@@ -115,7 +116,8 @@
               </van-list>
             </template>
             <template v-else>
-              <div class="size-24 text-center padding-top-20 color-9 ">暂时没有数据
+              <div class="size-24 text-center padding-top-20 color-9">
+                暂时没有数据
                 <van-icon name="smile-o" />
               </div>
             </template>
@@ -127,15 +129,20 @@
 </template>
 
 <script>
-import TrainingUserInfo from './components/user-info'
-import TrainingList from './components/list'
-import mixin from './mixin'
-import { getTrainTypeListApi } from '@/api'
+import TrainingUserInfo from "./components/user-info";
+import TrainingList from "./components/list";
+import mixin from "./mixin";
+import { getTrainTypeListApi } from "@/api";
 // import { getEllipsisText } from '@l/tools'
 export default {
-  name: 'TrainingCampColumn',
+  name: "TrainingCampColumn",
+  components: {
+    TrainingUserInfo,
+    TrainingList
+  },
+  mixins: [mixin],
 
-  data () {
+  data() {
     return {
       learningManualFreshLoading: false, // 下来刷新
       learningManualLoading: false, // 上拉加载
@@ -159,104 +166,91 @@ export default {
       newFeaturesPage: 1,
 
       typeData: {
-        1: 'coreCourse',
-        2: 'learningManual',
-        3: 'newFeatures'
+        1: "coreCourse",
+        2: "learningManual",
+        3: "newFeatures"
       }, // 类型数据
-      activeName: 'training-2',
+      activeName: "training-2",
       limit: 20
-    }
-  },
-  mixins: [mixin],
-  components: {
-    TrainingUserInfo,
-    TrainingList
+    };
   },
 
-  computed: {
-  },
+  computed: {},
   watch: {
-    activeName (val) {
-      const type = val.split('-')[1]
-      const {
-        typeData
-      } = this
-      let typeName = typeData[type]
-      let listKey = `${typeName}List`
+    activeName(val) {
+      const type = val.split("-")[1];
+      const { typeData } = this;
+      const typeName = typeData[type];
+      const listKey = `${typeName}List`;
       if (this[listKey].length === 0) {
-        this.getTrainTypeList(type)
+        this.getTrainTypeList(type);
       }
     }
   },
+  created() {
+    let { type } = this.$route.query;
+    type = type - 0;
+    if (type && type !== 2) {
+      this.activeName = `training-${type}`;
+      return;
+    }
+    this.getTrainTypeList(2);
+  },
+  mounted() {},
   methods: {
-    getTrainTypeList (type) {
-      this.$Loading()
-      const {
-        limit,
-        typeData
-      } = this
-      let typeName = typeData[type]
-      let pageKey = `${typeName}Page`
-      let freshLoadingKey = `${typeName}FreshLoading`
-      let loadingKey = `${typeName}Loading`
-      let finishedKey = `${typeName}Finished`
-      let listKey = `${typeName}List`
+    getTrainTypeList(type) {
+      this.$Loading();
+      const { limit, typeData } = this;
+      const typeName = typeData[type];
+      const pageKey = `${typeName}Page`;
+      const freshLoadingKey = `${typeName}FreshLoading`;
+      const loadingKey = `${typeName}Loading`;
+      const finishedKey = `${typeName}Finished`;
+      const listKey = `${typeName}List`;
       getTrainTypeListApi({
         limit,
         page: this[pageKey],
         type
       }).then(res => {
-        ++this[pageKey]
-        this[freshLoadingKey] = false
-        this[loadingKey] = false
-        this.$Loading.clear()
-        if (res.return_code === '0') {
-          let list = res.data.map(v => {
+        ++this[pageKey];
+        this[freshLoadingKey] = false;
+        this[loadingKey] = false;
+        this.$Loading.clear();
+        if (res.return_code === "0") {
+          const list = res.data.map(v => {
             return {
               ...v,
               type,
-              create_time: v.create_time.split(' ')[0],
+              create_time: v.create_time.split(" ")[0],
               name: v.name, // getEllipsisText(v.name, 10),
               is_collect: !!(v.is_collect - 0)
-            }
-          })
+            };
+          });
           if (list.length < limit) {
-            this[finishedKey] = true
+            this[finishedKey] = true;
           }
-          this[listKey] = [...this[listKey], ...list]
-          return
+          this[listKey] = [...this[listKey], ...list];
+          return;
         }
-        this.$Tip.warning(res.msg)
-      })
+        this.$Tip.warning(res.msg);
+      });
     },
-    handleLoading (type) {
-      this.getTrainTypeList(type)
+    handleLoading(type) {
+      this.getTrainTypeList(type);
     },
-    handleRefresh () {
-      let type = this.activeName.split('-')[1]
-      let typeName = this.typeData[type]
-      let pageKey = `${typeName}Page`
-      let finishedKey = `${typeName}Finished`
-      let listKey = `${typeName}List`
-      this[finishedKey] = false
-      this[pageKey] = 1
-      this[listKey] = []
-      this.getTrainTypeList(type)
+    handleRefresh() {
+      const type = this.activeName.split("-")[1];
+      const typeName = this.typeData[type];
+      const pageKey = `${typeName}Page`;
+      const finishedKey = `${typeName}Finished`;
+      const listKey = `${typeName}List`;
+      this[finishedKey] = false;
+      this[pageKey] = 1;
+      this[listKey] = [];
+      this.getTrainTypeList(type);
     }
-  },
-  created () {
-    let {
-      type
-    } = this.$route.query
-    type = type - 0
-    if (type && type !== 2) {
-      this.activeName = `training-${type}`
-      return
-    }
-    this.getTrainTypeList(2)
-  },
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .training-camp-column

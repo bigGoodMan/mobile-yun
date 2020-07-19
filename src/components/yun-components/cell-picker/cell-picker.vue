@@ -2,12 +2,7 @@
 <template>
   <div>
     <div>
-      <van-cell
-        :title="title"
-        :value="value"
-        is-link
-        @click="show = true"
-      />
+      <van-cell :title="title" :value="value" is-link @click="show = true" />
     </div>
     <BottomPopup
       :columns="columns"
@@ -19,9 +14,13 @@
 </template>
 
 <script>
-import BottomPopup from '@yun/bottom-popup'
+import BottomPopup from "@yun/bottom-popup";
 export default {
-  name: 'cell_picker',
+  name: "CellPicker",
+
+  components: {
+    BottomPopup
+  },
   props: {
     title: String,
     value: [String, Number],
@@ -30,25 +29,21 @@ export default {
       default: () => []
     }
   },
-  data () {
+  data() {
     return {
       show: false
-    }
-  },
-
-  components: {
-    BottomPopup
+    };
   },
 
   computed: {},
 
-  methods: {
-    handleConfirm (obj) {
-      this.$emit('trigger-confirm', obj.value[0])
-    }
-  },
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {
+    handleConfirm(obj) {
+      this.$emit("trigger-confirm", obj.value[0]);
+    }
+  }
+};
 </script>
 <style lang="stylus" scoped></style>

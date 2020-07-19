@@ -1,42 +1,37 @@
 <!-- 提示图标 -->
 <template>
-    <van-icon @click="handleRouter" name="question-o" size="0.4rem" />
+  <van-icon name="question-o" size="0.4rem" @click="handleRouter" />
 </template>
 
 <script>
 export default {
-  name: 'TipIcon',
-
-  data () {
-    return {
-      tip: null
-    }
-  },
+  name: "TipIcon",
 
   components: {},
 
+  data() {
+    return {
+      tip: null
+    };
+  },
+
   computed: {},
+  created() {
+    const { meta } = this.$route;
+    if (meta && meta.tip) {
+      this.tip = meta.tip;
+    }
+  },
+  mounted() {},
 
   methods: {
-    handleRouter () {
-      const {
-        tip
-      } = this
+    handleRouter() {
+      const { tip } = this;
       if (tip) {
-        location.href = tip
+        location.href = tip;
       }
     }
-  },
-  created () {
-    const {
-      meta
-    } = this.$route
-    if (meta && meta.tip) {
-      this.tip = meta.tip
-    }
-  },
-  mounted () {}
-}
+  }
+};
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

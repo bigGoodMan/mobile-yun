@@ -1,2 +1,2 @@
-import StockTakingList from './stock-taking-list.vue'
-export default StockTakingList
+import StockTakingList from "./stock-taking-list.vue";
+export default StockTakingList;

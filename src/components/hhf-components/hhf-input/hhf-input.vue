@@ -26,8 +26,8 @@
             :style="{ 'text-align': position }"
             :value="value"
             :class="['hhf-input-entry', inputClass]"
-            @input="$emit('trigger-input', $event.target.value)"
             :placeholder="placeholder"
+            @input="$emit('trigger-input', $event.target.value)"
             @focus="handleFocus"
             @blur="$emit('trigger-blur', $event.target.value)"
           />
@@ -41,7 +41,13 @@
       </div>
     </div>
     <template>
-      <div class="color-error size-20 height-err" :style="errorStyle" v-if="errorText !== void 0">{{errorText}}</div>
+      <div
+        v-if="errorText !== void 0"
+        class="color-error size-20 height-err"
+        :style="errorStyle"
+      >
+        {{ errorText }}
+      </div>
       <slot name="end"></slot>
     </template>
   </div>
@@ -49,34 +55,35 @@
 
 <script>
 export default {
-  name: 'hhf_input',
+  name: "HhfInput",
+  components: {},
   model: {
-    prop: 'value',
-    event: 'trigger-input'
+    prop: "value",
+    event: "trigger-input"
   },
   props: {
     value: {
-      default: ''
+      default: ""
     },
     placeholder: String,
     position: {
-      default: 'right',
+      default: "right",
       type: String
     },
     leftIcon: {
-      default: '',
+      default: "",
       type: String
     },
     rightIcon: {
-      default: '',
+      default: "",
       type: String
     },
     suffix: {
       type: String,
-      default: ''
+      default: ""
     },
     title: {
-      default: '',
+      default: "",
       type: String
     },
     width: {
@@ -88,11 +95,11 @@ export default {
     },
     inputStyle: {
       type: String || Object,
-      default: ''
+      default: ""
     },
     errorStyle: {
       type: String || Object,
-      default: ''
+      default: ""
     },
     errorText: {
       type: String
@@ -100,38 +107,38 @@ export default {
     inputClass: [String, Array],
     maxlength: Number,
     type: {
-      default: 'text',
+      default: "text",
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         // 这个值必须匹配下列字符串中的一个
-        return ['text', 'number', 'tel'].includes(value)
+        return ["text", "number", "tel"].includes(value);
       }
     }
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
-  components: {},
 
   computed: {
-    getInputStyle () {
-      if (typeof this.inputStyle === 'string') {
-        let width = this.width ? `width:${this.width};` : ''
-        return `${this.inputStyle}${width}`
-      } else if (typeof this.inputStyle === 'object') {
+    getInputStyle() {
+      if (typeof this.inputStyle === "string") {
+        const width = this.width ? `width:${this.width};` : "";
+        return `${this.inputStyle}${width}`;
+      } else if (typeof this.inputStyle === "object") {
         return {
           ...this.inputStyle,
           width: this.width
-        }
+        };
       }
       return {
         width: this.width
-      }
+      };
     }
   },
+  mounted() {},
 
   methods: {
-    handleFocus (e) {
+    handleFocus(e) {
       // if (this.type === 'number') {
       //   return
       // }
@@ -140,10 +147,10 @@ export default {
         !/(Win32)/i.test(navigator.platform)
       ) {
         // 移动端
-        let target = e.target
+        const target = e.target;
         if (target.setSelectionRange) {
           // 火狐
-          target.setSelectionRange(target.value.length, target.value.length) // 将光标定位在textarea的开头，需要定位到其他位置的请自行修改
+          target.setSelectionRange(target.value.length, target.value.length); // 将光标定位在textarea的开头，需要定位到其他位置的请自行修改
           // target.focus()
         }
       }
@@ -154,10 +161,8 @@ export default {
       //   rtextRange.select()
       // }
     }
-  },
-  mounted () {
   }
-}
+};
 </script>
 <style lang="stylus">
 .hhf-input

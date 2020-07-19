@@ -2,20 +2,28 @@
 <template>
   <div class="mode-card bgcolor-f">
     <h5 class="flex-row flex-between-center mode-card-head">
-      <span class="size-30 color-3">{{title}}</span>
-      <div class="flex-row flex-end-center"><slot name="title-right"></slot></div>
+      <span class="size-30 color-3">{{ title }}</span>
+      <div class="flex-row flex-end-center">
+        <slot name="title-right"></slot>
+      </div>
     </h5>
     <div class="border"></div>
     <div class="mode-card-container">
       <ul class="no-ul mode-card-ul">
-        <li v-for="(items, index) of list" :key="index" class="mode-card-list" @click="handleRouter(items)">
+        <li
+          v-for="(items, index) of list"
+          :key="index"
+          class="mode-card-list"
+          @click="handleRouter(items)"
+        >
           <div class="mode-card-content bgcolor-f">
             <div class="mode-card-img">
               <LoadingImg class="mode-card-img-content" :img="items.image" />
             </div>
-            <p class="size-26 mode-card-text text-ellipsis text-center">{{items.name}}</p>
+            <p class="size-26 mode-card-text text-ellipsis text-center">
+              {{ items.name }}
+            </p>
           </div>
-
         </li>
       </ul>
     </div>
@@ -23,26 +31,27 @@
 </template>
 
 <script>
-import LoadingImg from '@yun/loading-img/loading-img'
+import LoadingImg from "@yun/loading-img/loading-img";
 export default {
-  name: 'TrainingCampModeCard',
-  props: {
-    title: String,
-    list: Array
-  },
-  data () {
-    return {
-    }
-  },
+  name: "TrainingCampModeCard",
 
   components: {
     LoadingImg
   },
+  props: {
+    title: String,
+    list: Array
+  },
+  data() {
+    return {};
+  },
 
   computed: {},
 
+  mounted() {},
+
   methods: {
-    handleRouter (item) {
+    handleRouter(item) {
       if (item.link) {
         // this.$router.push({
         //   name: 'TrainingCampDetail',
@@ -50,20 +59,18 @@ export default {
         //     url: item.link
         //   }
         // })
-        window.location.href = item.link
-        return
+        window.location.href = item.link;
+        return;
       }
       this.$router.push({
-        name: 'LearningManual',
+        name: "LearningManual",
         query: {
           id: item.id
         }
-      })
+      });
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .mode-card

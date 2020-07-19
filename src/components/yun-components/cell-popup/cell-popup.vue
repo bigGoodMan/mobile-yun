@@ -2,46 +2,41 @@
 <template>
   <div>
     <div>
-      <van-cell
-        :title="title"
-        :value="value"
-        is-link
-        @click="show = true"
-      />
+      <van-cell :title="title" :value="value" is-link @click="show = true" />
     </div>
-  <van-popup
-    v-model="show"
-    @click-overlay="handleClose"
-  >
-    <div class="cell-popup-container">
-      <h5 class="size-30 color-3 padding-20-30 margin-0">{{popupTitle}}</h5>
-      <div class="padding-20-30">
-        <div class="flex-row flex-start-stretch">
-          <input
-            class="cell-popup-input padding-0 margin-0 size-28"
-            type="number"
-            v-model="val"
-            :placeholder="popupPlaceholder"
-          />
+    <van-popup v-model="show" @click-overlay="handleClose">
+      <div class="cell-popup-container">
+        <h5 class="size-30 color-3 padding-20-30 margin-0">{{ popupTitle }}</h5>
+        <div class="padding-20-30">
+          <div class="flex-row flex-start-stretch">
+            <input
+              v-model="val"
+              class="cell-popup-input padding-0 margin-0 size-28"
+              type="number"
+              :placeholder="popupPlaceholder"
+            />
+          </div>
+          <div class="border"></div>
+          <div class="color-error size-20 text-right height-err margin-top-20">
+            <span v-show="errShow">{{ validatorMessage }}</span>
+          </div>
         </div>
-        <div class="border"></div>
-      <div class="color-error size-20 text-right height-err margin-top-20">
-        <span v-show="errShow">{{validatorMessage}}</span>
+        <CancelConfirmBtn
+          @trigger-confirm="handleConfirm"
+          @trigger-cancel="handleCancel"
+        />
       </div>
-      </div>
-      <CancelConfirmBtn
-        @trigger-confirm="handleConfirm"
-        @trigger-cancel="handleCancel"
-      />
-    </div>
-  </van-popup>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import CancelConfirmBtn from '@yun/cancel-confirm-btn'
+import CancelConfirmBtn from "@yun/cancel-confirm-btn";
 export default {
-  name: 'cell_popup',
+  name: "CellPopup",
+  components: {
+    CancelConfirmBtn
+  },
   props: {
     title: String,
     value: [String, Number],
@@ -49,58 +44,55 @@ export default {
     popupPlaceholder: String,
     validator: {
       type: Function,
-      default: (val) => true
+      default: () => true
     },
     validatorMessage: {
       type: String,
-      default: '格式错误'
+      default: "格式错误"
     }
   },
-  data () {
+  data() {
     return {
-      val: '',
+      val: "",
       show: false
+    };
+  },
+
+  computed: {
+    errShow() {
+      return !this.validator(this.val);
     }
   },
   watch: {
     value: {
-      handler (currVal) {
-        this.val = currVal
+      handler(currVal) {
+        this.val = currVal;
       },
       immediate: true
     }
   },
-  components: {
-    CancelConfirmBtn
-  },
 
-  computed: {
-    errShow () {
-      return !this.validator(this.val)
-    }
-  },
+  mounted() {},
 
   methods: {
-    handleConfirm () {
+    handleConfirm() {
       if (!this.errShow) {
-        this.$emit('trigger-confirm', this.val)
-        this.handleClose()
+        this.$emit("trigger-confirm", this.val);
+        this.handleClose();
       }
     },
-    handleReset () {
-      this.val = this.value
+    handleReset() {
+      this.val = this.value;
     },
-    handleCancel () {
-      this.handleClose()
+    handleCancel() {
+      this.handleClose();
     },
-    handleClose () {
-      this.handleReset()
-      this.show = false
+    handleClose() {
+      this.handleReset();
+      this.show = false;
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .cell-popup-container

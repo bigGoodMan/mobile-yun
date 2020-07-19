@@ -1,10 +1,5 @@
-import { initZIndexAdd } from '../utils/initParams'
+import { initZIndexAdd } from "../utils/initParams";
 export default {
-  data () {
-    return {
-      show: false
-    }
-  },
   props: {
     duration: {
       type: Number,
@@ -12,7 +7,7 @@ export default {
     },
     transitionName: {
       type: String,
-      default: 'fade'
+      default: "fade"
     },
     zIndex: {
       type: Number,
@@ -31,45 +26,50 @@ export default {
     },
     position: {
       type: String,
-      default: 'center'
+      default: "center"
     }
   },
-  methods: {
-    // 去除当前组件
-    remove () {
-      this.clearTimer()
-      this.$emit('trigger-remove', this.keyName)
-    },
-    // 清除计时器
-    clearTimer () {
-      if (this.timer) {
-        clearTimeout(this.clearTimer)
-        this.timer = null
-      }
-    }
+  data() {
+    return {
+      show: false
+    };
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      this.show = true // 为了动画
-    })
+      this.show = true; // 为了动画
+    });
     // setTimeout(() => {
     //   this.show = true
     // }, 1000)
-    this.clearTimer()
+    this.clearTimer();
     if (this.duration !== 0) {
       this.timer = setTimeout(() => {
-        this.remove()
-      }, this.duration * 1000)
+        this.remove();
+      }, this.duration * 1000);
     }
   },
-  beforeDestroy () {
-    this.clearTimer()
-    this.$emit('trigger-close') // 销毁组件之前的回调
+  beforeDestroy() {
+    this.clearTimer();
+    this.$emit("trigger-close"); // 销毁组件之前的回调
   },
-  destoryed () {
-    this.$emit('trigger-after-close') // 销毁组件之后的回调
+  methods: {
+    // 去除当前组件
+    remove() {
+      this.clearTimer();
+      this.$emit("trigger-remove", this.keyName);
+    },
+    // 清除计时器
+    clearTimer() {
+      if (this.timer) {
+        clearTimeout(this.clearTimer);
+        this.timer = null;
+      }
+    }
   },
-  render (h) {
+  destoryed() {
+    this.$emit("trigger-after-close"); // 销毁组件之后的回调
+  },
+  render() {
     const {
       $slots,
       transitionName,
@@ -78,30 +78,35 @@ export default {
       styles,
       zIndex,
       position
-    } = this
-    let parentStyles = {
-      'z-index': zIndex
-    }
-    let parentClasses = ['hhf-plugins-popup']
+    } = this;
+    const parentStyles = {
+      "z-index": zIndex
+    };
+    const parentClasses = ["hhf-plugins-popup"];
     let wrapClasses = [
-      'hhf-plugins-popup-container', `hhf-plugins-popup-${position}`
-    ]
-    let childStyles = {
-      'z-index': zIndex + 1,
+      "hhf-plugins-popup-container",
+      `hhf-plugins-popup-${position}`
+    ];
+    const childStyles = {
+      "z-index": zIndex + 1,
       ...styles
-    }
-    if (Object.prototype.toString.call(classes) === '[object Array]') {
-      wrapClasses = wrapClasses.concat(classes)
-    } else if (typeof classes === 'string') {
-      wrapClasses = wrapClasses.concat(classes.split(' '))
+    };
+    if (Object.prototype.toString.call(classes) === "[object Array]") {
+      wrapClasses = wrapClasses.concat(classes);
+    } else if (typeof classes === "string") {
+      wrapClasses = wrapClasses.concat(classes.split(" "));
     }
     return (
       <transition name={transitionName}>
-        {show ? <div class={parentClasses} style={parentStyles}>
-          {$slots.mask}
-          <div class={wrapClasses} style={childStyles}>{$slots.default}</div>
-        </div> : null}
+        {show ? (
+          <div class={parentClasses} style={parentStyles}>
+            {$slots.mask}
+            <div class={wrapClasses} style={childStyles}>
+              {$slots.default}
+            </div>
+          </div>
+        ) : null}
       </transition>
-    )
+    );
   }
-}
+};

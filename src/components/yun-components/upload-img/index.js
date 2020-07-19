@@ -1,2 +1,2 @@
-import UploadImg from './upload-img'
-export default UploadImg
+import UploadImg from "./upload-img";
+export default UploadImg;

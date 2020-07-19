@@ -1,2 +1,2 @@
-import CellPicker from './cell-picker.vue'
-export default CellPicker
+import CellPicker from "./cell-picker.vue";
+export default CellPicker;

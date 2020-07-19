@@ -1,2 +1,2 @@
-import GraspingPowerParameters from './grasping-power-parameters'
-export default GraspingPowerParameters
+import GraspingPowerParameters from "./grasping-power-parameters";
+export default GraspingPowerParameters;

@@ -2,44 +2,32 @@
 <template>
   <div class="hhf-stepper">
     <div class="flex-row flex-center">
-      <div
-        :class="['hhf-stepper-left size-0']"
-        @click="handleReduce"
-      >
+      <div :class="['hhf-stepper-left size-0']" @click="handleReduce">
         <HhfButton
           class="hhf-stepper-btn width-full height-full"
           size="custom"
           :disabled="leftDisabled"
         >
-          <HhfIcon
-            class="size-28 hhf-stepper-icon"
-            name="reduce"
-          />
+          <HhfIcon class="size-28 hhf-stepper-icon" name="reduce" />
         </HhfButton>
       </div>
       <div class="hhf-stepper-text flex-row flex-center">
-      <input
-        class="hhf-stepper-text-content size-24"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @input="handleInput"
-        :value="currentValue"
-        type="tel"
-      />
+        <input
+          class="hhf-stepper-text-content size-24"
+          :value="currentValue"
+          type="tel"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @input="handleInput"
+        />
       </div>
-      <div
-        :class="['hhf-stepper-right size-0']"
-        @click="handleAdd"
-      >
+      <div :class="['hhf-stepper-right size-0']" @click="handleAdd">
         <HhfButton
           class="hhf-stepper-btn"
           size="custom"
           :disabled="rightDisabled"
         >
-          <HhfIcon
-            class="size-28 hhf-stepper-icon"
-            name="add"
-          />
+          <HhfIcon class="size-28 hhf-stepper-icon" name="add" />
         </HhfButton>
       </div>
     </div>
@@ -47,12 +35,17 @@
 </template>
 
 <script>
-import HhfButton from '../hhf-button'
-import HhfIcon from '../hhf-icon'
+import HhfButton from "../hhf-button";
+import HhfIcon from "../hhf-icon";
 export default {
-  name: 'hhf_stepper',
+  name: "HhfStepper",
+
+  components: {
+    HhfIcon,
+    HhfButton
+  },
   model: {
-    event: 'trigger-input'
+    event: "trigger-input"
   },
   props: {
     value: [String, Number],
@@ -81,110 +74,90 @@ export default {
       default: false
     }
   },
-  data () {
-    const currentValue = this.value
+  data() {
+    const currentValue = this.value;
     return {
       currentValue
-    }
-  },
-
-  components: {
-    HhfIcon,
-    HhfButton
+    };
   },
 
   computed: {
-    leftDisabled () {
-      const {
-        min,
-        reduceDisabled,
-        value
-      } = this
-      return value !== '' && (value <= min || reduceDisabled)
+    leftDisabled() {
+      const { min, reduceDisabled, value } = this;
+      return value !== "" && (value <= min || reduceDisabled);
     },
-    rightDisabled () {
-      const {
-        max,
-        addDisabled,
-        value
-      } = this
-      return value !== '' && (value >= max || addDisabled)
+    rightDisabled() {
+      const { max, addDisabled, value } = this;
+      return value !== "" && (value >= max || addDisabled);
     }
   },
   watch: {
-    value (currVal, beforeVal) {
-      this.currentValue = this.handleFormat(currVal, beforeVal)
+    value(currVal, beforeVal) {
+      this.currentValue = this.handleFormat(currVal, beforeVal);
     }
     // currentValue (currVal) {
     //   this.$emit('trigger-input', currVal)
     //   this.$emit('trigger-change', currVal)
     // }
   },
+
+  mounted() {},
   methods: {
-    handleRange (val) {
-      const {
-        min,
-        max
-      } = this
-      return Math.min(Math.max(val, min), max)
+    handleRange(val) {
+      const { min, max } = this;
+      return Math.min(Math.max(val, min), max);
     },
-    handleFormat (currVal, beforeVal) {
-      return new RegExp(`^-?[0-9]*${this.integer ? '' : '(\\.?[0-9]*)'}$`).test(currVal) || currVal === '' ? currVal : beforeVal
+    handleFormat(currVal, beforeVal) {
+      return new RegExp(`^-?[0-9]*${this.integer ? "" : "(\\.?[0-9]*)"}$`).test(
+        currVal
+      ) || currVal === ""
+        ? currVal
+        : beforeVal;
     },
-    handleTrigger (val) {
-      this.$emit('trigger-input', val)
-      this.$emit('trigger-change', val)
+    handleTrigger(val) {
+      this.$emit("trigger-input", val);
+      this.$emit("trigger-change", val);
     },
-    handleInput (e) {
-      let val = e.target.value
-      val = String(val).replace(/[^0-9.-]/g, '')
+    handleInput(e) {
+      let val = e.target.value;
+      val = String(val).replace(/[^0-9.-]/g, "");
       //  this.handleFormat(e.target.value, this.currentValue)
       // val = val === '' ? val : this.handleRange(val)
-      e.target.value = val
-      this.handleTrigger(val)
+      e.target.value = val;
+      this.handleTrigger(val);
     },
     // 减少
-    handleReduce () {
-      const {
-        leftDisabled,
-        step,
-        currentValue
-      } = this
+    handleReduce() {
+      const { leftDisabled, step, currentValue } = this;
       if (!leftDisabled) {
-        let val = this.handleRange(currentValue - step)
-        this.handleTrigger(val)
-        this.$emit('trigger-reduce', val)
+        const val = this.handleRange(currentValue - step);
+        this.handleTrigger(val);
+        this.$emit("trigger-reduce", val);
       }
     },
     // 增加
-    handleAdd () {
-      const {
-        rightDisabled,
-        step,
-        currentValue
-      } = this
+    handleAdd() {
+      const { rightDisabled, step, currentValue } = this;
       if (!rightDisabled) {
-        let val = this.handleRange(currentValue - 0 + step)
-        this.handleTrigger(val)
-        this.$emit('trigger-add', val)
+        const val = this.handleRange(currentValue - 0 + step);
+        this.handleTrigger(val);
+        this.$emit("trigger-add", val);
       }
     },
     // 聚焦
-    handleFocus (e) {
-      this.$emit('trigger-focus', this.currentValue)
+    handleFocus() {
+      this.$emit("trigger-focus", this.currentValue);
     },
     // 失焦
-    handleBlur (e) {
-      let val = this.handleFormat(e.target.value, this.currentValue)
-      val = val === '' ? val : this.handleRange(val)
-      e.target.value = val
-      this.handleTrigger(val)
-      this.$emit('trigger-blur', val)
+    handleBlur(e) {
+      let val = this.handleFormat(e.target.value, this.currentValue);
+      val = val === "" ? val : this.handleRange(val);
+      e.target.value = val;
+      this.handleTrigger(val);
+      this.$emit("trigger-blur", val);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .hhf-stepper

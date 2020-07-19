@@ -15,9 +15,9 @@
         <ul class="no-ul">
           <li class="padding-20-30">
             <HhfInput
+              v-model="experienceTicketItem.name"
               title="券包名字"
               type="text"
-              v-model="experienceTicketItem.name"
               placeholder="券包名字"
             />
           </li>
@@ -57,8 +57,8 @@
           </li>
           <li class="padding-20-30">
             <HhfInput
-              title="发放数量"
               v-model="experienceTicketItem.num"
+              title="发放数量"
               type="tel"
               placeholder="可填入发放数量"
             />
@@ -69,13 +69,16 @@
       <div class="experience-ticket-popup-main">
         <div class="experience-ticket-popup-container padding-20-30">
           <van-swipe
+            ref="swipeRef"
             class="experience-ticket-popup-content"
             vertical
             :loop="false"
-            ref="swipeRef"
             @change="handleSwipe"
           >
-            <van-swipe-item v-for="(items, index) of experienceTicketItem.card_info" :key="index">
+            <van-swipe-item
+              v-for="(items, index) of experienceTicketItem.card_info"
+              :key="index"
+            >
               <div class="size-28 text-center">卡券{{ index + 1 }}</div>
               <ul class="no-ul">
                 <li>
@@ -111,26 +114,44 @@
                 </li>
                 <li class="border"></li>
                 <li class="padding-20-30">
-                  <HhfInput title="面值" type="tel" v-model="items.coin" placeholder="可填入面值" />
+                  <HhfInput
+                    v-model="items.coin"
+                    title="面值"
+                    type="tel"
+                    placeholder="可填入面值"
+                  />
                 </li>
                 <li class="border"></li>
                 <li class="padding-20-30">
-                  <HhfInput title="发放数量" type="tel" v-model="items.num" placeholder="可填入发放数量" />
+                  <HhfInput
+                    v-model="items.num"
+                    title="发放数量"
+                    type="tel"
+                    placeholder="可填入发放数量"
+                  />
                 </li>
                 <li class="border"></li>
               </ul>
             </van-swipe-item>
             <template #indicator>
-              <div
-                class="experience-ticket-popup-custom-indicator"
-              >{{ current + 1 }}/{{ experienceTicketItem.card_info.length }}</div>
+              <div class="experience-ticket-popup-custom-indicator">
+                {{ current + 1 }}/{{ experienceTicketItem.card_info.length }}
+              </div>
             </template>
           </van-swipe>
           <div class="text-center">
-            <HhfButton type="info" radius="0.1rem" @trigger-click="handleAdd">添加卡券</HhfButton>
+            <HhfButton type="info" radius="0.1rem" @trigger-click="handleAdd"
+              >添加卡券</HhfButton
+            >
           </div>
           <div class="text-center margin-top-20">
-            <HhfButton type="info" size="large" radius="0.1rem" @trigger-click="handleSave">保存</HhfButton>
+            <HhfButton
+              type="info"
+              size="large"
+              radius="0.1rem"
+              @trigger-click="handleSave"
+              >保存</HhfButton
+            >
           </div>
         </div>
         <van-popup
@@ -143,10 +164,10 @@
           <van-datetime-picker
             v-model="currentDate"
             type="date"
-            @confirm="handleConfirm"
-            @cancel="handleCancel"
             :min-date="minDate"
             :max-date="maxDate"
+            @confirm="handleConfirm"
+            @cancel="handleCancel"
           />
         </van-popup>
       </div>
@@ -155,28 +176,20 @@
 </template>
 
 <script>
-import CellList from '@yun/cell-list'
-import HhfButton from '@hhf/hhf-button'
-import HhfInput from '@hhf/hhf-input'
-import moment from 'moment'
+import CellList from "@yun/cell-list";
+import HhfButton from "@hhf/hhf-button";
+import HhfInput from "@hhf/hhf-input";
+import moment from "moment";
 export default {
-  name: 'ExperienceTicketPopup',
-  model: {
-    prop: 'show',
-    event: 'trigger-change'
+  name: "ExperienceTicketPopup",
+  components: {
+    HhfInput,
+    CellList,
+    HhfButton
   },
-  data () {
-    return {
-      current: 0,
-      dateShow: false,
-      minDate: new Date(),
-      maxDate: new Date(2025, 10, 1),
-      currentDate: new Date(),
-      dateNameObj: {},
-      experienceTicketItem: {
-        card_info: [{}]
-      }
-    }
+  model: {
+    prop: "show",
+    event: "trigger-change"
   },
   props: {
     show: {
@@ -188,28 +201,38 @@ export default {
       default: () => {}
     }
   },
-  components: {
-    HhfInput,
-    CellList,
-    HhfButton
+  data() {
+    return {
+      current: 0,
+      dateShow: false,
+      minDate: new Date(),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
+      dateNameObj: {},
+      experienceTicketItem: {
+        card_info: [{}]
+      }
+    };
   },
 
   watch: {
-    ticketData (currVal) {
+    ticketData(currVal) {
       if (!currVal) {
-        this.init()
-        return
+        this.init();
+        return;
       }
-      const card = currVal.card_info.map(item => ({ ...item }))
+      const card = currVal.card_info.map(item => ({ ...item }));
       this.experienceTicketItem = {
         ...currVal,
         card_info: card
-      }
+      };
     }
   },
+
+  mounted() {},
   methods: {
-    init () {
-      let initObj = {
+    init() {
+      const initObj = {
         current: 0,
         dateShow: false,
         minDate: new Date(),
@@ -219,138 +242,136 @@ export default {
         experienceTicketItem: {
           card_info: [{}]
         }
-      }
-      for (let key in initObj) {
-        this[key] = initObj[key]
+      };
+      for (const key in initObj) {
+        this[key] = initObj[key];
       }
     },
-    getDate (dt) {
+    getDate(dt) {
       if (!dt) {
-        return ''
+        return "";
       }
-      return moment(dt * 1000).format('YYYY-MM-DD')
+      return moment(dt * 1000).format("YYYY-MM-DD");
     },
-    handleSwipe (index) {
-      this.current = index
+    handleSwipe(index) {
+      this.current = index;
     },
-    handleOpenPackageDate ({ key, start, end, index }) {
+    handleOpenPackageDate({ key, start, end }) {
       this.dateNameObj = {
-        type: 'package',
+        type: "package",
         name: key
-      }
-      let currentDate
-      if (key === 'start_time') {
-        this.minDate = new Date()
+      };
+      let currentDate;
+      if (key === "start_time") {
+        this.minDate = new Date();
         this.maxDate = end
           ? new Date(end * 1000 - 24 * 60 * 60 * 1000)
-          : new Date(2025, 10, 1)
-        currentDate = start || Date.parse(this.minDate) / 1000
-      } else if (key === 'end_time') {
-        this.maxDate = new Date(2025, 10, 1)
+          : new Date(2025, 10, 1);
+        currentDate = start || Date.parse(this.minDate) / 1000;
+      } else if (key === "end_time") {
+        this.maxDate = new Date(2025, 10, 1);
         this.minDate = start
           ? new Date(start * 1000 + 24 * 60 * 60 * 1000)
-          : new Date()
-        currentDate = end || Date.parse(this.minDate) / 1000
+          : new Date();
+        currentDate = end || Date.parse(this.minDate) / 1000;
       }
       if (currentDate) {
-        this.currentDate = new Date(currentDate * 1000)
+        this.currentDate = new Date(currentDate * 1000);
       } else {
-        this.currentDate = new Date()
+        this.currentDate = new Date();
       }
-      this.dateShow = true
+      this.dateShow = true;
     },
-    handleOpenCouponDate ({ key, start, end, index }) {
+    handleOpenCouponDate({ key, start, end, index }) {
       this.dateNameObj = {
-        type: 'coupon',
+        type: "coupon",
         name: key,
         index
-      }
-      let currentDate
-      if (key === 'start') {
-        this.minDate = new Date()
+      };
+      let currentDate;
+      if (key === "start") {
+        this.minDate = new Date();
         this.maxDate = end
           ? new Date(end * 1000 - 24 * 60 * 60 * 1000)
-          : new Date(2025, 10, 1)
-        currentDate = start || Date.parse(this.minDate) / 1000
-      } else if (key === 'end') {
-        this.maxDate = new Date(2025, 10, 1)
+          : new Date(2025, 10, 1);
+        currentDate = start || Date.parse(this.minDate) / 1000;
+      } else if (key === "end") {
+        this.maxDate = new Date(2025, 10, 1);
         this.minDate = start
           ? new Date(start * 1000 + 24 * 60 * 60 * 1000)
-          : new Date()
-        currentDate = start || Date.parse(this.minDate) / 1000
+          : new Date();
+        currentDate = start || Date.parse(this.minDate) / 1000;
       }
       if (currentDate) {
-        this.currentDate = new Date(currentDate * 1000)
+        this.currentDate = new Date(currentDate * 1000);
       } else {
-        this.currentDate = new Date()
+        this.currentDate = new Date();
       }
-      this.dateShow = true
+      this.dateShow = true;
     },
-    handleConfirm (value) {
-      const { type, name, index } = this.dateNameObj
-      const val = Date.parse(value) / 1000
-      if (type === 'package') {
+    handleConfirm(value) {
+      const { type, name, index } = this.dateNameObj;
+      const val = Date.parse(value) / 1000;
+      if (type === "package") {
         this.experienceTicketItem = {
           ...this.experienceTicketItem,
           [name]: val
-        }
-      } else if (type === 'coupon') {
+        };
+      } else if (type === "coupon") {
         const card = this.experienceTicketItem.card_info.map((v, i) => {
           if (index === i) {
-            v[name] = val
+            v[name] = val;
           }
-          return v
-        })
+          return v;
+        });
         this.experienceTicketItem = {
           ...this.experienceTicketItem,
           card_info: card
-        }
+        };
       }
-      this.handleDateClose()
+      this.handleDateClose();
     },
-    handleClickOverlay () {
-      this.init()
-      this.$emit('trigger-change', false)
+    handleClickOverlay() {
+      this.init();
+      this.$emit("trigger-change", false);
     },
-    handleCancel () {
-      this.handleDateClose()
+    handleCancel() {
+      this.handleDateClose();
     },
-    handleDateClose () {
-      this.dateShow = false
+    handleDateClose() {
+      this.dateShow = false;
     },
-    handleAdd () {
-      const card = this.experienceTicketItem.card_info
-      const length = card.length
-      const tailIndex = length - 1
-      const cardItem = card[tailIndex]
-      const keys = Object.keys(cardItem)
-      const keysLength = keys.length
+    handleAdd() {
+      const card = this.experienceTicketItem.card_info;
+      const length = card.length;
+      const tailIndex = length - 1;
+      const cardItem = card[tailIndex];
+      const keys = Object.keys(cardItem);
+      const keysLength = keys.length;
       if (keysLength < 4) {
-        this.$Tip.warning(`请把卡券${length}填写完整！`)
-        return
+        this.$Tip.warning(`请把卡券${length}填写完整！`);
+        return;
       }
       for (let i = 0; i < keysLength; ++i) {
         if (!cardItem[keys[i]]) {
-          this.$Tip.warning(`请把卡券${length}填写完整！`)
-          return
+          this.$Tip.warning(`请把卡券${length}填写完整！`);
+          return;
         }
       }
-      card.push({})
-      const index = card.length - 1
+      card.push({});
+      const index = card.length - 1;
       this.experienceTicketItem = {
         ...this.experienceTicketItem,
         card_info: card
-      }
-      this.$refs.swipeRef.swipeTo(index)
+      };
+      this.$refs.swipeRef.swipeTo(index);
     },
-    handleSave () {
+    handleSave() {
       // this.init()
-      this.$emit('trigger-save', this.experienceTicketItem)
+      this.$emit("trigger-save", this.experienceTicketItem);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .experience-ticket-popup {

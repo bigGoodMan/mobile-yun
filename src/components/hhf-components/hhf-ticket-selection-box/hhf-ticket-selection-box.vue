@@ -1,19 +1,23 @@
 <!-- 勾选选择框 -->
 <template>
   <div class="hhf-ticket-selection-box" @click="handleClick">
-      <span class="hhf-ticket-selection-box-font" :style="fontStyl">{{title}}</span>
-      <div class="hhf-ticket" :style="ticketStyl">
-        <span v-if="value">✔</span>
-      </div>
+    <span class="hhf-ticket-selection-box-font" :style="fontStyl">{{
+      title
+    }}</span>
+    <div class="hhf-ticket" :style="ticketStyl">
+      <span v-if="value">✔</span>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HhfTicketSelectionBox',
+  name: "HhfTicketSelectionBox",
+
+  components: {},
   model: {
-    prop: 'value',
-    event: 'trigger-change'
+    prop: "value",
+    event: "trigger-change"
   },
   props: {
     value: {
@@ -23,37 +27,34 @@ export default {
     title: String,
     ticketColor: {
       type: String,
-      default: '#1890ff'
+      default: "#1890ff"
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
-
-  components: {},
 
   computed: {
-    fontStyl () {
+    fontStyl() {
       return {
         color: this.value ? this.ticketColor : null
-      }
+      };
     },
-    ticketStyl () {
+    ticketStyl() {
       return {
         color: this.ticketColor
-      }
+      };
     }
   },
+
+  mounted() {},
 
   methods: {
-    handleClick () {
-      this.$emit('trigger-change', !this.value)
+    handleClick() {
+      this.$emit("trigger-change", !this.value);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus">
 .hhf-ticket-selection-box

@@ -1,22 +1,36 @@
 <!-- 套餐项目 -->
 <template>
-  <div :class="['package-item flex-column flex-center', active, 'package-item-border', disabledCls]" @click="handleClick">
+  <div
+    :class="[
+      'package-item flex-column flex-center',
+      active,
+      'package-item-border',
+      disabledCls
+    ]"
+    @click="handleClick"
+  >
     <div class="left-top">
       <slot name="left-top"></slot>
     </div>
-    <span :class="['size-26', 'weight-bold', checked ? 'color-f' : null, disabled ? 'color-9' : null]">{{ text }}</span>
+    <span
+      :class="[
+        'size-26',
+        'weight-bold',
+        checked ? 'color-f' : null,
+        disabled ? 'color-9' : null
+      ]"
+      >{{ text }}</span
+    >
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RechargePackageItem',
+  name: "RechargePackageItem",
+  components: {},
   model: {
-    prop: 'checked',
-    event: 'trigger-change'
-  },
-  data () {
-    return {}
+    prop: "checked",
+    event: "trigger-change"
   },
   props: {
     checked: {
@@ -25,35 +39,37 @@ export default {
     },
     text: {
       type: String,
-      default: ''
+      default: ""
     },
     disabled: {
       type: Boolean,
       default: false
     }
   },
-  components: {},
+  data() {
+    return {};
+  },
 
   computed: {
-    active () {
-      return this.checked ? 'package-item-active' : null
+    active() {
+      return this.checked ? "package-item-active" : null;
     },
-    disabledCls () {
-      return this.disabled ? 'package-item-disabled' : null
+    disabledCls() {
+      return this.disabled ? "package-item-disabled" : null;
     }
   },
+
+  mounted() {},
 
   methods: {
-    handleClick () {
-      this.$emit('trigger-click')
+    handleClick() {
+      this.$emit("trigger-click");
     },
-    handleChange () {
-      this.$emit('trigger-change', !this.checked)
+    handleChange() {
+      this.$emit("trigger-change", !this.checked);
     }
-  },
-
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .package-item

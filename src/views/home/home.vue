@@ -5,21 +5,19 @@
 
 <script>
 export default {
-  name: 'home',
-
-  data () {
-    return {
-    }
-  },
+  name: "Home",
 
   components: {},
 
+  data() {
+    return {};
+  },
+
   computed: {},
 
-  methods: {},
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {}
+};
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

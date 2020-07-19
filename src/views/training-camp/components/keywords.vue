@@ -1,39 +1,42 @@
 <!-- 关键字 -->
 <template>
   <ul class="no-ul keywords">
-    <li class="keywords-list" v-for="(item, index) of keywordsList" :key="index" @click="handleClick(item)">
-      <van-tag color="#969799" round size="large">{{item}}</van-tag>
+    <li
+      v-for="(item, index) of keywordsList"
+      :key="index"
+      class="keywords-list"
+      @click="handleClick(item)"
+    >
+      <van-tag color="#969799" round size="large">{{ item }}</van-tag>
     </li>
   </ul>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'TrainingCampKeywords',
-
-  data () {
-    return {
-    }
-  },
+  name: "TrainingCampKeywords",
 
   components: {},
+
+  data() {
+    return {};
+  },
 
   computed: {
     ...mapState({
       keywordsList: state => state.trainingCamp.keywordsList
     })
   },
+  created() {},
+  mounted() {},
 
   methods: {
-    handleClick (item) {
-      this.$emit('trigger-click', item)
+    handleClick(item) {
+      this.$emit("trigger-click", item);
     }
-  },
-  created () {
-  },
-  mounted () {}
-}
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .keywords

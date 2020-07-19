@@ -1,2 +1,2 @@
-import HhfIcon from './hhf-icon.vue'
-export default HhfIcon
+import HhfIcon from "./hhf-icon.vue";
+export default HhfIcon;

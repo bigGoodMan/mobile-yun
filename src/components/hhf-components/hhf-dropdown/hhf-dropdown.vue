@@ -1,38 +1,68 @@
 <!-- 下拉菜单 -->
 <template>
-  <div class="hhf-dropdown" ref="dropdown">
+  <div ref="dropdown" class="hhf-dropdown">
     <!-- <div @click="show = !show" class="bgcolor-f">aaaaaaaa -->
-      <slot></slot>
+    <slot></slot>
     <!-- </div> -->
-    <div class="hhf-dropdown-mask" v-show="show" @click="handleFade" :style="{height: maskHeight, top: maskTop}"></div>
-    <div style="position: relative" ref="anim">
-    <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @:enter-cancelled="enterCancelled" @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave" @leave-cancelled="leaveCancelled">
-      <div v-if="show" class="hhf-dropdown-anim">
-        <template v-if="$slots.dropdown">
-          <slot name="dropdown"></slot>
-        </template>
-        <template v-else>
-          <ul class="hhf-dropdown-list">
-            <li v-for="(items, index) of columns" :key="index">
-              <HhfTicketSelectionBox :title="items.name" :value="items.checked"  @trigger-change="(checked) => handleChange({checked, name: items.name, value: items.value, index})" />
-              <div class="border"></div>
-            </li>
-          </ul>
-        </template>
-      </div>
-    </transition>
+    <div
+      v-show="show"
+      class="hhf-dropdown-mask"
+      :style="{ height: maskHeight, top: maskTop }"
+      @click="handleFade"
+    ></div>
+    <div ref="anim" style="position: relative;">
+      <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        @:enter-cancelled="enterCancelled"
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+        @leave-cancelled="leaveCancelled"
+      >
+        <div v-if="show" class="hhf-dropdown-anim">
+          <template v-if="$slots.dropdown">
+            <slot name="dropdown"></slot>
+          </template>
+          <template v-else>
+            <ul class="hhf-dropdown-list">
+              <li v-for="(items, index) of columns" :key="index">
+                <HhfTicketSelectionBox
+                  :title="items.name"
+                  :value="items.checked"
+                  @trigger-change="
+                    checked =>
+                      handleChange({
+                        checked,
+                        name: items.name,
+                        value: items.value,
+                        index
+                      })
+                  "
+                />
+                <div class="border"></div>
+              </li>
+            </ul>
+          </template>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { getParentsOffsetTop } from '@l/tools'
-import HhfTicketSelectionBox from '../hhf-ticket-selection-box'
+import { getParentsOffsetTop } from "@l/tools";
+import HhfTicketSelectionBox from "../hhf-ticket-selection-box";
 export default {
-  name: 'HhfDropdown',
+  name: "HhfDropdown",
+
+  components: {
+    HhfTicketSelectionBox
+  },
   model: {
-    prop: 'show',
-    event: 'trigger-fade'
+    prop: "show",
+    event: "trigger-fade"
   },
   props: {
     show: {
@@ -41,80 +71,76 @@ export default {
     },
     columns: Array
   },
-  data () {
+  data() {
     return {
       maskHeight: null,
       maskTop: null
-    }
+    };
   },
 
-  components: {
-    HhfTicketSelectionBox
-  },
+  computed: {},
 
-  computed: {
+  mounted() {
+    const maskHeightTop = getParentsOffsetTop(this.$refs["anim"]);
+    const top = getParentsOffsetTop(this.$refs["anim"], this.$refs["dropdown"]);
+    this.maskTop = `${top}px`;
+    this.maskHeight = `${document.documentElement.clientHeight -
+      maskHeightTop}px`;
   },
 
   methods: {
-    handleFade () {
-      this.$emit('trigger-fade', false)
+    handleFade() {
+      this.$emit("trigger-fade", false);
     },
-    beforeEnter (el) {
-    //  const node = this.$refs['anim']
-      el.style.transition = 'all 0.5s'
+    beforeEnter(el) {
+      //  const node = this.$refs['anim']
+      el.style.transition = "all 0.5s";
     },
-    enter (el, done) {
-      const offsetHeight = el.offsetHeight
-      el.style.height = '0px'
+    enter(el, done) {
+      const offsetHeight = el.offsetHeight;
+      el.style.height = "0px";
       setTimeout(() => {
-        el.style.height = `${offsetHeight}px`
-      }, 1)
+        el.style.height = `${offsetHeight}px`;
+      }, 1);
       setTimeout(() => {
-        done()
-      }, 500)
+        done();
+      }, 500);
       // el.style.height = ''
     },
-    afterEnter (el, done) {
-      el.style.height = null
-      el.style.transition = null
+    afterEnter(el) {
+      el.style.height = null;
+      el.style.transition = null;
     },
-    enterCancelled (el) {
-      el.style.height = null
-      el.style.transition = null
+    enterCancelled(el) {
+      el.style.height = null;
+      el.style.transition = null;
     },
-    beforeLeave (el) {
-      el.style.transition = 'all 0.5s'
-      el.style.height = `${el.offsetHeight}px`
+    beforeLeave(el) {
+      el.style.transition = "all 0.5s";
+      el.style.height = `${el.offsetHeight}px`;
     },
-    leave (el, done) {
+    leave(el, done) {
       setTimeout(() => {
-        el.style.height = '0px'
-      }, 1)
+        el.style.height = "0px";
+      }, 1);
       setTimeout(() => {
-        done()
-      }, 500)
+        done();
+      }, 500);
       // el.style.height = ''
     },
-    afterLeave (el) {
-      el.style.height = null
-      el.style.transition = null
+    afterLeave(el) {
+      el.style.height = null;
+      el.style.transition = null;
     },
-    leaveCancelled (el) {
-      el.style.height = null
-      el.style.transition = null
+    leaveCancelled(el) {
+      el.style.height = null;
+      el.style.transition = null;
     },
-    handleChange ({ name, index, value, checked }) {
-      this.$emit('trigger-change', { name, index, value, checked })
+    handleChange({ name, index, value, checked }) {
+      this.$emit("trigger-change", { name, index, value, checked });
     }
-  },
-
-  mounted () {
-    const maskHeightTop = getParentsOffsetTop(this.$refs['anim'])
-    const top = getParentsOffsetTop(this.$refs['anim'], this.$refs['dropdown'])
-    this.maskTop = `${top}px`
-    this.maskHeight = `${document.documentElement.clientHeight - maskHeightTop}px`
   }
-}
+};
 </script>
 <style lang="stylus">
 .hhf-dropdown

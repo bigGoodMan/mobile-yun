@@ -5,11 +5,11 @@
     <ul class="no-ul flex-row flex-center contact-list-ul">
       <li class="contact-list flex-row flex-center">
         <van-icon :name="phoneIcon" class="contact-phone" />
-        <span class="size-24">{{info.mobile}}</span>
+        <span class="size-24">{{ info.mobile }}</span>
       </li>
       <li class="contact-list flex-row flex-center">
-        <van-icon :name="emailIcon" class="contact-email"/>
-        <span class="size-24">{{info.email}}</span>
+        <van-icon :name="emailIcon" class="contact-email" />
+        <span class="size-24">{{ info.email }}</span>
       </li>
     </ul>
   </div>
@@ -17,32 +17,32 @@
 
 <script>
 export default {
-  name: 'TrainingCampContact',
+  name: "TrainingCampContact",
+
+  components: {},
   props: {
     info: Object
   },
-  data () {
+  data() {
     return {
-      phoneIcon: require('../img/phone.png'),
-      emailIcon: require('../img/email.png')
-    }
+      phoneIcon: require("../img/phone.png"),
+      emailIcon: require("../img/email.png")
+    };
   },
-
-  components: {},
 
   computed: {},
 
-  methods: {
-    handlePhone () {
-      window.location.href = `tel:${this.info.mobile}`
-    },
-    handleEmail () {
-      window.location.href = `mailto:${this.info.email}`
-    }
-  },
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {
+    handlePhone() {
+      window.location.href = `tel:${this.info.mobile}`;
+    },
+    handleEmail() {
+      window.location.href = `mailto:${this.info.email}`;
+    }
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .contact

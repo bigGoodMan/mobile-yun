@@ -3,47 +3,46 @@
   <div class="user-info flex-row flex-between-stretch color-f">
     <LoadingImg :img="info.portrait" class="user-info-img" />
     <div class="flex-column flex-center-start user-info-introduce flex-1">
-      <span class="size-30">{{info.name}}，欢迎！</span>
-      <span class="size-24">{{info.welcome}}</span>
+      <span class="size-30">{{ info.name }}，欢迎！</span>
+      <span class="size-24">{{ info.welcome }}</span>
     </div>
     <div class="flex-column flex-center" @click="handleRouterPush">
-      <img src="../img/collect-btn.png" class="collect-btn"/>
+      <img src="../img/collect-btn.png" class="collect-btn" />
       <span class="size-24 text-nowrap">收藏</span>
     </div>
   </div>
 </template>
 
 <script>
-import LoadingImg from '@yun/loading-img/loading-img'
+import LoadingImg from "@yun/loading-img/loading-img";
 export default {
-  name: 'TrainingCampUserInfo',
+  name: "TrainingCampUserInfo",
+
+  components: {
+    LoadingImg
+  },
   props: {
     info: {
       type: Object,
       required: true
     }
   },
-  data () {
-    return {
-    }
-  },
-
-  components: {
-    LoadingImg
+  data() {
+    return {};
   },
 
   computed: {},
 
-  methods: {
-    handleRouterPush () {
-      this.$router.push({
-        name: 'TrainingCampCollect'
-      })
-    }
-  },
+  mounted() {},
 
-  mounted () {}
-}
+  methods: {
+    handleRouterPush() {
+      this.$router.push({
+        name: "TrainingCampCollect"
+      });
+    }
+  }
+};
 </script>
 <style lang="stylus" scoped>
 .user-info

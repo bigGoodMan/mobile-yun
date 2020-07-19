@@ -1,2 +1,2 @@
-import GiftBasicParameters from './gift-basic-parameters'
-export default GiftBasicParameters
+import GiftBasicParameters from "./gift-basic-parameters";
+export default GiftBasicParameters;

@@ -1,2 +1,2 @@
-import GamePrizeWinningNumber from './game-prize-winning-number.vue'
-export default GamePrizeWinningNumber
+import GamePrizeWinningNumber from "./game-prize-winning-number.vue";
+export default GamePrizeWinningNumber;

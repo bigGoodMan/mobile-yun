@@ -1,29 +1,51 @@
 <!-- 上传图片 -->
 <template>
-    <dl class="upload-img-container size-0">
-      <dd class="upload-img-list flex-row flex-start-center" v-for="(item,index) of column" :key="index" @click="APP_IMAGEPREVIEW_MUTATE({ previewImage: [item.src], imagePreviewShow: true })">
-        <span class="upload-img-remove" @click.stop="handleDelete(index)">×</span>
-       <img class="upload-img-content" :src="item.src">
-      </dd>
-      <dt class="upload-img-add" v-if="column.length < maxLength">
-        <HhfUploadImg :accept="accept" :maxSize="maxSize" :disabled="disabled" :quality="quality" :maxWidth="maxWidth" :maxHeight="maxHeight" @trigger-change="handleChange" />
-      </dt>
-    </dl>
+  <dl class="upload-img-container size-0">
+    <dd
+      v-for="(item, index) of column"
+      :key="index"
+      class="upload-img-list flex-row flex-start-center"
+      @click="
+        APP_IMAGEPREVIEW_MUTATE({
+          previewImage: [item.src],
+          imagePreviewShow: true
+        })
+      "
+    >
+      <span class="upload-img-remove" @click.stop="handleDelete(index)">×</span>
+      <img class="upload-img-content" :src="item.src" />
+    </dd>
+    <dt v-if="column.length < maxLength" class="upload-img-add">
+      <HhfUploadImg
+        :accept="accept"
+        :maxSize="maxSize"
+        :disabled="disabled"
+        :quality="quality"
+        :maxWidth="maxWidth"
+        :maxHeight="maxHeight"
+        @trigger-change="handleChange"
+      />
+    </dt>
+  </dl>
 </template>
 
 <script>
-import HhfUploadImg from '@hhf/hhf-upload-img'
-import { mapMutations, mapActions } from 'vuex'
-import { responseParsingXML } from '@/lib/utils'
-import { uploadImgToOssApi } from '@/api'
-import webOssUpload from '@l/webOssUpload'
+import HhfUploadImg from "@hhf/hhf-upload-img";
+import { mapMutations, mapActions } from "vuex";
+import { responseParsingXML } from "@/lib/utils";
+import { uploadImgToOssApi } from "@/api";
+import webOssUpload from "@l/webOssUpload";
 export default {
-  name: '',
+  name: "",
+
+  components: {
+    HhfUploadImg
+  },
   props: {
     // 上传图片类型
     accept: {
       type: String,
-      default: 'image/*'
+      default: "image/*"
     },
     // 是否禁添加图片
     disabled: {
@@ -43,32 +65,28 @@ export default {
     },
     column: Array // 图片数组
   },
-  data () {
+  data() {
     return {
       list: [],
-      accessKeyID: '', // oss id
-      policy: '', // oss policy
-      signature: '', // oss signature
-      securityToken: '', // oss SecurityToken
-      callback: '' // oos callback
-    }
-  },
-
-  components: {
-    HhfUploadImg
+      accessKeyID: "", // oss id
+      policy: "", // oss policy
+      signature: "", // oss signature
+      securityToken: "", // oss SecurityToken
+      callback: "" // oos callback
+    };
   },
 
   computed: {},
 
   methods: {
-    ...mapActions(['APP_SETOSSINFO_ACTION']), // 设置oss信息
-    ...mapMutations(['APP_IMAGEPREVIEW_MUTATE']), // 预览图片
-    handleChange (blob) {
-      var fileReader = new FileReader()
-      fileReader.onload = (ee) => {
-        this.getOssReadFileUpdate(blob, ee.target.result)
-      }
-      fileReader.readAsDataURL(blob)
+    ...mapActions(["APP_SETOSSINFO_ACTION"]), // 设置oss信息
+    ...mapMutations(["APP_IMAGEPREVIEW_MUTATE"]), // 预览图片
+    handleChange(blob) {
+      var fileReader = new FileReader();
+      fileReader.onload = ee => {
+        this.getOssReadFileUpdate(blob, ee.target.result);
+      };
+      fileReader.readAsDataURL(blob);
       // this.list.push({
       //   blob,
       //   src: window.URL.createObjectURL(blob)
@@ -77,100 +95,95 @@ export default {
       //   this.show = false
       // }
     },
-    getOssReadFileUpdate (blob, result) {
+    getOssReadFileUpdate(blob, result) {
       this.$Loading({
-        message: '图片加载中...'
-      })
-      this.getOssImgInfo().then(res => this.uploadImg(blob, result)).then(res => {
-        this.$Loading.clear()
-        if (res && res.return_code === '0') {
-          this.$emit('trigger-change', { src: res.data, base64Src: result })
-          return
-        } else if (res) {
-          this.$Tip.warning({
-            mask: true,
-            message: '添加失败，请重新添加'
-          })
-        }
-        this.$Tip.error({
-          mask: true,
-          message: res
-        })
-      }).catch((err) => {
-        this.$Loading.clear()
-        if (err && err.response) {
-          let resXml = responseParsingXML(err.response.data)
+        message: "图片加载中..."
+      });
+      this.getOssImgInfo()
+        .then(() => this.uploadImg(blob, result))
+        .then(res => {
+          this.$Loading.clear();
+          if (res && res.return_code === "0") {
+            this.$emit("trigger-change", { src: res.data, base64Src: result });
+            return;
+          } else if (res) {
+            this.$Tip.warning({
+              mask: true,
+              message: "添加失败，请重新添加"
+            });
+          }
           this.$Tip.error({
             mask: true,
-            message: `Code:${resXml.Code}Message:${resXml.Message}`
-          })
-          return
-        }
-        this.$Tip.error({
-          mask: true,
-          message: err.toString()
+            message: res
+          });
         })
-      })
+        .catch(err => {
+          this.$Loading.clear();
+          if (err && err.response) {
+            const resXml = responseParsingXML(err.response.data);
+            this.$Tip.error({
+              mask: true,
+              message: `Code:${resXml.Code}Message:${resXml.Message}`
+            });
+            return;
+          }
+          this.$Tip.error({
+            mask: true,
+            message: err.toString()
+          });
+        });
     },
-    uploadImg (blob, result) {
-      const {
-        accessKeyID,
+    uploadImg(blob) {
+      const { accessKeyID, policy, signature, securityToken, callback } = this;
+      const formDt = webOssUpload({
+        filename: `${new Date() - 1}.png`,
         policy,
+        accessid: accessKeyID,
         signature,
-        securityToken,
-        callback
-      } = this
-      let formDt = webOssUpload({
-        filename: `${new Date() - 1}.png`, policy, accessid: accessKeyID, signature, securityToken
-      })
-      let data = new FormData()
-      data.append('callback', callback)
-      for (let key in formDt) {
-        data.append(key, formDt[key])
+        securityToken
+      });
+      const data = new FormData();
+      data.append("callback", callback);
+      for (const key in formDt) {
+        data.append(key, formDt[key]);
       }
-      data.append('file', blob)
-      return uploadImgToOssApi({ data, callback })
+      data.append("file", blob);
+      return uploadImgToOssApi({ data, callback });
     },
     // 获取oss信息
-    getOssImgInfo () {
+    getOssImgInfo() {
       return this.APP_SETOSSINFO_ACTION().then(res => {
-        this.$Loading.clear()
-        if (res.return_code === '0') {
+        this.$Loading.clear();
+        if (res.return_code === "0") {
           const {
             AccessKeyId,
             SecurityToken,
             policy,
             signature,
             callback
-          } = res.data
-          this.accessKeyID = AccessKeyId
-          this.policy = policy
-          this.signature = signature
-          this.securityToken = SecurityToken
-          this.callback = callback
+          } = res.data;
+          this.accessKeyID = AccessKeyId;
+          this.policy = policy;
+          this.signature = signature;
+          this.securityToken = SecurityToken;
+          this.callback = callback;
         } else if (res.msg) {
           this.$Tip.warning({
             message: res.msg,
             mask: true
-          })
+          });
         }
-      })
+      });
     },
-    handleDelete (index) {
-      const obj = this.column.filter((v, i) => i === index)[0]
-      this.$emit('trigger-delete', obj)
+    handleDelete(index) {
+      const obj = this.column.filter((v, i) => i === index)[0];
+      this.$emit("trigger-delete", obj);
     },
-    handleRevoke (e) {
-      window.URL.revokeObjectURL(e.target.src)
+    handleRevoke(e) {
+      window.URL.revokeObjectURL(e.target.src);
     }
-  },
-  created () {
-    // this.getOssImgInfo()
-  },
-  mounted () {
-
   }
-}
+};
 </script>
 <style lang="stylus" scoped>
 .upload-img-container

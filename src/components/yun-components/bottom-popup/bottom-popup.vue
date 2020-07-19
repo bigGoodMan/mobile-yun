@@ -11,10 +11,10 @@
       <van-picker
         show-toolbar
         :columns="columns"
+        :default-index="defaultIndex"
         @change="handleChange"
         @cancel="handleCancel"
         @confirm="handleConfirm"
-        :default-index="defaultIndex"
       />
     </van-popup>
   </div>
@@ -22,63 +22,63 @@
 
 <script>
 export default {
-  name: 'BottomPopup',
+  name: "BottomPopup",
+  components: {},
   props: {
     maskClose: {
       type: Boolean,
       default: false
     },
     columns: {
-      default: () => ([]),
+      default: () => [],
       type: Array
     },
-    overlay: { // 是否展示蒙层 默认有
+    overlay: {
+      // 是否展示蒙层 默认有
       default: true,
       type: Boolean
     },
-    show: { //  是否展示popup
+    show: {
+      //  是否展示popup
       default: false,
       type: Boolean
     },
     defaultIndex: Number
   },
-  data () {
+  data() {
     return {
       loading: true // picker动画
-    }
-  },
-  watch: {
-    columns: {
-      handler (val, oldVal) {
-        this.loading = false
-      }
-    }
-  },
-  components: {
+    };
   },
 
   computed: {},
+  watch: {
+    columns: {
+      handler() {
+        this.loading = false;
+      }
+    }
+  },
+
+  mounted() {},
 
   methods: {
     // 取消
-    handleCancel () {
-      this.$emit('trigger-cancel')
-      this.handleClose()
+    handleCancel() {
+      this.$emit("trigger-cancel");
+      this.handleClose();
     },
     // 选中
-    handleConfirm (value, index) {
-      this.$emit('trigger-confirm', { value, index })
-      this.handleClose()
+    handleConfirm(value, index) {
+      this.$emit("trigger-confirm", { value, index });
+      this.handleClose();
     },
-    handleClose () {
-      this.$emit('trigger-close')
+    handleClose() {
+      this.$emit("trigger-close");
     },
     // 改变
-    handleChange () {}
-  },
-
-  mounted () {
+    handleChange() {}
   }
-}
+};
 </script>
 <style lang="stylus" scoped></style>
