@@ -72,7 +72,12 @@ export default {
   },
 
   computed: {},
-
+  created() {
+    const { sid } = this.$route.query;
+    if (sid) {
+      this.storeId = sid;
+    }
+  },
   mounted() {},
 
   methods: {
@@ -85,6 +90,7 @@ export default {
     handleConfirm(obj) {
       this.storeId = obj.value.store_id;
       this.storeName = obj.value.store_name;
+      console.log(this.storeId);
       this.getList({
         store_id: this.storeId
       });
@@ -94,10 +100,12 @@ export default {
     },
     handleChangeMachine(value) {
       this.machine = value;
-      this.getList({
-        store_id: this.storeId,
-        mid: value.id
-      });
+      if (value.id) {
+        this.getList({
+          store_id: this.storeId,
+          mid: value.id
+        });
+      }
     },
     getList(data) {
       this.$Loading("正在加载中……");
