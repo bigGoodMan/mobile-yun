@@ -155,7 +155,16 @@ export default {
           .filter(v => v.checked)
           .map(v => ({ ...v, checked: void 0, num: "", money_cost: "" }))
       );
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      const { sid, bid, brandname } = this.$route.query;
+      this.$router.push({
+        name: "add_gift_storage",
+        query: {
+          sid,
+          bid,
+          brandname
+        }
+      });
     },
     handleGo() {
       const { sid, bid, brandname } = this.$route.query;

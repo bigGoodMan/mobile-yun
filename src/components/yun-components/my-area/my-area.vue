@@ -38,7 +38,7 @@ export default {
           this.COMMON_GETAREA_ACTION({ storeId: val }).then(res => {
             if (res.return_code === "0") {
               this.list = res.data;
-              this.$emit("trigger-change", {});
+              // this.$emit("trigger-change", {});
             }
           });
         }
@@ -59,7 +59,10 @@ export default {
     let val;
     let defaultIndex = 0;
     for (let i = 0; i < list.length; ++i) {
-      if (list[i].id === value.id) {
+      const listObj = list[i];
+      const listId = listObj.id;
+      const id = value.id;
+      if (listId && id && id.toString() === listId.toString()) {
         val = list[i].name;
         defaultIndex = i;
         break;

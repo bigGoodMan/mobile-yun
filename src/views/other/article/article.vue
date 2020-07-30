@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import definitions from "./definitions";
+// import definitions from "./definitions";
+import { getDefinitions } from "@/api";
 export default {
   name: "Article",
 
@@ -29,7 +30,17 @@ export default {
   created() {
     const { name } = this.$route.query;
     if (name) {
-      this.columns = definitions[name];
+      this.getDefinitions(name);
+      // this.columns = definitions[name];
+    }
+  },
+  methods: {
+    getDefinitions(name) {
+      getDefinitions({ name }).then(res => {
+        if (res && res.return_code === "0") {
+          this.columns = res.data;
+        }
+      });
     }
   }
 };

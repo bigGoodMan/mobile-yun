@@ -66,6 +66,7 @@ import {
   getTrainStudyDetailApi
 } from "./training-camp";
 import { getSalesSuggestionList } from "./business-data"; // 营业数据
+import { getDefinitions } from "./other";
 import {
   getRechargePackageList,
   setRechargePackage,
@@ -156,5 +157,6 @@ export {
   getExchangeCabinetDetail, // 获取礼品柜详情
   openGiftCabinetDoor, // 礼品柜开门
   getStoreGiftList, // 门店下礼品列表
-  submitGiftCabinetExchangeGift // 礼品柜换货
+  submitGiftCabinetExchangeGift, // 礼品柜换货
+  getDefinitions // 获取名词解释
 };

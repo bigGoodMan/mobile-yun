@@ -71,10 +71,10 @@ export default {
       this.storeId = sid;
     }
     if (sid && aid) {
-      this.area.id = aid;
+      this.area = { id: aid };
     }
     if (sid && aid && mid) {
-      this.machine.id = mid;
+      this.machine = { id: mid };
     }
   },
   mounted() {},

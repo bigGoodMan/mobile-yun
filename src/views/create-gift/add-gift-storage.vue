@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="bgcolor-f">
-      <MyStore @trigger-click="handleConfirm" />
+      <MyStore :store-id="storeId" @trigger-click="handleConfirm" />
     </div>
     <div class="margin-top-20">
       <h5
@@ -96,7 +96,14 @@ export default {
       };
     }
   },
-
+  created() {
+    const {
+      query: { sid }
+    } = this.$route;
+    if (sid) {
+      this.storeId = sid;
+    }
+  },
   methods: {
     ...mapMutations([
       "GIFT_DELETEGIFTSTORAGELIST_MUTATE",

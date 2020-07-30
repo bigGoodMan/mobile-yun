@@ -51,6 +51,7 @@ const AddGiftStorage = {
       /* webpackChunkName: "AddGiftStorage" */ "@v/create-gift/add-gift-storage.vue"
     ),
   meta: {
+    cache: true,
     title: "新增礼品入库"
   }
 };
