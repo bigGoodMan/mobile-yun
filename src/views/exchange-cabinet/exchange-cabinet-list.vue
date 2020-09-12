@@ -37,11 +37,11 @@
       <MachineCard>
         <li
           v-for="its of columns"
-          :key="its.gift_id"
+          :key="its.hole_id"
           @click="() => handleClick(its.mid, its.hole_id)"
         >
           <TabulatingCard :img="its.gift_img">
-            <template v-slot:title>{{ its.gift_id }}</template>
+            <template v-slot:title>{{ its.hole_no }}</template>
             <template v-slot:content>{{ its.status }}</template>
           </TabulatingCard>
         </li>
@@ -90,7 +90,6 @@ export default {
     handleConfirm(obj) {
       this.storeId = obj.value.store_id;
       this.storeName = obj.value.store_name;
-      console.log(this.storeId);
       this.getList({
         store_id: this.storeId
       });

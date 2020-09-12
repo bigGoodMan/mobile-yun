@@ -6,6 +6,7 @@ const ExchangeCabinetList = {
       /* webpackChunkName: "ExchangeCabinetList" */ "@v/exchange-cabinet/exchange-cabinet-list.vue"
     ),
   meta: {
+    cache: true,
     title: "兑换柜"
   }
 };
@@ -17,6 +18,7 @@ const ExchangeCabinetDetail = {
       /* webpackChunkName: "ExchangeCabinetDetail" */ "@v/exchange-cabinet/exchange-cabinet-detail.vue"
     ),
   meta: {
+    goHome: "ExchangeCabinetList",
     title: "兑换柜详情"
   }
 };

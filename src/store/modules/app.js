@@ -5,7 +5,12 @@ export default {
     collapsed: false, // 是否展示popup菜单栏
     imagePreviewShow: false, // 预览图片展示默认关闭
     previewImage: [], // 预览的图片
-    cachePageList: ["my_machine", "add_gift_storage", "Switchgear"], // 缓存页面
+    cachePageList: [
+      "my_machine",
+      "add_gift_storage",
+      "Switchgear",
+      "ExchangeCabinetList"
+    ], // 缓存页面
     accessKeyID: "", // oss id
     policy: "", // oss policy
     signature: "", // oss signature

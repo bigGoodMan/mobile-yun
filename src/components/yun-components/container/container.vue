@@ -111,6 +111,12 @@ export default {
       },
       immediate: true
     },
+    cachePageList: {
+      handler(val) {
+        console.log(val);
+      },
+      immediate: true
+    },
     $route: {
       handler(route) {
         this.goHome = route.meta && route.meta.goHome;
