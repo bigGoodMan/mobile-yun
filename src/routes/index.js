@@ -18,6 +18,10 @@ NProgress.configure({ showSpinner: false });
 router.beforeEach((to, from, next) => {
   NProgress.start();
   const queryToken = to.query.token;
+  const cSid = to.query.sid;
+  if (cSid) {
+    store.commit("CAT_SYSTEM_SETCATSTOREID_MUTATION", cSid);
+  }
   if (queryToken) {
     store.commit("USER_SETTOKEN_MUTATE", queryToken);
   }

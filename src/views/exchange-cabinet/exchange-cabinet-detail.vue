@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="flex-row flex-between-center bgcolor-f">
-      <CellList title="柜门编号" class="flex-1" :value="hole_id" />
+      <CellList title="柜门编号" class="flex-1" :value="hole_no" />
       <HhfButton
         type="info"
         size="small"

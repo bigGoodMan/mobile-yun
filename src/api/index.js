@@ -88,6 +88,11 @@ import {
   getStoreGiftList,
   submitGiftCabinetExchangeGift
 } from "./exchange-cabinet";
+import {
+  catSystemAddGood,
+  catSystemGoodList,
+  catSystemGoodStockIn
+} from "./cat-system";
 export {
   loginApi, // 登录
   getStoreApi, // 获取门店
@@ -158,5 +163,8 @@ export {
   openGiftCabinetDoor, // 礼品柜开门
   getStoreGiftList, // 门店下礼品列表
   submitGiftCabinetExchangeGift, // 礼品柜换货
-  getDefinitions // 获取名词解释
+  getDefinitions, // 获取名词解释
+  catSystemAddGood, // 拉福猫商品建档
+  catSystemGoodList, // 拉福猫商品列表
+  catSystemGoodStockIn // 拉福猫商品入库
 };

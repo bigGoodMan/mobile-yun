@@ -11,6 +11,7 @@ import intelligentGrasp from "./modules/intelligent-grasp";
 import switchgear from "./modules/switchgear";
 import trainingCamp from "./modules/training-camp";
 import setMeal from "./modules/set-meal";
+import catSystem from "./modules/cat-system";
 
 Vue.use(Vuex);
 // 数据初始化保存
@@ -24,7 +25,8 @@ const initData = {
   intelligentGrasp: intelligentGrasp.state,
   switchgear: switchgear.state,
   trainingCamp: trainingCamp.state,
-  setMeal: setMeal.state
+  setMeal: setMeal.state,
+  catSystem: catSystem.state
 };
 export default new Vuex.Store({
   state: {},
@@ -50,6 +52,7 @@ export default new Vuex.Store({
     intelligentGrasp,
     switchgear,
     trainingCamp,
-    setMeal
+    setMeal,
+    catSystem
   }
 });

@@ -55,7 +55,7 @@ export default {
   /**
    * @description 一些不用登陆的页面
    */
-  notLoginPageName: ["login"],
+  notLoginPageName: ["login", "CatHome", "Page"],
   /**
    * @description 路由localStorage名字
    */

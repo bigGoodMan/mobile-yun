@@ -11,6 +11,7 @@ import TrainingCamp from "./modules/training-camp"; // 商家训练营
 import SetMeal from "./modules/set-meal"; // 套餐设置
 import BusinessData from "./modules/business-data"; // 营业数据
 import ExchangeCabinet from "./modules/exchange-cabinet"; // 兑换柜
+import CatSystem from "./modules/cat-system"; // 拉福猫
 const Container = () =>
   import(/* webpackChunkName: "container" */ "@yun/container");
 export const childrenRoutes = [
@@ -26,7 +27,8 @@ export const childrenRoutes = [
   ...TrainingCamp,
   ...SetMeal,
   ...BusinessData,
-  ...ExchangeCabinet
+  ...ExchangeCabinet,
+  ...CatSystem
 ];
 export default [
   {
