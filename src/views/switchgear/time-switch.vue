@@ -122,6 +122,11 @@
           </dd>
         </dl>
       </div>
+      <div v-show="isShowAllBtn" class="flex-row flex-center padding-top-20">
+        <HhfButton type="info" @trigger-click="onClickEffect"
+          >一键生效全门店</HhfButton
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -130,17 +135,24 @@
 import LinkageSelection from "@yun/linkage-selection";
 import MyStore from "@yun/my-store";
 import { debounce, positiveIntegerRegularTool } from "@l/tools";
-import { getSwitchgearDetailApi, getSwitchgearTimeApi } from "@/api";
+import {
+  getSwitchgearDetailApi,
+  getSwitchgearTimeApi,
+  setSwitchgearAllStoreApi
+} from "@/api";
 import { mapState, mapMutations } from "vuex";
+import HhfButton from "@hhf/hhf-button";
 export default {
   name: "TimeSwitch",
 
   components: {
     LinkageSelection,
-    MyStore
+    MyStore,
+    HhfButton
   },
 
   data() {
+    HhfButton;
     return {
       openHour: "", // 开机小时，
       openMinute: "", // 开机分钟
@@ -167,6 +179,16 @@ export default {
       areaId: state => state.switchgear.areaId,
       machineId: state => state.switchgear.machineId
     }),
+    isShowAllBtn() {
+      const { openHour, openMinute, closeHour, closeMinute, machineId } = this;
+      return (
+        machineId &&
+        openHour !== "" &&
+        openMinute !== "" &&
+        closeHour !== "" &&
+        closeMinute !== ""
+      );
+    },
     areaValue() {
       const arr = this.areaColumns.filter(item => item.id === this.areaId);
       return arr.length > 0 ? arr[0] : {};
@@ -211,6 +233,29 @@ export default {
       "APP_IMAGEPREVIEW_MUTATE",
       "SWITCHGEAR_SETSWITCHGEARLIST_MUTATE"
     ]),
+    onClickEffect() {
+      this.$Loading("正在保存……");
+      const { storeId } = this;
+      let { openHour, openMinute, closeHour, closeMinute } = this;
+      openHour = openHour.length === 1 ? "0" + openHour : openHour;
+      openMinute = openMinute.length === 1 ? "0" + openMinute : openMinute;
+      closeHour = closeHour.length === 1 ? "0" + closeHour : closeHour;
+      closeMinute = closeMinute.length === 1 ? "0" + closeMinute : closeMinute;
+      const onTime = [openHour, openMinute].join(":");
+      const offTime = [closeHour, closeMinute].join(":");
+      setSwitchgearAllStoreApi({
+        store_id: storeId,
+        turn_on_time: onTime,
+        turn_off_time: offTime
+      }).then(res => {
+        this.$Loading.clear();
+        if (res.return_code === "0") {
+          this.$Tip.success(res.msg);
+        } else if (res.return_code) {
+          this.$Tip.warning(res.msg);
+        }
+      });
+    },
     handleConfirm(data) {
       this.$Loading("加载中……");
       this.SWITCHGEAR_SETSTOREID_MUTATE(data.value.store_id);

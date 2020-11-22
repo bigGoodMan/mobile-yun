@@ -22,7 +22,7 @@
 <script>
 import HhfIcon from "../hhf-icon";
 export default {
-  name: "",
+  name: "HhfButton",
 
   components: {
     HhfIcon
@@ -134,10 +134,10 @@ export default {
 
   mounted() {},
   methods: {
-    handleClick() {
+    handleClick(e) {
       const { loading, disabled } = this;
       if (!loading && !disabled) {
-        this.$emit("trigger-click");
+        this.$emit("trigger-click", e);
       }
     }
   }

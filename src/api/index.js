@@ -48,11 +48,13 @@ import {
   getSwitchgearListApi,
   setSwitchgearOnOffApi,
   getSwitchgearDetailApi,
+  setSwitchgearAllStoreApi,
   getSwitchgearTimeApi
 } from "./switchgear";
 import {
   resetNumber,
   commandStrongGrasp,
+  setOneClickAreaFreeInfiniteGraspApi,
   getFreeInfiniteGraspList,
   setFreeInfiniteGraspApi
 } from "./machine-operate";
@@ -133,6 +135,7 @@ export {
   getSwitchgearListApi,
   setSwitchgearOnOffApi,
   getSwitchgearDetailApi,
+  setSwitchgearAllStoreApi,
   getSwitchgearTimeApi,
   resetNumber, // 重置局数
   commandStrongGrasp, // 下发强抓
@@ -144,6 +147,7 @@ export {
   getTrainHomeApi, // 商家训练营 首页数据
   getTrainStudyDetailApi, // 商家训练营 学习手册详情列表
   getFreeInfiniteGraspList, // 免费无限抓列表
+  setOneClickAreaFreeInfiniteGraspApi,
   setFreeInfiniteGraspApi, // 设置无限抓
   getRechargePackageList, // 获取充值套餐列表
   setRechargePackage, // 设置充值套餐

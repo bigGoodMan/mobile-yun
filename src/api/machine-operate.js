@@ -29,9 +29,18 @@ function setFreeInfiniteGraspApi(data) {
     data
   });
 }
+// 一键设置区域是否开启免费无限抓
+function setOneClickAreaFreeInfiniteGraspApi(data) {
+  // {machine_id action 0关 1开}
+  return HttpReq.formPost({
+    url: "free_graps/set_free_grasp_all",
+    data
+  });
+}
 export {
   resetNumber, // 重置局数
   commandStrongGrasp, // 下发强抓
   getFreeInfiniteGraspList, // 免费无限抓列表
-  setFreeInfiniteGraspApi // 设置无限抓
+  setFreeInfiniteGraspApi, // 设置无限抓
+  setOneClickAreaFreeInfiniteGraspApi
 };

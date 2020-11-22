@@ -10,7 +10,7 @@
       </div>
       <div class="flex-column flex-between-start">
         <span class="size-26"
-          >发放数量<i class="color-error">{{ itemData.num }}</i></span
+          >发放人数<i class="color-error">{{ itemData.num }}</i></span
         >
         <span class="size-26"
           >合计嗨币<i class="color-error">{{ itemData.total_coin }}</i></span

@@ -58,9 +58,9 @@
           <li class="padding-20-30">
             <HhfInput
               v-model="experienceTicketItem.num"
-              title="发放数量"
+              title="发放人数"
               type="tel"
-              placeholder="可填入发放数量"
+              placeholder="可填入发放人数"
             />
           </li>
         </ul>
@@ -125,9 +125,9 @@
                 <li class="padding-20-30">
                   <HhfInput
                     v-model="items.num"
-                    title="发放数量"
+                    title="发放人数"
                     type="tel"
-                    placeholder="可填入发放数量"
+                    placeholder="可填入发放人数"
                   />
                 </li>
                 <li class="border"></li>

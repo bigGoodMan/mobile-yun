@@ -27,9 +27,17 @@ function getSwitchgearTimeApi(data) {
     data
   });
 }
+//  一键生效所有门店自动开关机 mid  store_id area_id turn_on_time turn_off_time
+function setSwitchgearAllStoreApi(data) {
+  return HttpReq.formPost({
+    url: "switchgear/set_switchgrea_all",
+    data
+  });
+}
 export {
   getSwitchgearListApi,
   setSwitchgearOnOffApi,
   getSwitchgearDetailApi,
+  setSwitchgearAllStoreApi,
   getSwitchgearTimeApi
 };

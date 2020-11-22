@@ -37,6 +37,28 @@
               :title="items.area_name || ''"
               :name="index"
             >
+              <template #value>
+                <HhfButton
+                  size="mini"
+                  type="info"
+                  @trigger-click="
+                    e => {
+                      oneClickSetAreaFreeInfiniteGrasp(e, { items, action: 1 });
+                    }
+                  "
+                  >开启</HhfButton
+                >
+                <HhfButton
+                  size="mini"
+                  type="info"
+                  @trigger-click="
+                    e => {
+                      oneClickSetAreaFreeInfiniteGrasp(e, { items, action: 0 });
+                    }
+                  "
+                  >关闭</HhfButton
+                >
+              </template>
               <div
                 v-for="item of items.items"
                 :key="item.machine_id"
@@ -57,14 +79,19 @@
 
 <script>
 import FreeGraspCell from "./components/free-grasp-cell";
-import { getFreeInfiniteGraspList } from "@/api";
+import {
+  getFreeInfiniteGraspList,
+  setOneClickAreaFreeInfiniteGraspApi
+} from "@/api";
 import MyStore from "@yun/my-store";
+import HhfButton from "@hhf/hhf-button";
 export default {
   name: "Switchgear",
 
   components: {
     MyStore,
-    FreeGraspCell
+    FreeGraspCell,
+    HhfButton
   },
 
   data() {
@@ -87,6 +114,25 @@ export default {
   mounted() {},
 
   methods: {
+    // 一键开启关闭区域免费无限抓
+    oneClickSetAreaFreeInfiniteGrasp(e, { items, action }) {
+      e.stopPropagation();
+      const { store_id } = this;
+      this.$Loading("正在设置……");
+      setOneClickAreaFreeInfiniteGraspApi({
+        store_id,
+        area_id: items.area_id,
+        action
+      }).then(res => {
+        this.$Loading.close();
+        if (res.return_code === "0") {
+          this.$Tip.success(res.msg);
+          this.getList();
+          return;
+        }
+        this.$Tip.warning(res.msg);
+      });
+    },
     // 根据门店获得信息
     getList() {
       this.$Loading("加载中……");

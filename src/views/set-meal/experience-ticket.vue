@@ -199,7 +199,7 @@ export default {
         return;
       }
       if (!/^[1-9]+[0-9]*$/.test(num)) {
-        this.$Tip.warning("请输入正确的券包发放数量");
+        this.$Tip.warning("请输入正确的券包发放人数");
         return;
       }
       let totalCoin = 0;
@@ -219,7 +219,7 @@ export default {
           return;
         }
         if (!/^[1-9]+[0-9]*$/.test(couponNum)) {
-          this.$Tip.warning(`请输入正确的卡券${i + 1}发放数量`);
+          this.$Tip.warning(`请输入正确的卡券${i + 1}发放人数`);
           return;
         }
         totalCoin += couponNum * coin;

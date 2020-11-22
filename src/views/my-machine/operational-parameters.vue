@@ -118,7 +118,16 @@
           <span v-if="machine.mind_fall_voltage >= 0" class="color-error">{{
             machine.mind_fall_voltage
           }}</span>
-          <span v-else class="color-success">未生效</span>
+          <span
+            v-else-if="machine.mind_fall_voltage.toString() === '-1'"
+            class="color-success"
+            >未调整</span
+          >
+          <span
+            v-else-if="machine.mind_fall_voltage.toString() === '-2'"
+            class="color-success"
+            >未启动
+          </span>
         </template>
       </van-cell>
       <CellPopup
